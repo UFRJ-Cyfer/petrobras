@@ -19,12 +19,13 @@ Holder = Holder(:,1:end-1);
 cleanHolder = Holder(~any(isnan(Holder),2),:);
 
 %cada coluna é uma fft de cada forma de onda
+%Vallen = log10(abs(Vallen)+1e-9);
 fft_vallen = fft(Vallen);
 
 %escolha da waveform
 Wave = 1;
 
-for Wave = [1 2 3 4 5]
+for Wave = [204 230 854 885 1188 1218]
 
 %% Mag Calc
 P2 = abs(fft_vallen/length(fft_vallen));
@@ -34,7 +35,7 @@ Fs = 1e6;
 f = Fs*(0:(length(fft_vallen)/2))/length(fft_vallen);
 
 figure;
-plot(f,P1(:,Wave)) 
+plot(f(1:7000),P1(1:7000,Wave))
 title('Single-Sided Amplitude Spectrum of H(t)')
 xlabel('f (Hz)')
 ylabel('|H(f)|')
@@ -44,17 +45,17 @@ figure;
 %phs = angle(fftshift(fft_vallen(:,Wave)));
 phs = angle(fft_vallen(:,Wave));
 phs = phs(1:length(fft_vallen)/2+1);
-coeffMA = ones(1, 30)/30;
+coeffMA = ones(1, 100)/100;
 
 phs = filter(coeffMA, 1, phs);
 subplot(2,1,1)
-plot(f,phs/pi)
+plot(f(1:7000),phs(1:7000)/pi)
 title('Phase Spectrum of H(t)')
 ylabel('Phase (rad/pi)')
 ylim([-1 1])
 
 subplot(2,1,2)
-plot(f,detrend(phs)/pi)
+plot(f(1:7000),detrend(phs(1:7000))/pi)
 title('Phase Spectrum of H(t) DETREND')
 xlabel('f (Hz)')
 ylabel('Phase (rad/pi)')
