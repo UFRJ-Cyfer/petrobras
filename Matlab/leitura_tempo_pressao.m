@@ -20,6 +20,18 @@ pressao = pressao(1:end-1);
 figure;
 % hold on;
 plotyy(tempo_pressao,pressao,tempo_trinca,trinca)
+grid on;
+hold on;
+y_start = -200;
+y_end = 400;
+time_start = 2500;
+times_PE = 5836;
+times_PI = 7400;
+
+plot([time_start time_start], [y_start y_end],'k--') 
+plot([times_PE times_PE], [y_start y_end], 'k--') 
+plot([times_PI times_PI], [y_start y_end], 'k--') 
+
 
 % yyaxis left
 % plot(tempo_pressao, pressao);
