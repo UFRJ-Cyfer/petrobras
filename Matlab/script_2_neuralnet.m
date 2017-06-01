@@ -6,9 +6,8 @@
 %
 %   E_entry - input data.
 %   y - target data.
-
-x = E_entry;
-t = y_output;
+x = E_entry';
+t = output_classes';
 
 % Choose a Training Function
 % For a list of all training functions type: help nntrain
@@ -37,7 +36,7 @@ net.divideParam.testRatio = 20/100;
 
 % net.trainParam.min_grad = 1e-16;
  net.trainParam.max_fail = 50;
-% net.trainParam.lr = 0.1;
+net.trainParam.lr = 5;
 
 % Choose a Performance Function
 % For a list of all performance functions type: help nnperformance
@@ -68,7 +67,7 @@ valPerformance = perform(net,valTargets,y)
 testPerformance = perform(net,testTargets,y)
 
 % View the Network
-view(net)
+% view(net)
 
 % Plots
 % Uncomment these lines to enable various plots.

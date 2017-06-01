@@ -19,7 +19,7 @@ pressao = pressao(1:end-1);
 
 figure;
 % hold on;
-plotyy(tempo_pressao,pressao,tempo_trinca,trinca)
+[hAx,hLine1,hLine2] = plotyy(tempo_pressao,pressao,tempo_trinca,trinca)
 grid on;
 hold on;
 y_start = -200;
@@ -39,4 +39,17 @@ plot([times_PI times_PI], [y_start y_end], 'k--')
 % yyaxis right
 % plot(tempo_trinca, trinca);
 % hold off;
-vertical_cursors;
+%vertical_cursors;
+
+xlabel('Tempo (sec)')
+
+ylabel(hAx(1),'Pressão (psi)') % left y-axis 
+ylabel(hAx(2),'Trinca (mm)') % right y-axis
+
+ah = findobj('Type','figure'); % get all figures
+for m=1:numel(ah) % go over all axes
+  set(findall(ah(m),'-property','FontSize'),'FontSize',12)
+   axes_handle = findobj(ah(m),'type','axes');
+%   ylabel_handle = get(axes_handle,'ylabel');
+  saveas(ah(m),['pressao_TOFD' '.png'])
+end
