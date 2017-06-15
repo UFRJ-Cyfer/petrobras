@@ -1,21 +1,20 @@
-% pathname = 'H:\BitBucket\Projeto Petrobras\Ensaio IDR02 - 2 SEM Streaming\Amostra 2 Vallen\';
-% filename = 'idr02_02_ciclo1_1.txt';
+ pathname = 'H:\BitBucket\Projeto Petrobras\Ensaio IDR02 - 2 SEM Streaming\Amostra 2 Vallen\';
+ filename = 'idr02_02_ciclo1_1.txt';
 
-
-pathname = 'H:\BitBucket\Projeto Petrobras\IDR02_04_EA Vallen\';
-filename = 'IDR02_ciclo2.txt';
+%pathname = 'H:\BitBucket\Projeto Petrobras\IDR02_04_EA Vallen\';
+%filename = 'IDR02_ciclo2.txt';
 
 Holder = importdata([pathname filename],' ');
-channels = Holder.data(:,1);
+channels = Holder.data(:,2);
 
 
-%wave_indexes = Holder.data(:,9);
-wave_indexes = Holder.data(:,3);
+wave_indexes = Holder.data(:,9);
+%wave_indexes = Holder.data(:,3);
 wave_indexes(isnan(wave_indexes)) = 0;
 
 %Corrigindo o arquivo
-% wave_indexes(wave_indexes == 1) = 0;
-% wave_indexes(1) = 1;
+ wave_indexes(wave_indexes == 1) = 0;
+ wave_indexes(1) = 1;
 
 channels_clean = channels(wave_indexes ~= 0);
 wave_indexes_clean = wave_indexes(wave_indexes ~= 0);
@@ -62,6 +61,24 @@ ylabel('N de Ocorrências')
 
 caloba_table = [count_channel_sp;count_channel_pe;count_channel_pi]';
 caloba_table = [caloba_table sum(caloba_table,2)];
+
+figure;
+data_mean = zeros(1,8);
+data_std = data_mean;
+for k=1:8
+   data_wave_channel = Vallen(:, channels_clean ==k);
+   
+   data_wave_channel = reshape(data_wave_channel, 1, size(data_wave_channel,1)*size(data_wave_channel,2));
+   
+   data_mean(k) = mean(data_wave_channel);
+   data_std(k) = mean(data_wave_channel);
+   figure;
+   histogram(data_wave_channel);
+
+end
+
+figure
+errorbar(1:8,data_mean,2*data_std)
 
 
 

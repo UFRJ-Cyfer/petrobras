@@ -1,7 +1,7 @@
 % filename = 'idr02_02_ciclo1_1.txt';
 % pathname = 'H:\BitBucket\Projeto Petrobras\Ensaio IDR02 - 2 SEM Streaming\Amostra 2 Vallen\';
 
-for time_window = [5000 9000 18000]
+for time_window = [18000]
     
 A = exist('Vallen','var');
 
@@ -16,7 +16,14 @@ hold on;
 plot([x(1) x(1)],y)
 plot([x(2) x(2)],y)
 plot([x(3) x(3)],y)
-Vallen = Vallen(1:time_window,:);
+Vallen = Vallen(1:time_window,1:1492);
+
+max_vallen = max(Vallen);
+wave_indexes = 1:size(Vallen,2);
+
+Vallen = Vallen(:, max_vallen>3.5e-4);
+wave_indexes = wave_indexes(max_vallen>3.5e-4);
+
 fft_vallen = fft(Vallen);
 end
 % 
@@ -40,14 +47,25 @@ end
 
 %cada coluna é uma fft de cada forma de onda
 %Vallen = log10(abs(Vallen)+1e-9);
+
 Fs = 1e6;
 f = Fs*(0:(size(fft_vallen,1)/2))/size(fft_vallen,1);
 f = f(1:end-1);
+
+tempo = 1:size(Vallen,1);
+tempo = tempo/Fs
 coeffMA = ones(1, 100)/100;
 
 
 time_sp = 897;
 time_pi = 1300;
+
+[~, I_sep] = find(wave_indexes >= time_sp);
+time_sp = (I_sep(1));
+
+
+[~, I_sep] = find(wave_indexes >= time_pi);
+time_pi = (I_sep(1));
 
 P = zeros(size(fft_vallen,1),size(fft_vallen,2));
 % P = angle(fftshift(fft_vallen));
@@ -84,14 +102,19 @@ P = filter(coeffMA, 1, P);
  E = E';
  
 figure; plot(f,mean(E(1:time_sp,:),1))
+grid on
 title(['E Normalizada Média SP ' num2str(time_window) ' Points'])
 ylabel('Energia Normalizada')
 xlabel('Frequência (Hz)')
+
 figure; plot(f,mean(E(time_sp+1:time_pi,:)/pi,1))
+grid on
 title(['E Normalizada Média PE ' num2str(time_window) ' Points'])
 ylabel('Energia Normalizada')
 xlabel('Frequência (Hz)')
+
 figure; plot(f,mean(E(time_pi:end,:),1))
+grid on
 title(['E Normalizada Média PI ' num2str(time_window) ' Points'])
 ylabel('Energia Normalizada')
 xlabel('Frequência (Hz)')
@@ -189,7 +212,7 @@ figure;
 subplot(3,1,1)
 plot(f,R_sp,'.');
 hold on;
-title(['Correlações Cruzadas ' num2str(time_window) ' Points'])
+title(['Correlações ' num2str(time_window) ' Pontos'])
 plot(f,ones(size(R_sp))*corr_limit,'r--')
 plot(f,ones(size(R_sp))*corr_limit*-1,'r--')
 R_sp_pe = R_sp.*R_pe.*(abs(R_sp)>corr_limit).*(abs(R_pe)>corr_limit);
@@ -197,13 +220,14 @@ R_sp_pe = R_sp.*R_pe.*(abs(R_sp)>corr_limit).*(abs(R_pe)>corr_limit);
 %  plot(f(find(sign(R_sp_pe(abs(R_sp)>corr_limit & abs(R_pe)>corr_limit)) == -1)),...
 %      R_sp(sign(R_sp_pe(abs(R_sp)>corr_limit & abs(R_pe)>corr_limit)) == -1),'g.');
 %  
-  plot(f(find(sign(R_sp_pe) == -1)),...
-     R_sp(sign(R_sp_pe) == -1),'g.');
+ plot(f(find(sign(R_sp_pe) == -1)),...
+    R_sp(sign(R_sp_pe) == -1),'g.');
  
  
 %  title('Energia Normalizada')
 % xlabel('Frequência (Hz)');
-ylabel('Correlação SP x PE');
+ ylabel('Correlação SP x PE');
+% ylabel('Correlação SP');
 grid on;
 
 subplot(3,1,2)
@@ -213,12 +237,13 @@ plot(f,ones(size(R_pe))*corr_limit,'r--')
 plot(f,ones(size(R_pe))*corr_limit*-1,'r--')
 R_pe_pi = R_pe.*R_pi.*(abs(R_pe)>corr_limit).*(abs(R_pi)>corr_limit);
 
-  plot(f(sign(R_pe_pi) == -1),...
-     R_pe(sign(R_pe_pi) == -1),'g.');
+ plot(f(sign(R_pe_pi) == -1),...
+    R_pe(sign(R_pe_pi) == -1),'g.');
  
  %  title('Energia Normalizada')
 % xlabel('Frequência (Hz)');
 ylabel('Correlação PE x PI');
+%ylabel('Correlação PE');
 grid on;
 
 subplot(3,1,3)
@@ -228,18 +253,19 @@ plot(f,ones(size(R_pi))*corr_limit,'r--')
 plot(f,ones(size(R_pi))*corr_limit*-1,'r--')
 R_pi_sp = R_pi.*R_sp.*(abs(R_pi)>corr_limit).*(abs(R_sp)>corr_limit);
 
-  plot(f(find(sign(R_pi_sp) == -1)),...
-     R_pi(sign(R_pi_sp) == -1),'g.');
+ plot(f(find(sign(R_pi_sp) == -1)),...
+    R_pi(sign(R_pi_sp) == -1),'g.');
 
 % xlabel('Frequência (Hz)');
 ylabel('Correlação PI x SP');
+%ylabel('Correlação PI');
+xlabel('Frequência (Hz)')
 grid on;
 
-clear all
 end
 
 
-%{
+
 f_entry = f((sign(R_sp_pe) == -1) | (sign(R_pe_pi) == -1) | (sign(R_pi_sp) == -1));
 
 min_distance = 3389; %experimental
@@ -248,7 +274,7 @@ n_groups = sum(diff(f_entry) >= 3389);
 groups = repmat(struct('f_range',1), n_groups+1, 1 );
 
 group_positions = find(diff(f_entry) >=3389);
-group_positions = [1 group_positions size(f_entry,2)]
+group_positions = [1 group_positions size(f_entry,2)];
 
 indexes_to_remove = [];
 for n=1:n_groups+1
@@ -280,15 +306,16 @@ for n=1:length(num_slots)
 end
 
 groups = groups_aux;
-E_entry = zeros(size(E,1),length(groups));
+E_entry = zeros(size(E,1),length(groups)*2);
 for k=1:length(groups)
     [~,Locb] = ismember(groups(k).f_range,f);
     E_entry(:,k) = mean(E(:,Locb),2);
+    E_entry(:,k+length(groups)) = std(E(:,Locb),0,2);
 end
 
-for k=1:10
-   E_entry(:,k) = mean(E(:,30*k),2) 
-end
+% for k=1:10
+%    E_entry(:,k) = mean(E(:,30*k),2) 
+% end
 
 E_entry = [E_entry E_T'];
 
@@ -305,8 +332,8 @@ for j=1:size(E_entry,2)
     E_entry(:,j) = (E_entry(:,j) - ones(size(E_entry(:,j)))*mean(E_entry(:,j)))/std(E_entry(:,j));
 end
 
-E_entry = [E_entry; E_entry(time_sp:time_pi,:); E_entry(time_pi:end,:)];
-y_classes = [y_classes y_classes(:,time_sp:time_pi) y_classes(:,time_pi:end)];
+% E_entry = [E_entry; E_entry(time_sp:time_pi,:); E_entry(time_pi:end,:)];
+% y_classes = [y_classes y_classes(:,time_sp:time_pi) y_classes(:,time_pi:end)];
 
 
 % ah = findobj('Type','figure'); % get all figures
@@ -316,6 +343,16 @@ y_classes = [y_classes y_classes(:,time_sp:time_pi) y_classes(:,time_pi:end)];
 %    ylabel_handle = get(axes_handle,'ylabel');
 %    saveas(ah(m),[ylabel_handle.String num2str(m) '.png'])
 % end
-% 
+
 
 %}
+
+% ah = findobj('Type','figure'); % get all figures
+% for m=1:numel(ah) % go over all axes
+%   set(findall(ah(m),'-property','FontSize'),'FontSize',16)
+%    axes_handle = findobj(ah(m),'type','axes');
+%    ylabel_handle = get(axes_handle,'ylabel');
+%    set(ah(m),'Color','w')
+%   % saveas(ah(m),[ylabel_handle.String num2str(m) '.png'])
+% end
+
