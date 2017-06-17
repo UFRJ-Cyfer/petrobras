@@ -1,4 +1,4 @@
-function energyCrossCorrFigHandles = plotCrossCor(corrInputClasses, frequencyVector, normalized)
+function energyCrossCorrFigHandles = plotCrossCorr(corrInputClasses, frequencyVector, normalized, visible)
 f = frequencyVector;
 regularPlot = 0;
 normalizedPlot = 0;
@@ -136,7 +136,8 @@ if regularPlot
     grid on;
     
 end
-
+set(energy, 'visible', visible)
+set(normalizedEnergy, 'visible', visible)
 energyCrossCorrFigHandles.energy = energy;
 energyCrossCorrFigHandles.normalizedEnergy = normalizedEnergy;
 

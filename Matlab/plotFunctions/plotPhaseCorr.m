@@ -1,4 +1,4 @@
-function phaseCorrFigHandles = plotPhaseCorr(corrInputClasses, frequencyVector)
+function phaseCorrFigHandles = plotPhaseCorr(corrInputClasses, frequencyVector,visible)
 
 f = frequencyVector;
 corr_limit = corrInputClasses.correlationLimit;
@@ -90,7 +90,8 @@ xlabel('Frequência (Hz)')
 grid on;
 
 
-
+set(directCorr, 'visible', visible)
+set(crossCorr, 'visible', visible)
 phaseCorrFigHandles.directCorr = directCorr;
 phaseCorrFigHandles.crossCorr = crossCorr;
 

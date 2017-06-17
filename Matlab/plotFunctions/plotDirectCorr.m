@@ -1,4 +1,4 @@
-function energyDirectCorrFigHandles = plotDirectCorr(corrInputClasses, frequencyVector, normalized)
+function energyDirectCorrFigHandles = plotDirectCorr(corrInputClasses, frequencyVector, normalized, visible)
 
 f = frequencyVector;
 regularPlot = 0;
@@ -102,7 +102,8 @@ if regularPlot
     grid on;
     
 end
-
+set(energy, 'visible', visible)
+set(normalizedEnergy, 'visible', visible)
 energyDirectCorrFigHandles.energy = energy;
 energyDirectCorrFigHandles.normalizedEnergy = normalizedEnergy;
 
