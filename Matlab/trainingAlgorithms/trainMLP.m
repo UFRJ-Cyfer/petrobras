@@ -72,50 +72,6 @@ for m=1:runs
             y_filtered(:,j) = 1*(aux==i_max(j));
         end
         
-        % figure;
-        % y_filtered_rgb = reshape(y_filtered',1,size(i_max,2),3);
-        % t_rgb = reshape(t',1,size(i_max,2),3);
-        % imagesc(t_rgb)
-        %
-        % y_rgb = reshape(y',1,size(i_max,2),3);
-        % figure
-        % imagesc(y)
-        % figure
-        % subplot(2,1,2)
-        % test_indexes = ~isnan(tr.testMask{1});
-        % imagesc(y_filtered_rgb(:,test_indexes(1,:),:))
-        %
-        % subplot(2,1,1)
-        % imagesc(t_rgb(:,test_indexes(1,:),:))
-        
-        
-        
-        % figure(6);
-        % title('Referência')
-        % colormap(eye(3))
-        % hold on
-        % L = line(ones(3),ones(3), 'LineWidth',2);               % generate line
-        % set(L,{'color'},mat2cell(eye(3),ones(1,3),3));            % set the colors according to cmap
-        % legend('SP','PE','PI')
-        %
-        % figure(4)
-        % title('Saída da Rede')
-        % xlabel('Índice da entrada')
-        
-        %
-        % plot(y(i_max,:))
-        % plot(i_max,'.')
-        % hold on;
-        % plot(t);
-        % plot(zeros(size(t)),'k--')
-        
-        
-        % e = gsubtract(t,y);
-        % performance = perform(net,t,y)
-        % tind = vec2ind(t);
-        % yind = vec2ind(y);
-        % percentErrors = sum(tind ~= yind)/numel(tind);
-        
         % Recalculate Training, Validation and Test Performance
         trainTargets = t .* tr.trainMask{1};
         valTargets = t .* tr.valMask{1};
@@ -126,6 +82,10 @@ for m=1:runs
         end
         
         y_filtered_conf = y_filtered;
+        
+        model.outputRuns(m+k-1).trainTargets = trainTargets;
+        model.outputRuns(m+k-1).valTargets = valTargets;
+        model.outputRuns(m+k-1).testTargets = testTargets;
         
         for j=1:size(target,1)
             trainTargets(j,:) = j*trainTargets(j,:);
@@ -155,9 +115,7 @@ for m=1:runs
         confusionMatrix.validation(:,:,m+k-1) = confusionVal;
         confusionMatrix.test(:,:,m+k-1) = confusionTest;
         
-        model.outputRuns(m+k-1).trainTargets = trainTargets;
-        model.outputRuns(m+k-1).valTargets = valTargets;
-        model.outputRuns(m+k-1).testTargets = testTargets;
+
         model.outputRuns(m+k-1).filteredOutput = y_filtered;
         model.outputRuns(m+k-1).output = y;
         model.outputRuns(m+k-1).net = net;
@@ -166,6 +124,9 @@ for m=1:runs
 end
 
 model.confusionMatrix = confusionMatrix;
+model.modelDescription = 'MLP';
+model.input = input;
+model.target = target;
 
 end
 

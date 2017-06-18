@@ -28,6 +28,8 @@ energyCrossCorrFigHandles = plotCrossCorr(corrInputClasses,mainVallen.frequencyV
 
 trainedModel = mainTrain(neuralNetInput, mainVallen.sparseCodification, method);
 
+modelPlotFigureHandle = plotModel(trainedModel);
+
 % ah = findobj('Type','figure'); % get all figures
 % for m=1:numel(ah) % go over all axes
 %   set(findall(ah(m),'-property','FontSize'),'FontSize',16)
