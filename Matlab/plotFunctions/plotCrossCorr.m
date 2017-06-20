@@ -15,7 +15,7 @@ switch normalized
         R_sp_pe_ = corrInputClasses.energy.crossCorrelation.SPPE;
         R_pe_pi_ = corrInputClasses.energy.crossCorrelation.PEPI;
         R_pi_sp_ = corrInputClasses.energy.crossCorrelation.PISP;
-        normalizedEnergy = null;
+        normalizedEnergy = [];
     case 1
         normalizedPlot = 1;
         R_sp = corrInputClasses.normalizedEnergy.SP;
@@ -25,7 +25,7 @@ switch normalized
         R_sp_pe = corrInputClasses.normalizedEnergy.crossCorrelation.SPPE;
         R_pe_pi = corrInputClasses.normalizedEnergy.crossCorrelation.PEPI;
         R_pi_sp = corrInputClasses.normalizedEnergy.crossCorrelation.PISP;
-        energy = null;
+        energy = [];
     case 2
         regularPlot = 1;
         normalizedPlot = 1;
@@ -51,6 +51,7 @@ end
 
 if normalizedPlot
     normalizedEnergy = figure;
+    
     % First Subplot
     subplot(3,1,1)
     plot(f,R_sp,'.'); hold on;
