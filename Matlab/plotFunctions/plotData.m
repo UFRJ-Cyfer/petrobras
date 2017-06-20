@@ -15,19 +15,19 @@ meanNormalizedEnergyPI = mean(mainVallen.normalizedEnergy(:,time_pi:end),2);
 figEnergySP = figure; plot(mainVallen.frequencyVector,meanEnergySP)
 grid on
 title('E Média SP ')
-ylabel('Energia Normalizada')
+ylabel('Energia')
 xlabel('Frequência (Hz)')
 
 figEnergyPE = figure; plot(mainVallen.frequencyVector,meanEnergyPE)
 grid on
 title('E Média PE ')
-ylabel('Energia Normalizada')
+ylabel('Energia')
 xlabel('Frequência (Hz)')
 
 figEnergyPI = figure; plot(mainVallen.frequencyVector,meanEnergyPI)
 grid on
 title('E Média PI ')
-ylabel('Energia Normalizada')
+ylabel('Energia')
 xlabel('Frequência (Hz)')
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

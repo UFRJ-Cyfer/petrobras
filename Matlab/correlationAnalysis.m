@@ -87,12 +87,41 @@ corrInputClasses.normalizedEnergy.crossCorrelation.SPPE = R_sp_pe;
 corrInputClasses.normalizedEnergy.crossCorrelation.PEPI = R_pe_pi;
 corrInputClasses.normalizedEnergy.crossCorrelation.PISP = R_pi_sp;
 
+    corrInputClasses.gIndex.gIndexesNormalizedEnergySPPE = (sign(R_sp_pe) == -1);
+    corrInputClasses.gIndex.gIndexesNormalizedEnergyPEPI = (sign(R_pe_pi) == -1);
+    corrInputClasses.gIndex.gIndexesNormalizedEnergyPISP = (sign(R_pi_sp) == -1);
+
+    corrInputClasses.gIndexesNormalizedEnergy = ...
+        corrInputClasses.gIndex.gIndexesNormalizedEnergyPISP | ...
+        corrInputClasses.gIndex.gIndexesNormalizedEnergyPEPI | ...
+        corrInputClasses.gIndex.gIndexesNormalizedEnergyPISP ;
+
 corrInputClasses.energy.crossCorrelation.SPPE = R_sp_pe_;
 corrInputClasses.energy.crossCorrelation.PEPI = R_pe_pi_;
 corrInputClasses.energy.crossCorrelation.PISP = R_pi_sp_;
 
+    corrInputClasses.gIndex.gIndexesEnergySPPE = (sign(R_sp_pe_) == -1);
+    corrInputClasses.gIndex.gIndexesEnergyPEPI = (sign(R_pe_pi_) == -1);
+    corrInputClasses.gIndex.gIndexesEnergyPISP = (sign(R_pi_sp_) == -1);
+
+    corrInputClasses.gIndexesEnergy = ...
+        corrInputClasses.gIndex.gIndexesEnergySPPE | ...
+        corrInputClasses.gIndex.gIndexesEnergyPEPI | ...
+        corrInputClasses.gIndex.gIndexesEnergyPISP ;
+
 corrInputClasses.phase.crossCorrelation.SPPE = R_P_sp_pe;
 corrInputClasses.phase.crossCorrelation.PEPI = R_P_pe_pi;
 corrInputClasses.phase.crossCorrelation.PISP = R_P_pi_sp;
+
+    corrInputClasses.gIndex.gIndexesPhaseSPPE = (sign(R_P_sp_pe) == -1);
+    corrInputClasses.gIndex.gIndexesPhasePEPI = (sign(R_P_pe_pi) == -1);
+    corrInputClasses.gIndex.gIndexesPhasePISP = (sign(R_P_pi_sp) == -1);
+
+    corrInputClasses.gIndexesPhase = ...
+        corrInputClasses.gIndex.gIndexesPhaseSPPE | ...
+        corrInputClasses.gIndex.gIndexesPhasePEPI | ...
+        corrInputClasses.gIndex.gIndexesPhasePISP ;
+
+
 
 end

@@ -1,19 +1,21 @@
 separationIndexes.indexSP = 897;
 separationIndexes.indexPI = 1300;
 timeWindow = 2^14;
-minAcceptableAmplitude = 3.5e-4;
 PIRemainsIndex = 1492;
-normalized = 2;
+normalized = 1;
 visible = 'Off';
 visibleNormalized = 'On';
 visiblePhase = 'Off';
 frequencyDivisions = [];
 method = 'MLP';
+minAcceptableAmplitude = 4.0e-4; 
+
+
 
 mainVallen = loadData('Idr02_02_ciclo1_1.mat', timeWindow, ...
     minAcceptableAmplitude, separationIndexes,PIRemainsIndex);
 
-% vallenFigureHandles = plotData(mainVallen);
+vallenFigureHandles = plotData(mainVallen);
 
 corrInputClasses = correlationAnalysis(mainVallen);
 
@@ -21,20 +23,21 @@ corrInputClasses = correlationAnalysis(mainVallen);
 % phaseCorrFigHandles = plotPhaseCorr(corrInputClasses,mainVallen.frequencyVector, visiblePhase);
 
 energyCrossCorrFigHandles = plotCrossCorr(corrInputClasses,mainVallen.frequencyVector, normalized, visibleNormalized);
-[neuralNetInput, frequencyDivisions] = generateInput(...
-    mainVallen.normalizedEnergy, frequencyDivisions, ...
-    energyCrossCorrFigHandles.normalizedEnergy, mainVallen.frequencyVector);
+
+[neuralNetInput, frequencyDivisions, indexFrequencyDivisions] = generateInput(...
+    mainVallen.normalizedEnergy, ...
+    frequencyDivisions, ...
+    energyCrossCorrFigHandles.normalizedEnergy, ...
+    mainVallen.frequencyVector(find(corrInputClasses.gIndexesNormalizedEnergy)),...
+    corrInputClasses.normalizedEnergy.PI(find(corrInputClasses.gIndexesNormalizedEnergy)),...
+    mainVallen.frequencyVector);
 
 
 trainedModel = mainTrain(neuralNetInput, mainVallen.sparseCodification, method);
 
-modelPlotFigureHandle = plotModel(trainedModel);
+% modelPlotFigureHandle = plotModel(trainedModel);
 
-% ah = findobj('Type','figure'); % get all figures
-% for m=1:numel(ah) % go over all axes
-%   set(findall(ah(m),'-property','FontSize'),'FontSize',16)
-%    axes_handle = findobj(ah(m),'type','axes');
-%    ylabel_handle = get(axes_handle,'ylabel');
-%    set(ah(m),'Color','w')
-%   % saveas(ah(m),[ylabel_handle.String num2str(m) '.png'])
-% end
+
+
+
+
