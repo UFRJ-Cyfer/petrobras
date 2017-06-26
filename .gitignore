@@ -2,3 +2,7 @@
 /*/
 !/Matlab/
 !/Python/
+/Matlab/*.mat
+/Matlab/Data/*
+/Matlab/Matlab.7z
+/Matlab/images/*
