@@ -31,11 +31,11 @@ energyCrossCorrFigHandles = plotCrossCorr(corrInputClasses,mainVallen.frequencyV
     mainVallen.frequencyVector);
 
 
-trainedModel = mainTrain(neuralNetInput, mainVallen.sparseCodification, method);
+trainedModel = mainTrain(neuralNetInput, mainVallen.sparseCodification, method, mainVallen.separationIndexes);
 
 neuralNetOutput = mainVallen.sparseCodification;
 neuralNetRawInput = mainVallen.fftDataRaw;
-modelPlotFigureHandle = plotModel(trainedModel);
-
+% modelPlotFigureHandle = plotModel(trainedModel);
 
 % save('\BitBucket\ProjetoPetrobras\Matlab\Data\neuralNetData.mat','neuralNetInput','neuralNetOutput','neuralNetRawInput');
+

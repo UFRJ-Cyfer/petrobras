@@ -1,10 +1,10 @@
-function trainedModel = mainTrain(input, target, method)
+function trainedModel = mainTrain(input, target, method, separationIndexes)
 
 if strcmp(method, 'MLP')
     runs = 100;
     kCrossVal = 5;
     useGPU = 'no';
-    trainedModel = trainMLP(input,target,runs,kCrossVal,useGPU);    
+    trainedModel = trainMLP(input,target,runs,kCrossVal,useGPU,separationIndexes);    
 end
 
 if strcmp(method, 'SKN')
