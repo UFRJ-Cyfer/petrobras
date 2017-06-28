@@ -1,10 +1,16 @@
-function model = trainMLP(input, target, runs, kCrossVal, useGPU)
+function model = trainMLP(input, target, runs, kCrossVal, useGPU, separationIndexes)
 
 neuralNetStructure = [5];
 net = patternnet(neuralNetStructure);
 net.trainFcn = 'trainbr';
 net.inputs{1}.processFcns = {'mapstd'};
 trainingIndexes = struct;
+duplicatePE = 1;
+shuffledIndexes = randperm(size(target,2));
+
+trainRatio = 65/100;
+valRatio = 15/100;
+testRatio = 20/100; % redundant
 
 if strcmp(useGPU,'yes')
     net.trainFcn = 'trainscg';
@@ -12,7 +18,6 @@ end
 
 if kCrossVal > 1
     
-    shuffledIndexes = randperm(size(target,2));
     validationSlotLenght = round(size(target,2)/kCrossVal);
     runs = 1;
     
@@ -20,19 +25,36 @@ if kCrossVal > 1
         if (k+1)*validationSlotLenght > size(target,2)
             trainingIndexes(k+1).valInd = shuffledIndexes(k*validationSlotLenght+1:end);
             trainingIndexes(k+1).trainInd = shuffledIndexes(~ismember(shuffledIndexes,trainingIndexes(k+1).valInd));
+            if duplicatePE
+               aux = trainingIndexes(k+1).trainInd;
+               trainingIndexes(k+1).trainInd = [trainingIndexes(k+1).trainInd, aux(aux < separationIndexes.timePI & ...
+                    aux > separationIndexes.timeSP)];
+            end
         else
             trainingIndexes(k+1).valInd = shuffledIndexes(k*validationSlotLenght+1:(k+1)*validationSlotLenght);
             trainingIndexes(k+1).trainInd = shuffledIndexes(~ismember(shuffledIndexes, trainingIndexes(k+1).valInd));
+            if duplicatePE
+               aux = trainingIndexes(k+1).trainInd;
+               trainingIndexes(k+1).trainInd = [trainingIndexes(k+1).trainInd, aux(aux < separationIndexes.timePI & ...
+                   aux > separationIndexes.timeSP)];
+            end
         end
     end
     
 else
-    net.divideFcn = 'dividerand';  % Divide data randomly
-    net.divideMode = 'sample';  % Divide up every sample
-    net.divideParam.trainRatio = 65/100;
-    net.divideParam.valRatio = 15/100;
-    net.divideParam.testRatio = 20/100;
+    net.divideFcn = 'divideind';  % Divide data randomly
+    trainLength = ceil(size(target,2) * trainRatio);
+    valLength = ceil(size(target,2) * valRatio);
+    net.divideParam.trainInd = shuffledIndexes(1:trainLength);
+    net.divideParam.valInd = shuffledIndexes(trainLength+1:trainLength+1+valLength);
+    net.divideParam.testInd = shuffledIndexes(trainLength+1+valLength+1:end);
     kCrossVal = 1;
+    
+    if duplicatePE
+        net.divideParam.trainInd = [net.divideParam.trainInd, ...
+            net.divideParam.trainInd(net.divideParam.trainInd < separationIndexes.timePI & ...
+            net.divideParam.trainInd < separationIndexes.timePI)];
+    end
 end
 
 confusionMatrix.training = zeros(size(target,1),size(target,1),runs + kCrossVal - 1);
