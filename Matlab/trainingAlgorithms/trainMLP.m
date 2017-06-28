@@ -6,7 +6,6 @@ net.trainFcn = 'trainbr';
 net.inputs{1}.processFcns = {'mapstd'};
 trainingIndexes = struct;
 
-
 if strcmp(useGPU,'yes')
     net.trainFcn = 'trainscg';
 end
@@ -105,11 +104,11 @@ for m=1:runs
         confusionVal = confusionmat(valTargets,y_filtered_conf);
         confusionTest = confusionmat(testTargets,y_filtered_conf);
         
-        for j=1:size(target,1)
-            confusionTrain(j,:) = confusionTrain(j,:)/sum(confusionTrain(j,:));
-            confusionVal(j,:) = confusionVal(j,:)/sum(confusionVal(j,:));
-            confusionTest(j,:) = confusionTest(j,:)/sum(confusionTest(j,:));
-        end
+%         for j=1:size(target,1)
+%             confusionTrain(j,:) = confusionTrain(j,:)/sum(confusionTrain(j,:));
+%             confusionVal(j,:) = confusionVal(j,:)/sum(confusionVal(j,:));
+%             confusionTest(j,:) = confusionTest(j,:)/sum(confusionTest(j,:));
+%         end
         
         confusionMatrix.training(:,:,m+k-1) = confusionTrain;
         confusionMatrix.validation(:,:,m+k-1) = confusionVal;

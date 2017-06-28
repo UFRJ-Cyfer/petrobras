@@ -9,8 +9,24 @@ VallenRaw = Vallen;
 max_vallen = max(Vallen);
 wave_indexes = 1:size(Vallen,2);
 
-Vallen = Vallen(:, max_vallen > minAcceptableAmplitude);
 wave_indexes = wave_indexes(max_vallen > minAcceptableAmplitude);
+Vallen = Vallen(:, max_vallen > minAcceptableAmplitude);
+
+wave_indexesOld = 1:size(Vallen,2);
+aux = max_vallen > minAcceptableAmplitude;
+
+waveIndexesNewAndOld = zeros(2,size(wave_indexes,2));
+
+index = 1;
+for k=1:size(aux,2)
+    if aux(k) ==1
+        waveIndexesNewAndOld(1,index) = k;
+        waveIndexesNewAndOld(2,index) = index;
+        index = index+1;
+    end
+end
+
+
 
 % Auxiliary Vectors (Frequency & Time)
 Fs = 1e6;
@@ -89,6 +105,7 @@ mainVallen.separationIndexes.timeSP = time_sp;
 mainVallen.separationIndexes.timePI = time_pi;
 mainVallen.sparseCodification = y_classes;
 mainVallen.regularCodification = classes;
+mainVallen.waveIndexesNewAndOld = waveIndexesNewAndOld;
 
 
 

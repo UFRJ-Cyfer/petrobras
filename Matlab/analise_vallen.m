@@ -3,7 +3,7 @@ pathname = 'H:\BitBucket\Projeto Petrobras\Ensaio IDR02 - 2 SEM Streaming\Amostr
 load('Idr02_02_ciclo1_1.mat', 'Vallen')
 
 replaceinfile(',', '.', [pathname,filename])
-temp = importdata([pathname,filename], ' ', 4);
+temp = importdata([filename], ' ', 4);
 
 Holder = temp.data;
 Holder = Holder(1:end-1,:);
@@ -18,47 +18,89 @@ Holder(:,1) = Holder(:,1)/1000 + Holder(:,end);
 Holder = Holder(:,1:end-1);
 cleanHolder = Holder(~any(isnan(Holder),2),:);
 
-%cada coluna é uma fft de cada forma de onda
-%Vallen = log10(abs(Vallen)+1e-9);
-fft_vallen = fft(Vallen);
+timeVector = tempo_vallen + Holder(:,1)/1000;
+timeVector = timeVector-timeVector(1);
 
-%escolha da waveform
-Wave = 1;
 
-for Wave = [204 230 854 885 1188 1218]
+timeVector = temp.data(:,2);
+channels = temp.data(:,4);
 
-%% Mag Calc
-P2 = abs(fft_vallen/length(fft_vallen));
-P1 = P2(1:length(fft_vallen)/2+1,:);
-P1(2:end-1,:) = 2*P1(2:end-1,:);
-Fs = 1e6;
-f = Fs*(0:(length(fft_vallen)/2))/length(fft_vallen);
+channels = Holder(:,2);
+
+waveIndexes = Holder(:,9);
+waveIndexes(waveIndexes == 1) = 0;
+waveIndexes(1) = 1;
+
+timeWaves = [timeVector, Holder(:,9)];
 
 figure;
-plot(f(1:7000),P1(1:7000,Wave))
-title('Single-Sided Amplitude Spectrum of H(t)')
-xlabel('f (Hz)')
-ylabel('|H(f)|')
+plot(timeVector, Holder(:,9),'.')
 
-%% Phase Calc
+timeVectorCaptured = timeVector(waveIndexes ~=0);
+
 figure;
-%phs = angle(fftshift(fft_vallen(:,Wave)));
-phs = angle(fft_vallen(:,Wave));
-phs = phs(1:length(fft_vallen)/2+1);
-coeffMA = ones(1, 100)/100;
+waveIndexesClean = waveIndexes(waveIndexes~=0);
+plot(waveIndexesClean(1:end-1),diff(timeVectorCaptured),'.')
+ylabel('Diferenca de Tempo (s)')
+xlabel('Índice de forma de onda')
+ylim([0 0.5])
+grid on
 
-phs = filter(coeffMA, 1, phs);
-subplot(2,1,1)
-plot(f(1:7000),phs(1:7000)/pi)
-title('Phase Spectrum of H(t)')
-ylabel('Phase (rad/pi)')
-ylim([-1 1])
+figure;
+edges = 0:0.0001:25;
+histogram(diff(timeVectorCaptured),edges)
+xlim([0 0.2])
 
-subplot(2,1,2)
-plot(f(1:7000),detrend(phs(1:7000))/pi)
-title('Phase Spectrum of H(t) DETREND')
-xlabel('f (Hz)')
-ylabel('Phase (rad/pi)')
-ylim([-1 1])
 
+
+for k=1:4
+    timeDistribution(k).timeVector = timeVector(channels == k);
+    timeDistribution(k).diffTimeVector = diff(timeVector(channels==k));
+    
+%     timeDistribution(k).timeVectorCaptured = timeVector(channels==k & waveIndexes ~= 0);
+%     timeDistribution(k).timeVectorCapturedDiff = diff(timeVector(channels==k & waveIndexes ~= 0));
+end
+    edges = 0:0.01:25;
+
+for k=1:4
+    figure;
+    histogram(timeDistribution(k).timeVectorCapturedDiff,edges)
+    xlim([0 0.16])
+    title(['Canal ' num2str(k)])
+end
+
+
+for k=1:8
+    timeDistribution(k).waveIndexChannel = waveIndexes(channels==k);
+    timeDistribution(k).waveIndexes = waveIndexes;
+end
+
+for k=1:4
+    figure;
+    histogram(timeDistribution(k).diffTimeVector,edges/10);
+    title(['Delta T ' 'Canal ' num2str(k)])
+    ylabel('Tempo (s)')
+    xlabel('Tempo (s)')
+    xlim([0 0.03])
+    grid on;
+    
+    %
+    %    figure;
+    %    histogram(timeDistribution(k).diffTimeVector);
+    %    title(['Delta T ' 'Canal ' num2str(k)])
+    %    ylabel('Delta Tempo (s)')
+    %    xlabel('Tempo (s)')
+    %    grid on;
+end
+
+for k=1:8
+    aux = timeDistribution(k).timeVector;
+    %    aux = aux(1:end-1);
+    
+    figure;
+    plot(aux,timeDistribution(k).timeVector,'.');
+    title(['T ' 'Canal ' num2str(k)])
+    ylabel('Tempo (s)')
+    xlabel('Tempo (s)')
+    grid on;
 end

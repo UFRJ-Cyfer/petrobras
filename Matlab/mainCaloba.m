@@ -8,14 +8,12 @@ visibleNormalized = 'On';
 visiblePhase = 'Off';
 frequencyDivisions = [];
 method = 'MLP';
-minAcceptableAmplitude = 4.0e-4; 
-
-
+minAcceptableAmplitude = 2.5e-4; 
 
 mainVallen = loadData('Idr02_02_ciclo1_1.mat', timeWindow, ...
     minAcceptableAmplitude, separationIndexes,PIRemainsIndex);
 
-vallenFigureHandles = plotData(mainVallen);
+% vallenFigureHandles = plotData(mainVallen);
 
 corrInputClasses = correlationAnalysis(mainVallen);
 
@@ -37,9 +35,7 @@ trainedModel = mainTrain(neuralNetInput, mainVallen.sparseCodification, method);
 
 neuralNetOutput = mainVallen.sparseCodification;
 neuralNetRawInput = mainVallen.fftDataRaw;
-% modelPlotFigureHandle = plotModel(trainedModel);
+modelPlotFigureHandle = plotModel(trainedModel);
 
 
-save('\BitBucket\ProjetoPetrobras\Matlab\Data\neuralNetData.mat','neuralNetInput','neuralNetOutput','neuralNetRawInput');
-
-
+% save('\BitBucket\ProjetoPetrobras\Matlab\Data\neuralNetData.mat','neuralNetInput','neuralNetOutput','neuralNetRawInput');
