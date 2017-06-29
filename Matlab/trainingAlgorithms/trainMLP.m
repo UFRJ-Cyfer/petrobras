@@ -5,7 +5,7 @@ net = patternnet(neuralNetStructure);
 net.trainFcn = 'trainbr';
 net.inputs{1}.processFcns = {'mapstd'};
 trainingIndexes = struct;
-duplicatePE = 1;
+duplicatePE = 0;
 shuffledIndexes = randperm(size(target,2));
 
 trainRatio = 65/100;
