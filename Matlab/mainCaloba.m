@@ -10,10 +10,14 @@ frequencyDivisions = [];
 method = 'MLP';
 minAcceptableAmplitude = 4.0e-4; 
 
+frequencyDivisions = 1e5*[0.31 0.49 0.49 0.61 0.61 0.67];
+
 mainVallen = loadData('Idr02_02_ciclo1_1.mat', timeWindow, ...
     minAcceptableAmplitude, separationIndexes,PIRemainsIndex);
 
-% vallenFigureHandles = plotData(mainVallen);
+textStruct = textFileAnalyser('idr02_02_ciclo1_1.txt',0);
+
+vallenFigureHandles_ = plotData(mainVallen);
 
 corrInputClasses = correlationAnalysis(mainVallen);
 
@@ -31,7 +35,10 @@ energyCrossCorrFigHandles = plotCrossCorr(corrInputClasses,mainVallen.frequencyV
     mainVallen.frequencyVector);
 
 
+neuralNetInput = [neuralNetInput; log10(mainVallen.totalEnergy)];
 trainedModel = mainTrain(neuralNetInput, mainVallen.sparseCodification, method, mainVallen.separationIndexes);
+
+
 
 neuralNetOutput = mainVallen.sparseCodification;
 neuralNetRawInput = mainVallen.fftDataRaw;

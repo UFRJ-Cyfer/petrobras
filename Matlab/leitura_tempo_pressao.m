@@ -1,7 +1,7 @@
-filename = 'IDR_COPPE - pressao x TOFD.xlsx';
+filenameXLS = 'IDR_COPPE - pressao x TOFD.xlsx';
 pathname = 'H:\BitBucket\Projeto Petrobras\Ensaio IDR02 - 2 SEM Streaming\Amostra 2 pressão e TOFD\';
 
-xls = xlsread([pathname filename]);
+xls = xlsread([filenameXLS]);
 
 tempo_pressao = xls(2:end,1);
 pressao = xls(2:end,2);
@@ -24,7 +24,7 @@ grid on;
 hold on;
 y_start = -200;
 y_end = 400;
-time_start = 2500;
+time_start = 1500;
 times_PE = 5836;
 times_PI = 7400;
 

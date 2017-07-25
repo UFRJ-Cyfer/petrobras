@@ -16,9 +16,9 @@ if isempty(frequencyDivisions)
     end
 else
     freq = frequencyDivisions;
-    set(corrFigHandle, 'Visible', 'on');
-    set(0, 'currentfigure', corrFigHandle);
-    clickedAx = gca;
+%     set(corrFigHandle, 'Visible', 'on');
+%     set(0, 'currentfigure', corrFigHandle);
+%     clickedAx = gca;
 end
 
 numDivisions = length(freq)/2;
@@ -59,12 +59,13 @@ for k=1:length(frequencyLimits)/2
     indexesChosenFrequencies(frequencyLimits(2*k-1):frequencyLimits(2*k)) = 1;
 end
 
-neuralNetInput = zeros(numDivisions, size(rawInput,2));
+neuralNetInput = zeros(numDivisions*2, size(rawInput,2));
 
 for k=1:numDivisions
     hold on;
     plot(greenFrequencies(indexes(k*2-1):indexes(k*2)), greenValues(indexes(k*2-1):indexes(k*2)),'.')
     neuralNetInput(k,:) = mean(rawInput(frequencyLimits(2*k-1):frequencyLimits(2*k) ,:),1);
+    neuralNetInput(numDivisions+k,:) = std(rawInput(frequencyLimits(2*k-1):frequencyLimits(2*k) ,:),0,1);
 end
 hold off;
 

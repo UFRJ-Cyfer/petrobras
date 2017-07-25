@@ -1,9 +1,11 @@
 function trainedModel = mainTrain(input, target, method, separationIndexes)
 
 if strcmp(method, 'MLP')
-    runs = 100;
+    runs = 20;
     kCrossVal = 5;
-    useGPU = 'no';
+    useGPU = 'yes';
+    input = normalizeData(input,1);
+%     target = normalizeData(target,1);
     trainedModel = trainMLP(input,target,runs,kCrossVal,useGPU,separationIndexes);    
 end
 
