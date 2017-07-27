@@ -1,8 +1,7 @@
-clear all
-clc
+function [ rawData ] = readStreamingFile( filename, path )
+%READSTREAMINGFILE Summary of this function goes here
+%   Detailed explanation goes here
 
-%Constantes
-ng = 4;%Parametro 1 do arquivo tdms
 N = 16777216;%t%parametro 2 do arquivo tdms
 
 fa = 2.5e6;%Frequencia de aquisicao;
@@ -31,4 +30,7 @@ dos(commandline);%faz a conversao com o .exe externo
 %importa do arquivo binario para o matlab
 data = ImportadorRAW([filepath_raw '\' filename_raw]);
 
-plot(data(1:100:1e6,1))
+
+
+end
+

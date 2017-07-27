@@ -1,9 +1,9 @@
 function model = trainMLP(input, target, runs, kCrossVal, useGPU, separationIndexes)
 
-neuralNetStructure = [5];
+neuralNetStructure = [10];
 net = patternnet(neuralNetStructure);
 net.trainFcn = 'trainbr';
-net.inputs{1}.processFcns = {'mapstd'};
+% net.inputs{1}.processFcns = {'mapstd'};
 trainingIndexes = struct;
 duplicatePE = 0;
 shuffledIndexes = randperm(size(target,2));
@@ -80,6 +80,16 @@ for m=1:runs
             net.divideParam.valInd = trainingIndexes(k).valInd;
             net.divideParam.testInd = [];
         end
+        
+        if runs > 1
+            shuffledIndexes = randperm(size(target,2));
+            net.divideFcn = 'divideind';
+            net.divideParam.trainInd = shuffledIndexes(1:trainLength);
+            net.divideParam.valInd = shuffledIndexes(trainLength+1:trainLength+1+valLength);
+            net.divideParam.testInd = shuffledIndexes(trainLength+1+valLength+1:end);
+        end
+        
+        
         
         [net,tr] = train(net,x,t,'useGPU',useGPU);
         

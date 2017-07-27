@@ -4,7 +4,7 @@
 %pathname = 'H:\BitBucket\Projeto Petrobras\IDR02_04_EA Vallen\';
 %filename = 'IDR02_ciclo2.txt';
 
-Holder = importdata([pathname filename],' ');
+Holder = importdata([filename],' ');
 channels = Holder.data(:,2);
 
 
@@ -84,9 +84,9 @@ errorbar(1:8,data_mean,2*data_std)
 
 ah = findobj('Type','figure'); % get all figures
 for m=1:numel(ah) % go over all axes
-  set(findall(ah(m),'-property','FontSize'),'FontSize',12)
+  set(findall(ah(m),'-property','FontSize'),'FontSize',14)
   axes_handle = findobj(ah(m),'type','axes');
   ylabel_handle = get(axes_handle,'ylabel');
 %   saveas(ah(m),[ylabel_handle.String '.png'])
-   saveas(ah(m),['nn_output' '.png'])
+%    saveas(ah(m),['nn_output' '.png'])
 end
