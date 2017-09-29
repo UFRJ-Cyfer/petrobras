@@ -1,16 +1,18 @@
-function mainVallen = loadData(filename, timeWindow, minAcceptableAmplitude, separationIndexes, PIRemainsIndex)
+function mainVallen = loadData(filename, timeWindow, minAcceptableAmplitude, separationIndexes, PIRemainsIndex,Fs,IDR02_04_wf2)
 
-load(filename, 'Vallen');
+% load(filename, 'Vallen');
+% load(filename);
 % load('IDR02_04_wf2.mat');
 
-% Vallen = IDR02_04_wf2;
-% clear IDR02_04_wf2
+Vallen = IDR02_04_wf2;
+clear IDR02_04_wf2
 
 
 % Time Windowing / Weird samples (after PI) removal
-% Vallen = (10/(2^13*4))*double(Vallen(1:timeWindow,1000:PIRemainsIndex));
-Vallen = Vallen(1:timeWindow,1:PIRemainsIndex);
+Vallen = (10/(2^13*4))*double(Vallen(1:timeWindow,1:PIRemainsIndex));
+% Vallen = Vallen(1:end,1:PIRemainsIndex);
 VallenRaw = Vallen;
+
 
 max_vallen = max(Vallen);
 wave_indexes = 1:size(Vallen,2);
@@ -36,7 +38,6 @@ end
 
 
 % Auxiliary Vectors (Frequency & Time)
-Fs = 1e6;
 f = Fs*(0:(size(Vallen,1)/2))/size(Vallen,1);
 tempo = 1:size(Vallen,1);
 tempo = tempo/Fs;
@@ -106,7 +107,7 @@ mainVallen.timeDataClean = Vallen;
 % mainVallen.fftDataRaw = fft_vallen;
 mainVallen.waveIndexes = wave_indexes;
 % mainVallen.phase = P;
-% mainVallen.energy = E_not_norm;
+mainVallen.energy = E_not_norm;
 mainVallen.normalizedEnergy = E;
 mainVallen.timeVector = tempo;
 mainVallen.frequencyVector = f;

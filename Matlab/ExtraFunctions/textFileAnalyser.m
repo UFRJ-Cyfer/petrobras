@@ -2,12 +2,12 @@ function [ textStruct ] = textFileAnalyser( filename, CP4 )
 %TEXTFILEANALYSER Summary of this function goes here
 %   Detailed explanation goes here
 
-replaceinfile(',', '.', [filename])
+% replaceinfile(',', '.', [filename])
 temp = importdata([filename], ' ', 0);
 
 Holder = temp.data;
 
-[~, ~, ~, H, MN, S] = datevec(temp.textdata,'HH:MM:SS');
+[~, ~, ~, H, MN, S] = datevec(temp.textdata(:,3),'HH:MM:SS');
 
 timeVallen = H*3600+MN*60+S;
 timeVallen = timeVallen + Holder(:,1)/1000;

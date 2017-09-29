@@ -27,5 +27,5 @@ d2 = swapbytes(m_raw.Data.d2);
 d3 = swapbytes(m_raw.Data.d3);
 d4 = swapbytes(m_raw.Data.d4);
 
-Draw = cat(1,d1,d2,d3,d4);
+Draw = (cat(1,d1,d2,d3,d4));
 end

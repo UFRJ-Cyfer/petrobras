@@ -136,15 +136,23 @@ for m=1:runs
         confusionVal = confusionmat(valTargets,y_filtered_conf);
         confusionTest = confusionmat(testTargets,y_filtered_conf);
         
-%         for j=1:size(target,1)
-%             confusionTrain(j,:) = confusionTrain(j,:)/sum(confusionTrain(j,:));
-%             confusionVal(j,:) = confusionVal(j,:)/sum(confusionVal(j,:));
-%             confusionTest(j,:) = confusionTest(j,:)/sum(confusionTest(j,:));
-%         end
+        confusionTrainPercentage = confusionTrain;
+        confusionValPercentage = confusionTrain;
+        confusionTestPercentage = confusionTrain;
+        
+        for j=1:size(target,1)
+            confusionTrainPercentage(j,:) = confusionTrain(j,:)/sum(confusionTrain(j,:));
+            confusionValPercentage(j,:) = confusionVal(j,:)/sum(confusionVal(j,:));
+            confusionTestPercentage(j,:) = confusionTest(j,:)/sum(confusionTest(j,:));
+        end
         
         confusionMatrix.training(:,:,m+k-1) = confusionTrain;
         confusionMatrix.validation(:,:,m+k-1) = confusionVal;
         confusionMatrix.test(:,:,m+k-1) = confusionTest;
+        
+        confusionMatrix.percentTraining(:,:,m+k-1) = confusionTrainPercentage;
+        confusionMatrix.percentValidation(:,:,m+k-1) = confusionValPercentage;
+        confusionMatrix.percentTest(:,:,m+k-1) = confusionTestPercentage;
         
 
         model.outputRuns(m+k-1).filteredOutput = y_filtered;
