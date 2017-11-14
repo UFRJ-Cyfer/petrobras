@@ -1,21 +1,31 @@
 function model = trainMLP(input, target, runs, kCrossVal, useGPU, separationIndexes)
 
-neuralNetStructure = [10];
+neuralNetStructure = [5];
 net = patternnet(neuralNetStructure);
 net.trainFcn = 'trainbr';
-% net.inputs{1}.processFcns = {'mapstd'};
+net.inputs{1}.processFcns = {'mapstd'};
 trainingIndexes = struct;
-duplicatePE = 0;
+duplicatePE = 1;
 shuffledIndexes = randperm(size(target,2));
 
+<<<<<<< Updated upstream
+=======
 trainRatio = 65/100;
 valRatio = 15/100;
 testRatio = 20/100; % redundant
 
+>>>>>>> Stashed changes
 if strcmp(useGPU,'yes')
     net.trainFcn = 'trainscg';
 end
 
+for i=1:length(net.layers)
+   net.layers{i}.initFcn = 'initwb';
+end
+
+net.layerWeights{1,1}.initFcn = 'rands';
+net.biases{1,1}.initFcn = 'rands';
+net.biases{2,1}.initFcn = 'rands';
 if kCrossVal > 1
     
     validationSlotLenght = round(size(target,2)/kCrossVal);
@@ -79,24 +89,7 @@ for m=1:runs
             net.divideParam.trainInd = trainingIndexes(k).trainInd;
             net.divideParam.valInd = trainingIndexes(k).valInd;
             net.divideParam.testInd = [];
-            
-            [net.divideParam.trainInd, net.divideParam.valInd, net.divideParam.testInd] = ...
-                balanceClasses(net.divideParam.trainInd, net.divideParam.valInd, net.divideParam.testInd, separationIndexes);
-    
         end
-        
-        if runs > 1
-            shuffledIndexes = randperm(size(target,2));
-            net.divideFcn = 'divideind';
-            net.divideParam.trainInd = shuffledIndexes(1:trainLength);
-            net.divideParam.valInd = shuffledIndexes(trainLength+1:trainLength+1+valLength);
-            net.divideParam.testInd = shuffledIndexes(trainLength+1+valLength+1:end);
-            
-            [net.divideParam.trainInd, net.divideParam.valInd, net.divideParam.testInd] = ...
-                balanceClasses(net.divideParam.trainInd, net.divideParam.valInd, net.divideParam.testInd, separationIndexes);
-        end
-        
-        
         
         [net,tr] = train(net,x,t,'useGPU',useGPU);
         
@@ -143,23 +136,15 @@ for m=1:runs
         confusionVal = confusionmat(valTargets,y_filtered_conf);
         confusionTest = confusionmat(testTargets,y_filtered_conf);
         
-        confusionTrainPercentage = confusionTrain;
-        confusionValPercentage = confusionTrain;
-        confusionTestPercentage = confusionTrain;
-        
-        for j=1:size(target,1)
-            confusionTrainPercentage(j,:) = confusionTrain(j,:)/sum(confusionTrain(j,:));
-            confusionValPercentage(j,:) = confusionVal(j,:)/sum(confusionVal(j,:));
-            confusionTestPercentage(j,:) = confusionTest(j,:)/sum(confusionTest(j,:));
-        end
+%         for j=1:size(target,1)
+%             confusionTrain(j,:) = confusionTrain(j,:)/sum(confusionTrain(j,:));
+%             confusionVal(j,:) = confusionVal(j,:)/sum(confusionVal(j,:));
+%             confusionTest(j,:) = confusionTest(j,:)/sum(confusionTest(j,:));
+%         end
         
         confusionMatrix.training(:,:,m+k-1) = confusionTrain;
         confusionMatrix.validation(:,:,m+k-1) = confusionVal;
         confusionMatrix.test(:,:,m+k-1) = confusionTest;
-        
-        confusionMatrix.percentTraining(:,:,m+k-1) = confusionTrainPercentage;
-        confusionMatrix.percentValidation(:,:,m+k-1) = confusionValPercentage;
-        confusionMatrix.percentTest(:,:,m+k-1) = confusionTestPercentage;
         
 
         model.outputRuns(m+k-1).filteredOutput = y_filtered;

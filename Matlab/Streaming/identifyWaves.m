@@ -14,7 +14,7 @@ findable = 1;
 for channel = channels
     rawData(:,channel) = rawData(:,channel) - min(rawData(:,channel));
     
-   thresholdBool = rawData(:,channel) >= 1.7*mean(rawData(:,channel));
+   thresholdBool = rawData(:,channel) >= 2*mean(rawData(:,channel));
    thresholdBool(1:ceil(backTime/ts)) = 0;
    
    indexes = find(thresholdBool);

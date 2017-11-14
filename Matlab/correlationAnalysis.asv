@@ -75,7 +75,7 @@ corrInputClasses.normalizedEnergy.SP = R_sp;
 corrInputClasses.normalizedEnergy.PE = R_pe;
 corrInputClasses.normalizedEnergy.PI = R_pi;
 
-corrInputClasses.normalizedEnergy.mergedClasses = [R_sp; R_pe; R_pi];
+corrInputClasses.normalizedEnergy.mergedClasses = [R_sp;
 
 
 % corrInputClasses.energy.SP = R_sp_;

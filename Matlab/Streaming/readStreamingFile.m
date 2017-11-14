@@ -19,15 +19,20 @@ filename_raw = 'temp.raw';
 % argumentos sao como segue:
 % exportador_idr2 CAMINHOTDMS ng N CAMINHOBIN
 commandline = sprintf('%s %s %d %d %s',EXEname,...
-        [filepath_tdms '\' filename_tdms],...
-        ng,N,...
-        [filepath_raw '\' filename_raw]);
-    
+    [filepath_tdms '\' filename_tdms],...
+    ng,N,...
+    [filepath_raw '\' filename_raw]);
+
 dos(commandline);%faz a conversao com o .exe externo
 
+stats = dir([filepath_tdms '\' filename_tdms]);
 
 %importa do arquivo binario para o matlab
- rawData = ImportadorRAW([filepath_raw '\' filename_raw]);
+if stats.bytes < 536800000
+    rawData = [];
+else
+    rawData = ImportadorRAW([filepath_raw '\' filename_raw]);
+end
 % rawData = v * rawData;
 end
 
