@@ -1,9 +1,10 @@
-pathname = 'H:\BitBucket\Projeto Petrobras\IDR02_04_EA Vallen\';
-filename = 'IDR02_ciclo2.txt';
+pathname = 'E:\BACKUPJ\ProjetoPetrobras\IDR02_04_EA Vallen\';
+filename = 'IDR02_04_c2.txt';
    
 replaceinfile(',', '.', [pathname,filename])
 
 Holder = importdata([pathname filename],' ');
+
 channels = Holder.data(:,1);
 wave_indexes = Holder.data(:,3);
 
