@@ -51,3 +51,11 @@ bar(4:14,bitCountMatrix)
 legend('SP','PE','PI')
 title(['Canal ' num2str(ch)])
 end
+
+
+
+
+figure
+for k=1:300
+   plot(streamingStructCleaned(3).rawData) 
+end

@@ -1,16 +1,16 @@
 function mainVallen = loadData(filename, timeWindow, minAcceptableAmplitude, separationIndexes, PIRemainsIndex,Fs,IDR02_04_wf2)
 
-% load(filename, 'Vallen');
+load(filename, 'Vallen');
 % load(filename);
 % load('IDR02_04_wf2.mat');
 
-Vallen = IDR02_04_wf2;
-clear IDR02_04_wf2
+% Vallen = IDR02_04_wf2;
+% clear IDR02_04_wf2
 
 
 % Time Windowing / Weird samples (after PI) removal
-Vallen = (10/(2^13*4))*double(Vallen(1:timeWindow,1:PIRemainsIndex));
-% Vallen = Vallen(1:end,1:PIRemainsIndex);
+% Vallen = (10/(2^13*4))*double(Vallen(1:timeWindow,1:PIRemainsIndex));
+Vallen = Vallen(1:end,1:PIRemainsIndex);
 VallenRaw = Vallen;
 
 

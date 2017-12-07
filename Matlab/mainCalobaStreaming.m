@@ -37,16 +37,17 @@ energyCrossCorrFigHandles = plotCrossCorr(corrInputClasses,mainVallen.frequencyV
 streamingStructCleaned(k).frequencyDivisions = frequencyDivisions;
 
 %the 795 is for the CP3
-neuralNetInput = neuralNetInput(:,1:795);
-neuralNetInput = [neuralNetInput; (mainVallen.totalEnergy(1:795))];
+% neuralNetInput = neuralNetInput(:,1:795);
+% neuralNetInput = [neuralNetInput; (mainVallen.totalEnergy(1:795))];
 
+neuralNetInput = [neuralNetInput; (mainVallen.totalEnergy)];
 
-trainedModel = mainTrain(neuralNetInput, mainVallen.sparseCodification(:,1:795), method, mainVallen.separationIndexes);
+trainedModel = mainTrain(neuralNetInput, mainVallen.sparseCodification, method, mainVallen.separationIndexes);
 
 neuralNetOutput = mainVallen.sparseCodification;
 % neuralNetRawInput = mainVallen.fftDataRaw;
 
 modelPlotFigureHandle = plotModel(trainedModel);
 
-save(['.\Matlab\Data\neuralNetData' streamingStructCleaned(k).description '.mat'],'mainVallen','trainedModel','frequencyDivisions','-v7.3');
+% save(['.\Matlab\Data\neuralNetData' streamingStructCleaned(k).description '.mat'],'mainVallen','trainedModel','frequencyDivisions','-v7.3');
 end
