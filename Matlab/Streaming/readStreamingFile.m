@@ -32,6 +32,9 @@ if stats.bytes < 536800000
     rawData = [];
 else
     rawData = ImportadorRAW([filepath_raw '\' filename_raw]);
+    for ch=1:16
+        rawData(:,ch) = rawData(:,ch) - mean(rawData(:,ch));
+    end
 end
 % rawData = v * rawData;
 end

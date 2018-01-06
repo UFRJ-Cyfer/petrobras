@@ -1,4 +1,4 @@
-function [waves, startingTime] = identifyWaves(rawData, channels, fs)
+function [waves, startingTime, triggerTime] = identifyWaves(rawData, channels, fs, noiseLevel)
 
 ts = 1/fs;
 PDT = 200e-6;
@@ -7,15 +7,16 @@ HLT = 10*1000e-6;
 backTime = 2*1000e-6;
 waves = zeros(round((backTime+HLT+HDT)/ts)+1, 1000);
 startingTime = zeros(1,1000) - 1;
+triggerTime = startingTime;
 waveCount = 1;
-time = ts*(1:size(rawData,1));
+time = ts*(0:size(rawData,1)-1);
 findable = 1;
 
 for channel = channels
     
-    rawData(:,channel) = rawData(:,channel) - mean(rawData(:,channel));
+%     rawData(:,channel) = rawData(:,channel) - mean(rawData(:,channel));
     
-   thresholdBool = rawData(:,channel) >= 2*mean(rawData(:,channel));
+   thresholdBool = rawData(:,channel) >= 5*noiseLevel(channel);
    thresholdBool(1:ceil(backTime/ts)) = 0;
    
    indexes = find(thresholdBool);
@@ -39,6 +40,7 @@ for channel = channels
        
  
        startingTime(waveCount) = time(beginIndex);
+       triggerTime(waveCount) = time(indexToCapture);
        waves(1:size(wave,1),waveCount) = wave;
        waveCount = waveCount+1;
        
@@ -62,7 +64,8 @@ end
 
 wavesAux = (waves(:,waves(1,:)~=0));
 startingTimeAux = startingTime(startingTime~=-1);
-
+triggerTimeAux = triggerTime(triggerTime~=-1);
+triggerTime = triggerTimeAux;
 startingTime = startingTimeAux;
 waves = int16(wavesAux);
 

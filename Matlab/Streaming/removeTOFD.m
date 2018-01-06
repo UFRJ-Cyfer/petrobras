@@ -1,15 +1,21 @@
-function [ rawData ] = removeTOFD( rawData )
+function [ rawData, noiseLevel, slots] = removeTOFD( rawData, channels )
 %REMOVETOFD Summary of this function goes here
 %   Detailed explanation goes here
 NUM_CHANNELS = 16;
 FS = 2.5e6;
 TOLERANCE = 10/100;
+noiseLevel = zeros(1,16);
+slots = [];
 
-for ch=1:size(rawData,2)
-    ch
+for ch=1:16
+    noiseLevel(ch) = 3*std(diff(single(rawData(:,ch) - mean(rawData(:,ch)))));
+end
+
+for ch=channels
+    
     rawData(:,ch) = rawData(:,ch) - mean(rawData(:,ch));
-    noiseLevel = 3*std(diff(single(rawData(:,ch))));
-    thresholdSignalsPositions = (abs(diff(single(rawData(:,ch)))) > 2*noiseLevel);
+%     noiseLevel = 3*std(diff(single(rawData(:,ch))));
+    thresholdSignalsPositions = (abs(diff(single(rawData(:,ch)))) > 1.8*noiseLevel(ch));
     
     indexes = find(thresholdSignalsPositions);
     if ~isempty(indexes)
@@ -19,7 +25,7 @@ for ch=1:size(rawData,2)
         startingLocation = find(diffIndexes ~=0);
         startingIndexes = [indexes(1); indexes(startingLocation+1); indexes(end)];
         
-        allWavesLocation = rawData(:,ch) > noiseLevel;
+        allWavesLocation = rawData(:,ch) > noiseLevel(ch);
         
         
         diffStartingIndexes = diff(startingIndexes);
@@ -44,33 +50,37 @@ for ch=1:size(rawData,2)
     extractedChannel = rawData(:,ch);
     
     slots = [];
-    zeroSlotBackward = 1000;
-    zeroSlotForward = 0;
+    zeroSlotBackward = 3000;
+    zeroSlotForward = 5000;
     
     for k=1:length(tofdIndexes)
         if k == length(tofdIndexes)
-            aux = find((diff(extractedChannel(tofdIndexes(k):end))) >= noiseLevel);
+            aux = find((diff(extractedChannel(tofdIndexes(k):end))) >= 1.2*noiseLevel(ch));
         else
-            aux = find((diff(extractedChannel(tofdIndexes(k):tofdIndexes(k+1)))) >= noiseLevel);
+            aux = find((diff(extractedChannel(tofdIndexes(k):tofdIndexes(k+1)))) >= 1.2*noiseLevel(ch));
         end
         nextWaveIndexes = find(diff(aux) > 1000);
         
         if ~isempty(nextWaveIndexes)
-            aux = aux(1:nextWaveIndexes-1);
+            aux = aux(1:nextWaveIndexes(1));
         end
         
         if tofdIndexes(k) < (zeroSlotBackward+1)
             tofdIndexes(k) = zeroSlotBackward+1;
         end
         
+%         if isempty(aux)
+%             
+%         end
+        
         if tofdIndexes(k)+aux(end)+zeroSlotForward > 16777216
-            aux(end) = 16777216 - zeroSlotBackward- firstFive(k);
+            aux(end) = 16777216 - zeroSlotBackward - tofdIndexes(k);
         end
         slots = [slots tofdIndexes(k)-zeroSlotBackward:(tofdIndexes(k)+aux(end)+zeroSlotForward)];
     end
     rawData(slots,ch) = 0;
     end
 end
-
+% rawDataOutput = rawData;
 end
 
