@@ -9,7 +9,7 @@
     
     numberOfFiles = 150;
     
-    filesToCheck = 1:1050;
+    filesToCheck = 1051:1500;
     chanel = 12;
     
     for k=4

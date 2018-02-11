@@ -9,7 +9,7 @@ v = (10/(2^13*4));%fator de conversao de valor binario para volts
 
 EXEname = 'D:\exportador_idr2';
 
-filepath_tdms =  path;
+filepath_tdms = path;
 filename_tdms = filename ;
 
 filepath_raw = 'D:';

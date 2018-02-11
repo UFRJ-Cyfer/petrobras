@@ -1,3 +1,4 @@
+tic
 fs = 2.5e6; % streaming sampling frequency (Hz)
 f = 75e3; % low pass cutoff frequency (Hz)
 startingTime = 0;
@@ -15,7 +16,7 @@ files = {'idr2_02_ciclo_1#','idr2_02_ciclo_1_2#','idr2_02_ciclo_1_3#',...
     'IDR2_ensaio_03#','ciclo_2#','testeFAlta#','testeFAlta#'};
 
 paths = {'K:\EnsaioIDR02-2\SegundoTuboStreaming', 'K:\EnsaioIDR02-2\SegundoTuboStreaming', 'K:\EnsaioIDR02-2\SegundoTuboStreaming',...
-    'L:\CP3\Ciclo1','M:\CP4-24.05.2016\Ciclo2-1de1','M:\CP4-24.05.2016\Ciclo1-1de2','L:\CP4-24.05.2016\Ciclo1-2de2'};
+    'N:\CP3\Ciclo1','M:\CP4-24.05.2016\Ciclo2-1de1','M:\CP4-24.05.2016\Ciclo1-1de2','L:\CP4-24.05.2016\Ciclo1-2de2'};
 
 desc = {'CP2_ciclo_1_1', 'CP2_ciclo_1_2', 'CP2_ciclo_1_3',...
     'CP3_Ciclo_1','CP4_Ciclo_2','CP4_Ciclo_1_1','CP4_Ciclo_1_2'};
@@ -130,6 +131,12 @@ if examinate
     collectWaves = 1;
     
     streamingStruct(1).deltaTime = downsamplingFactor / fs;
+    removeCompressorFiles = 1;
+    
+    filesToSkip = [1:144, 145, 187:224, 255, 256, 272, 273, 305, 321, 320, 453, ...
+454, 471, 498, 499, 514 ,515, 543, 558, 559, 669, 670, 686,...
+    687, 711, 729, 751, 769, 770, 883, 902, 903, 921, 941, 942,...
+    1046, 1068, 1083, 1109, 1110, 1217, 1250, 1264, 1297, 1397];
     
     for k=3
         load([CPtoExaminate{k} '.mat'])
@@ -146,13 +153,20 @@ if examinate
             filesToCheck = filesToCheck.*auxVec';
             filesToCheck = filesToCheck(filesToCheck~=0);
             
-            if collectWaves
+            
+            if removeCompressorFiles
+                [~,ia,ib] = intersect(filesToCheck, filesToSkip);
+                filesToCheck(ia) = [];
+            end
+            
+            
+%             if collectWaves
                 
                 %              streamingStruct(k).rawData = zeros(waveSize, 50*numberOfFiles,'int16');
                 
-            else
+%             else
                 %            streamingStruct(length(files)).rawData = importantData;
-            end
+%             end
             
             %         streamingStruct(k).startingTime = zeros(1,50*numberOfFiles);
             %         streamingStruct(k).fileNumber = zeros(1,50*numberOfFiles);
@@ -178,17 +192,18 @@ if examinate
                     
                 end
                 
-                [ ~, noiseLevel, slots] = removeTOFD( rawData,12);
+                [ ~, noiseLevel, slots] =  removeTOFD( rawData,12);
                 noiseLevelMatrix(noiseLevelIndex,1) = filesToCheck(l);
                 noiseLevelMatrix(noiseLevelIndex,2:end) = noiseLevel;
                 noiseLevelIndex = noiseLevelIndex+1;
+                
                 for j=channels
                     hasChannel = find(tofdDiferences.channels == j);
                     if ~isempty(hasChannel)
                         newSlots = slots+tofdDiferences.deltaIndexes(hasChannel);
                         newSlots(newSlots<=0) = 1;
                         newSlots(newSlots>16777216) = 16777216;
-                        rawData(newSlots,j) = 0;
+                        rawData(newSlots,j) = NaN;
                     end
                 end
                 
@@ -217,75 +232,10 @@ if examinate
             
             
         end
-        streamingStruct(k).noiseLevel = noiseLevelMatrix;
+        streamingStruct(k).noiseLevelMatrix = noiseLevelMatrix;
         save(['streamingStructReduced' desc{k}],'streamingStruct','-v7.3')
     end
     
     
-    % auxStreamingStruct = streamingStruct(3).rawData(:,1:73437);
-    %
-    % streamingStruct(3).startingTime(:,73438:end) = [];
-    % streamingStruct(3).fileNumber(:,73438:end) = [];
-    % streamingStruct(3).channel(:,73438:end) = [];
-    % streamingStruct(3).resolution(:,73438:end) = [];
-    %
-    %
-    % streamingStruct(4).startingTime(:,1517:end) = [];
-    % streamingStruct(4).fileNumber(:,1517:end) = [];
-    % streamingStruct(4).channel(:,1517:end) = [];
-    % streamingStruct(4).resolution(:,1517:end) = [];
-    %
-    %
-    % columnsWithoutWaves = find(streamingStruct(4).rawData(1,:) == 0)
-    % columnsWithoutWaves(1)
-    % streamingStruct(4).rawData(:,1517:end) = [];
-    %
-    %     streamingStruct(3).rawData = streamingStruct(3).rawData(:,1:73437);
-    %
-    %          save(['streamingStructCleaned'],'streamingStruct','-v7.3')
 end
-%     end
-%     for k=[3 9 15 25 70]
-%        figure
-%        plot(streamingStruct(3).rawData(:,k))
-%     end
-%
-%     for l=5:7
-%         figure;
-%         plot(streamingStruct(4).rawData(:,l))
-%     end
-%
-%     histogram(numBitsFileChannel(:,8))
-%     xlabel('Número de Bits')
-%     xlim([3 13])
-% timeVector = 0:1:42499;
-% timeVector= timeVector*4e-7;
-% figure;
-% for k=1:16
-%     subplot(4,4,k)
-%     plot(timeVector,mean(streamingStruct(3).rawData(:, streamingStruct(3).channel == k),2))
-%     title(['Med Canal' num2str(k)])
-% end
-%
-% figure;
-% plot(max(streamingStruct(3).rawData,[],1))
-%
-%
-% figure;
-% plot(max(streamingStruct(3).rawData(:, streamingStruct(3).channel ~= 6),[],1))
-%
-% indexVector = 1:size(streamingStruct(3).rawData,2);
-% indexVector = indexVector(streamingStruct(3).channel ~= 6);
-%
-% figure;
-% plot(streamingStruct(3).rawData(:,indexVector(1493)))
-% %
-% 
-% [ cleanedRawData, noiseLevel] = removeTOFD( rawData,1:16);
-% 
-% 
-% figure;
-% for k_=1:16
-%    plot(rawData(1.35e6:1.65e6,k_)); hold on;
-% end
-% legend('1','2','3','4','5','6','7','8','9','10','11','12','13','14','15','16');
+toc

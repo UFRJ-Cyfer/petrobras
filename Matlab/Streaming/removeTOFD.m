@@ -50,8 +50,8 @@ for ch=channels
     extractedChannel = rawData(:,ch);
     
     slots = [];
-    zeroSlotBackward = 3000;
-    zeroSlotForward = 5000;
+    zeroSlotBackward = 25000;
+    zeroSlotForward = 25000;
     
     for k=1:length(tofdIndexes)
         if k == length(tofdIndexes)
@@ -78,7 +78,7 @@ for ch=channels
         end
         slots = [slots tofdIndexes(k)-zeroSlotBackward:(tofdIndexes(k)+aux(end)+zeroSlotForward)];
     end
-    rawData(slots,ch) = 0;
+    rawData(slots,ch) = NaN;
     end
 end
 % rawDataOutput = rawData;
