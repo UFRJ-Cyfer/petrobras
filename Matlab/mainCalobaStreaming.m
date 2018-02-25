@@ -15,7 +15,7 @@ minAcceptableAmplitude = 0;
 % frequencyDivisions = 1e5*[0.31 0.49 0.49 0.61 0.61 0.67];
 frequencyDivisions = streamingStructCleaned(k).frequencyDivisions;
 
-[mainVallen] = streamRawDataToVallenFormat(streamingStructCleaned(k).rawData, streamingStructCleaned(k).separationIndexes);
+[mainVallen] = streamRawDataToVallenFormat(streamingStruct(3).rawData, streamingStruct(3).separationIndexes);
 
 vallenFigureHandles_ = plotData(mainVallen);
 

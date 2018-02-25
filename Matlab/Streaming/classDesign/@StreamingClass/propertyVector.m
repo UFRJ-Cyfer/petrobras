@@ -1,5 +1,5 @@
 function [ propertyArray ] = propertyVector( this, propertyString )
-%PROPERTYVECTOR Summary of this function goes here
+%PROPERTYVECTOR Returns arrays for each property of Wave object
 %   Detailed explanation goes here
 
 switch propertyString
@@ -13,14 +13,20 @@ switch propertyString
         propertyArray = [this.Waves.energy];
     case 'duration'
         propertyArray = [this.Waves.duration];
+    case 'rms'
+        propertyArray = [this.Waves.rms];
     case 'maxAmplitude'
         propertyArray = [this.Waves.maxAmplitude];
+    case 'resolution'
+        propertyArray = [this.Waves.resolutionLevelCount];
     case 'threshold'
         propertyArray = [this.Waves.threshold];
     case 'triggerTime'
         propertyArray = [this.Waves.triggerTime];
-    case 'startingTime'
-        propertyArray = [this.Waves.startingTime];
+    case 'absoluteTrigger'
+        propertyArray = [this.Waves.absoluteTriggerIndex];
+    case 'rawData'
+        propertyArray = {this.Waves.rawData};
     otherwise
         fprintf('No such %s property!' , propertyString)
 end

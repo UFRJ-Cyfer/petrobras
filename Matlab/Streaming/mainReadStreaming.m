@@ -1,4 +1,4 @@
-tic
+diary('log_20180223.txt')
 fs = 2.5e6; % streaming sampling frequency (Hz)
 f = 75e3; % low pass cutoff frequency (Hz)
 startingTime = 0;
@@ -134,19 +134,24 @@ if examinate
     removeCompressorFiles = 1;
     
     filesToSkip = [1:144, 145, 187:224, 255, 256, 272, 273, 305, 321, 320, 453, ...
-454, 471, 498, 499, 514 ,515, 543, 558, 559, 669, 670, 686,...
-    687, 711, 729, 751, 769, 770, 883, 902, 903, 921, 941, 942,...
-    1046, 1068, 1083, 1109, 1110, 1217, 1250, 1264, 1297, 1397];
+        454, 471, 498, 499, 514 ,515, 543, 558, 559, 669, 670, 686,...
+        687, 711, 729, 751, 769, 770, 883, 902, 903, 921, 941, 942,...
+        1046, 1068, 1083, 1109, 1110, 1217, 1250, 1264, 1297, 1397];
     
+    load('J:\BACKUPJ\ProjetoPetrobras\tofdDifferencesCP3.mat')
+    lastIndexArray = ones(1,16);
+    
+lastIndexArray = lastIndexArray * ceil(2.5e6*1e-3) * -1;
     for k=3
+        streamingObj = StreamingClass();
         load([CPtoExaminate{k} '.mat'])
         for numMinBits = initialNumBits
             boolMatrix = (numBitsFileChannel >= numMinBits);
-                  
+            
             numericMatrix = 1*boolMatrix;
             
             numberOfFiles = sum(sum(boolMatrix,1),2);
-                        
+            
             filesToCheck = (sum(boolMatrix,2) > 0);
             auxVec = (1:length(filesToCheck));
             
@@ -160,13 +165,13 @@ if examinate
             end
             
             
-%             if collectWaves
-                
-                %              streamingStruct(k).rawData = zeros(waveSize, 50*numberOfFiles,'int16');
-                
-%             else
-                %            streamingStruct(length(files)).rawData = importantData;
-%             end
+            %             if collectWaves
+            
+            %              streamingStruct(k).rawData = zeros(waveSize, 50*numberOfFiles,'int16');
+            
+            %             else
+            %            streamingStruct(length(files)).rawData = importantData;
+            %             end
             
             %         streamingStruct(k).startingTime = zeros(1,50*numberOfFiles);
             %         streamingStruct(k).fileNumber = zeros(1,50*numberOfFiles);
@@ -176,10 +181,8 @@ if examinate
             noiseLevelIndex = 1;
             for l=1:length(filesToCheck)
                 
-                %                 if k==3 && (filesToCheck(l) == 801 || filesToCheck(l) == 1421)
-                %                     filesToCheck(l) = filesToCheck(l) + 1;
-                %                 end
-                
+                tic
+                fprintf(['Now verifying file %i\n'], filesToCheck(l))
                 filename = [files{k} num2str(filesToCheck(l),'%03d') '.tdms'];
                 if k == 4
                     if sortedFolder(filesToCheck(l)) == 1
@@ -207,11 +210,16 @@ if examinate
                     end
                 end
                 
-                [waves, startingTimes, triggerTime]= identifyWaves(rawData,channels(boolMatrix(filesToCheck(l),:)), fs,noiseLevel);
-                endColumn = endColumn + size(waves,2);
+                [streamingObj, lastIndexArray] = streamingObj.identifyWaves(rawData,...
+                    channels(boolMatrix(filesToCheck(l),:)), fs, ...
+                    noiseLevel, filesToCheck(l), lastIndexArray);
                 
                 
-                streamingStruct(k).rawData(:,startingColumn:endColumn) =  waves(2:end,:);
+                %                 [waves, startingTimes, triggerTime]= identifyWaves(rawData,channels(boolMatrix(filesToCheck(l),:)), fs,noiseLevel);
+                %                 endColumn = endColumn + size(waves,2);
+                
+                
+                %                 streamingStruct(k).rawData(:,startingColumn:endColumn) =  waves(2:end,:);
                 
                 %             streamingStruct(k).rawData(:,startingColumn:endColumn) =  rawData(1:downsamplingFactor:fileLength,boolMatrix(filesToCheck(l),:));
                 %             streamingStruct(k).channel(startingColumn:endColumn) = channels(boolMatrix(filesToCheck(l),:));
@@ -220,22 +228,26 @@ if examinate
                 %             streamingStruct(k).startingTime(startingColumn:endColumn) = (filesToCheck(l)-1)*(fileLength/fs)*ones(1,endColumn-startingColumn+1);
                 
                 
-                streamingStruct(k).channel(startingColumn:endColumn) = waves(1,:);
-                streamingStruct(k).resolution(startingColumn:endColumn) = numBitsFileChannel(filesToCheck(l),waves(1,:));
-                streamingStruct(k).fileNumber(startingColumn:endColumn) = filesToCheck(l)*ones(1,endColumn-startingColumn+1);
-                streamingStruct(k).startingTime(startingColumn:endColumn) = (filesToCheck(l)-1)*(fileLength/fs) + startingTimes;
-                streamingStruct(k).triggerTime(startingColumn:endColumn) = (filesToCheck(l)-1)*(fileLength/fs) + triggerTime;
-                
-                streamingStruct(k).description = desc{k};
-                startingColumn = endColumn+1;
+                %                 streamingStruct(k).channel(startingColumn:endColumn) = waves(1,:);
+                %                 streamingStruct(k).resolution(startingColumn:endColumn) = numBitsFileChannel(filesToCheck(l),waves(1,:));
+                %                 streamingStruct(k).fileNumber(startingColumn:endColumn) = filesToCheck(l)*ones(1,endColumn-startingColumn+1);
+                %                 streamingStruct(k).startingTime(startingColumn:endColumn) = (filesToCheck(l)-1)*(fileLength/fs) + startingTimes;
+                %                 streamingStruct(k).triggerTime(startingColumn:endColumn) = (filesToCheck(l)-1)*(fileLength/fs) + triggerTime;
+                %
+                %                 streamingStruct(k).description = desc{k};
+                %                 startingColumn = endColumn+1;
+                elapsedTime = toc;
+                fprintf('File analyzed in %.3f seconds \n', elapsedTime)
             end
             
             
         end
-        streamingStruct(k).noiseLevelMatrix = noiseLevelMatrix;
-        save(['streamingStructReduced' desc{k}],'streamingStruct','-v7.3')
+        %         streamingStruct(k).noiseLevelMatrix = noiseLevelMatrix;
+        diary off
+
+                save(['streamingOBJv73' desc{k}],'streamingObj','-v7.3')
+                save(['streamingOBJ' desc{k}],'streamingObj')
     end
     
     
 end
-toc

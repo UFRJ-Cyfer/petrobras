@@ -34,7 +34,7 @@ E = E_not_norm./repmat(E_T,size(E,1),1);
 % P = angle(fft_vallen);
 % P = P/pi;
 % P = P(1:size(P,1)/2+1,:);
-P = 0;;
+P = 0;
 
 
 % Codifying targets - Regular

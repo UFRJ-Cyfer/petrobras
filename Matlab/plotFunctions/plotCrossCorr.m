@@ -46,7 +46,7 @@ switch normalized
         R_pi_sp_ = corrInputClasses.energy.crossCorrelation.PISP;
     otherwise
         warning('The last argument must be 0, 1 or 2');
-        exit;
+%         exit;
 end
 
 if normalizedPlot
@@ -105,7 +105,7 @@ if regularPlot
     plot(f(find(sign(R_sp_pe_) == -1)),...
         R_sp_(sign(R_sp_pe_) == -1),'g.');
     
-    title('Energia Normalizada')
+    title('Energia')
     ylabel('Correlação SP x PE');
     grid on;
     

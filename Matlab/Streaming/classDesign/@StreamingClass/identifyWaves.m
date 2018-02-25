@@ -18,19 +18,23 @@ offsetTime = fileTime*(fileNumber-1);
 
 for channel = channels
     
-    thr = 5*noiseLevel(channel);
+    %     thr = 5*noiseLevel(channel);
+    thr = 3*noiseLevel(channel);
     thresholdBool = rawData(:,channel) >= thr;
     %    thresholdBool(1:ceil(backTime/ts)) = 0;
     
-    if ~isempty(find(thresholdBool(1:ceil(backTime/ts)), 1))
-        rawDataBefore = readStreamingFile(fileNumber-1); %%%%%%%%%%%%%%%%%%%
-    end
-  
+    
+    
     indexes = find(thresholdBool);
+    splitFile = 0;
+    %     indexes = indexes(diff([1;indexes]) >= 5000);
     if numel(indexes) > 0
         
         indexToCapture = indexes(1);
         findable = 1;
+        
+        
+        dsig = diff([1 thresholdBool' 1]);
         
         while findable
             if numel(indexes) == 0
@@ -41,26 +45,42 @@ for channel = channels
             
             if beginIndex >= lastIndex(channel) + ceil(HLT*fs)
                 
-                dsig = diff([1 thresholdBool' 1]);
-                startIndexHDTBlock = find(dsig < 0);
                 endIndex = find(dsig > 0)-1;
+                startIndexHDTBlock = find(dsig < 0);
                 duration = endIndex-startIndexHDTBlock+1;
-                
                 stringIndex = (duration >= HDT/ts);
                 startIndexHDTBlock = startIndexHDTBlock(stringIndex);
                 
-                if (startIndexHDTBlock(end) < beginIndex) 
-                    rawDataAfter = readStreamingFile(fileNumber+1); %%%%%%%%%%%%%%%%%%%
+                if (startIndexHDTBlock(end) < beginIndex) || isempty(startIndexHDTBlock)
+                    
+                    fprintf(['Long wave detected on the end of file %i,' ...
+                        ' channel %i, checking next one\n'], fileNumber, channel)
+                    
+                    rawDataAfter = readStreamingFile(...
+                        [obj.fileTemplate num2str(fileNumber+1) '.tdms'], ...
+                        obj.folderTDMS);
                     
                     thresholdBoolAfter = rawDataAfter(:,channel) >= thr;
-                    dsigAfter = diff([1 thresholdBoolAfter' 1]);
-                    startIndexHDTBlockAfter = find(dsigAfter < 0);
-                    lastIndex(channel) = indexToCapture + startIndexHDTBlockAfter(1);
                     
-                    capturedWave = [rawData(beginIndex:end ,channel) ;...
-                        rawDataAfter(1:lastIndex(channel), channel)];
+                    if ~isempty(thresholdBoolAfter)
+                        
+                        dsigAfter = diff([1 thresholdBoolAfter' 1]);
+                        startIndexHDTBlockAfter = find(dsigAfter < 0);
+                        endIndexAfter = find(dsigAfter > 0)-1;
+                        
+                        durationAfter = endIndexAfter-startIndexHDTBlockAfter+1;
+                        stringIndexAfter = (durationAfter >= HDT/ts);
+                        startIndexHDTBlockAfter = startIndexHDTBlockAfter(stringIndexAfter);
+                        
+                        lastIndex(channel) =  startIndexHDTBlockAfter(1);
+                        
+                        capturedWave = [rawData(beginIndex:end ,channel) ;...
+                            rawDataAfter(1:lastIndex(channel), channel)];
+                        splitFile = 1;
+                    else
+                        capturedWave = rawData(beginIndex:end ,channel);
+                    end
                     findable = 0;
-                    
                 else
                     [HDTRStart] = min(startIndexHDTBlock(startIndexHDTBlock > indexToCapture) - indexToCapture);
                     endIndex = indexToCapture + HDTRStart;
@@ -69,41 +89,38 @@ for channel = channels
                     
                 end
                 
-                
-                wave = Wave(capturedWave, ...
-                    channel, thr, offsetTime + time(indexToCapture),...
-                    offsetTime + time(beginIndex), indexToCapture, ...
-                    beginIndex);
-                
-                wave.samplingFrequency = fs;
-                wave = wave.calculateParameters();
-                
-                %        startingTime(waveCount) = time(beginIndex);
-                %        triggerTime(waveCount) = time(indexToCapture);
-                
-                obj = obj.addWave(wave);
+                if length(unique(capturedWave)) >= 64
+                    
+                    wave = Wave(capturedWave, ...
+                        channel, thr, offsetTime + time(indexToCapture),...
+                        indexToCapture, indexToCapture-beginIndex);
+                    
+                    wave = wave.calculateParameters(fs, obj);
+                    
+                    if splitFile
+                       wave.splitFile = true;
+                       wave.splitIndex = uint32(length(capturedWave) - lastIndex(channel) + 1);
+                    end
+                    %        startingTime(waveCount) = time(beginIndex);
+                    %        triggerTime(waveCount) = time(indexToCapture);
+                    
+                    obj = obj.addWave(wave);
+                end
             end
             
-            %
-            %        waves(1:size(wave,1),waveCount) = wave;
-            %        waveCount = waveCount+1;
-            %
-            %        if waveCount == 1001
-            %           return;
-            %        end
-            
-            [auxIndex] = find(indexes-(lastIndex(channel) + ceil(HLT/ts)) > 0);
-            
+            [auxIndex] = find(indexes-(lastIndex(channel) + ...
+                ceil((HLT+backTime)/ts)) > 0);
+            indexes = indexes(auxIndex);
             %only one wave captured
-            if isempty(auxIndex)
+            if isempty(indexes)
                 break;
             end
             
-            indexToCapture = indexes(auxIndex(1));
+            indexToCapture = indexes((1));
         end
     end
 end
-% 
+%
 % wavesAux = (waves(:,waves(1,:)~=0));
 % startingTimeAux = startingTime(startingTime~=-1);
 % triggerTimeAux = triggerTime(triggerTime~=-1);

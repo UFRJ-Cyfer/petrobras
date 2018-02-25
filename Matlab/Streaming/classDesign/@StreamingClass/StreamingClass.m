@@ -1,10 +1,14 @@
 classdef StreamingClass
     properties
         Waves = [];
-        pdt
-        hdt
-        hlt
+        hdt = 1000e-6;
+        hlt = 1000e-6;
+        pdt = 800e-6;
         countWaveform = 0;
+        description = 'CP3'
+        folderTDMS = 'N:\CP3\Ciclo1'
+        folderMatlabCopy = 'J:\BACKUPJ\ProjetoPetrobras'
+        fileTemplate = 'IDR2_ensaio_03#'
     end
     methods
         function this = addWaveCount(this)
@@ -19,7 +23,7 @@ classdef StreamingClass
                 this = this.addWaveCount();
         end
         propertyArray = propertyVector(this, propertyString);
-        this = identifyWaves(this, rawData, channels, fs, noiseLevel, ...
+        [this lastIndex] = identifyWaves(this, rawData, channels, fs, noiseLevel, ...
             fileNumber, lastIndex)
     end
 end

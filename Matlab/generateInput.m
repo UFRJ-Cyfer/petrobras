@@ -10,6 +10,7 @@ if isempty(frequencyDivisions)
     set(0, 'currentfigure', corrFigHandle);
     [freq, ~] = ginput;
     clickedAx = gca;
+    
     for k=1:length(freq)-1
         if abs(freq(k) - freq(k+1)) < 1
             freq(k) = 0;
@@ -27,15 +28,26 @@ numDivisions = length(freq)/2;
 
 
 for i=1:length(freq)
-    [~,I] = find((greenFrequencies-freq(i)) > 0,1);
+    [~,I] = find((f-freq(i)) > 0,1);
     if I > 1
-        freq(i) = greenFrequencies(I-1);
-        indexes(i) = ind2sub(greenFrequencies,(I-1));
+        freq(i) = f(I-1);
+        indexes(i) = ind2sub(f,(I-1));
     else
-        freq(i) = greenFrequencies(I);
+        freq(i) = f(I);
         indexes(i) = subs(I);
     end
 end
+
+% for i=1:length(freq)
+%     [~,I] = find((greenFrequencies-freq(i)) > 0,1);
+%     if I > 1
+%         freq(i) = greenFrequencies(I-1);
+%         indexes(i) = ind2sub(greenFrequencies,(I-1));
+%     else
+%         freq(i) = greenFrequencies(I);
+%         indexes(i) = subs(I);
+%     end
+% end
 
 
 chosenFrequencies = freq;
@@ -64,9 +76,10 @@ end
 neuralNetInput = zeros(numDivisions*2, size(rawInput,2));
     for plotIndex = 1:3
 subplot(3,1,plotIndex);
+
 for k=1:numDivisions
     hold on;
-    plot(greenFrequencies(indexes(k*2-1):indexes(k*2)), greenValues(plotIndex,indexes(k*2-1):indexes(k*2)),'.')
+%     plot(greenFrequencies(indexes(k*2-1):indexes(k*2)), greenValues(plotIndex,indexes(k*2-1):indexes(k*2)),'.')
     neuralNetInput(k,:) = mean(rawInput(frequencyLimits(2*k-1):frequencyLimits(2*k) ,:),1);
     neuralNetInput(numDivisions+k,:) = std(rawInput(frequencyLimits(2*k-1):frequencyLimits(2*k) ,:),0,1);
 end
