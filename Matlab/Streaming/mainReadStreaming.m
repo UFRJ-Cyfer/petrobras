@@ -1,4 +1,4 @@
-diary('log_20180223.txt')
+% diary('log_20180223.txt')
 fs = 2.5e6; % streaming sampling frequency (Hz)
 f = 75e3; % low pass cutoff frequency (Hz)
 startingTime = 0;

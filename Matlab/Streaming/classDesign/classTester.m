@@ -137,3 +137,18 @@ trainedModel = mainTrain(neuralNetInput, mainVallen.sparseCodification, method, 
 modelPlotFigureHandle = plotModel(trainedModel);
 % 
 % wavesRaw = {}
+
+
+
+
+
+figure
+subplot(2,1,1)
+title('Variavel')
+tt = propertyVector( streamingObj, 'triggerTime' );
+plot(tt, linspace(1,length(tt), length(tt)),'.')
+
+
+subplot(2,1,2)
+title('Fixo')
+plot(triggerTime, linspace(1,length(triggerTime),length(triggerTime)),'.')
