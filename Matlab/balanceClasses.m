@@ -2,8 +2,6 @@ function [trainIndex, valIndex, testIndex] = ...
     balanceClasses(trainIndex, valIndex, testIndex, separationIndexes)
 
 totalSamples = length(trainIndex) + length(valIndex) + length(testIndex);
-separationIndexes.timeSP
-separationIndexes.timePI
 
 % Using training data set
 numSPSamples = sum(trainIndex <= separationIndexes.timeSP);

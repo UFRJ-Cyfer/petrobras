@@ -8,10 +8,16 @@ classdef Wave
         duration = -1 
         rms = -1;
         maxAmplitude = -1
+        maxAmplitudeDB = -1
         resolutionLevelCount = -1
         threshold = -1
+        averageSignalLevel = -1
+        countToPeak = -1
         triggerTime = -1
+        averageFrequency = -1
         absoluteTriggerIndex = -1
+        reverberationFrequency = -1
+        initiationFrequency  = -1
         relativeTriggerIndex= -1
         splitFile = false
         splitIndex = uint32(0);

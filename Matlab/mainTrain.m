@@ -1,7 +1,7 @@
 function trainedModel = mainTrain(input, target, method, separationIndexes)
 
 if strcmp(method, 'MLP')
-    runs = 25;
+    runs = 100;
     kCrossVal = 1;
     useGPU = 'yes';
     input = normalizeData(input,1);

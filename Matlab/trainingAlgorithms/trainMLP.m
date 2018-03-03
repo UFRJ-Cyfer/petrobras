@@ -71,7 +71,7 @@ x = input;
 t = target;
 
 for m=1:runs
-    
+    m
     for k=1:kCrossVal
         
         if kCrossVal > 1

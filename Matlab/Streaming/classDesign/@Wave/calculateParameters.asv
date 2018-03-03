@@ -6,7 +6,7 @@ function [ wave ] = calculateParameters( wave, fs, streamingClass )
      rawDataDB = 20*log(double(rawData) * (10/(2^13*4)) / (10e-3));
 
     [wave.maxAmplitude, peakIndex] = max(rawData);
-    peakIndex
+    
     %Amp(db) = 20log(V/1u) - preAmp gain (however I did 1/mV because I
     %think [A * cv] = mV
     wave.maxAmplitudeDB = ...
@@ -23,7 +23,7 @@ function [ wave ] = calculateParameters( wave, fs, streamingClass )
     
     wave.countToPeak = sum(diff(rawData(1:peakIndex) > wave.threshold) == 1);
     
-    wave.riseTime = double((peakIndex - wave.relativeTriggerIndex))/fs;
+    wave.riseTime = (peakIndex - wave.relativeTriggerIndex)/fs;
     
     wave.resolutionLevelCount = uint16(length(unique(rawData)));
     

@@ -263,11 +263,11 @@
 % plot(diff(triggerTime))
 % 
 % 
-for k=1:length(streamingObj.Waves)
-    
-    streamingObj.Waves(k) = streamingObj.Waves(k).calculateParameters(2.5e6, streamingObj);
-end
-
+% for k=1:length(streamingObj.Waves)
+%     
+%     streamingObj.Waves(k) = streamingObj.Waves(k).calculateParameters(2.5e6, streamingObj);
+% end
+% 
 % 
 % 
 % 
@@ -275,20 +275,15 @@ end
 % y_classes = [y_classes repmat([0;1;0;],1,113-82)];
 % y_classes = [y_classes repmat([0;0;1;],1,129-113)];
 % 
-
-fields = fieldnames(streamingObj.Waves);
-
-indexMatrix = 1;
-inputMatrix = zeros(13,468);
-
-for k=[3:7 9:11 13:16 18]
-   
-    inputMatrix(indexMatrix,:) = [streamingObj.Waves.(fields{k})];
-    indexMatrix=  indexMatrix+1;
-end
-
-inputMatrix(:,131:end) = [];
-
-trainedModel_ = mainTrain...
-    (inputMatrix, mainVallen.sparseCodification, method, mainVallen.separationIndexes);
-
+% 
+% fields = fieldnames(streamingObj.Waves);
+% 
+% indexMatrix = 1;
+% inputMatrix = zeros(300,468);
+% 
+% for k=[3:7 9:17 19]
+%    
+%     inputMatrix(indexMatrix,:) = [streamingObj.Waves.fields{k}];
+%     indexMatrix=  indexMatrix+1;
+% end
+% 
