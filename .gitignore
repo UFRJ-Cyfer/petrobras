@@ -3,8 +3,12 @@
 !/Matlab/
 !/Python/
 /Matlab/*.mat
+/Matlab/deprecated/*.mat
 /Matlab/Data/*
 /Matlab/Matlab.7z
 /Matlab/images/*
 /*.asv
-/Matlab/*.asv
+/Matlab/**/*.asv
+/Matlab/**/*.png
+/Matlab/**/*.bmp
+/Matlab/**/*.fig

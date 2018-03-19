@@ -16,8 +16,6 @@ separationIndexes.timeSP  = find(triggerArray >= timePE & triggerArray < timePI,
 separationIndexes.timePI  = find(triggerArray >= timePI,1);
  
 
-
-
 E = zeros(size(absoluteFFT));
 E_not_norm = absoluteFFT.^2;
 E_T = sum(E_not_norm,1);
