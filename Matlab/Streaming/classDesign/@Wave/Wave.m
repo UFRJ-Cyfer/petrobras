@@ -4,20 +4,22 @@ classdef Wave
         channel = -1
         riseTime = -1
         count = -1
-        energy = -1 
-        duration = -1 
+        energy = -1
+        duration = -1
         rms = -1;
-        maxAmplitude = -1
         maxAmplitudeDB = -1
         resolutionLevelCount = -1
-        threshold = -1
         averageSignalLevel = -1
         countToPeak = -1
-        triggerTime = -1
         averageFrequency = -1
-        absoluteTriggerIndex = -1
         reverberationFrequency = -1
         initiationFrequency  = -1
+        maxAmplitude = -1
+        threshold = -1
+
+        
+        absoluteTriggerIndex = -1
+        triggerTime = -1
         relativeTriggerIndex= -1
         splitFile = false
         splitIndex = uint32(0);
@@ -33,11 +35,10 @@ classdef Wave
                 obj.relativeTriggerIndex = uint32(varargin{6});
             end
         end
-
-         this = calculateParameters(this, fs, streamingClass)
+        
+        this = calculateParameters(this, fs, streamingClass)
     end
 end
-        
 
-        
-        
+
+

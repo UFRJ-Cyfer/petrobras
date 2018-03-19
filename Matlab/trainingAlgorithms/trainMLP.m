@@ -3,14 +3,20 @@ function model = trainMLP(input, target, runs, kCrossVal, useGPU, separationInde
 neuralNetStructure = [10];
 net = patternnet(neuralNetStructure);
 net.trainFcn = 'trainbr';
+net.performFcn = 'mse';
+% for k=1:length(net.layers)
+%    net.layers{k}.initFcn = 'rands'; 
+% end
+% net.init;
+% net.trainParam.max_fail = 0;
 % net.inputs{1}.processFcns = {'mapstd'};
 trainingIndexes = struct;
 duplicatePE = 0;
 shuffledIndexes = randperm(size(target,2));
 
-trainRatio = 65/100;
+trainRatio = 60/100;
 valRatio = 15/100;
-testRatio = 20/100; % redundant
+testRatio = 25/100; % redundant
 
 if strcmp(useGPU,'yes')
     net.trainFcn = 'trainscg';
@@ -60,12 +66,12 @@ end
 confusionMatrix.training = zeros(size(target,1),size(target,1),runs + kCrossVal - 1);
 confusionMatrix.validation = zeros(size(target,1),size(target,1),runs + kCrossVal - 1);
 confusionMatrix.test = zeros(size(target,1),size(target,1),runs + kCrossVal - 1);
-
+% 
 net.trainParam.min_grad = 1e-16;
-net.trainParam.max_fail = 10;
+% net.trainParam.max_fail = 10;
 net.trainParam.lr = 0.1;
 net.trainParam.showWindow = 0;
-net.performFcn = 'crossentropy';  % Cross-Entropy
+% net.performFcn = 'crossentropy';  % Cross-Entropy
 
 x = input;
 t = target;
@@ -94,13 +100,12 @@ for m=1:runs
             
             [net.divideParam.trainInd, net.divideParam.valInd, net.divideParam.testInd] = ...
                 balanceClasses(net.divideParam.trainInd, net.divideParam.valInd, net.divideParam.testInd, separationIndexes);
+        
         end
         
+        [net_,tr] = train(net,x,t,'useGPU',useGPU);
         
-        
-        [net,tr] = train(net,x,t,'useGPU',useGPU);
-        
-        y = net(x);
+        y = net_(x);
         
         [~, i_max] =  max(y);
         aux = (1:size(target,1))';
@@ -144,10 +149,11 @@ for m=1:runs
         confusionTest = confusionmat(testTargets,y_filtered_conf);
         
         confusionTrainPercentage = confusionTrain;
-        confusionValPercentage = confusionTrain;
-        confusionTestPercentage = confusionTrain;
-        
+        confusionValPercentage = confusionVal;
+        confusionTestPercentage = confusionTest;
+%         
         for j=1:size(target,1)
+%         for j=1:3
             confusionTrainPercentage(j,:) = confusionTrain(j,:)/sum(confusionTrain(j,:));
             confusionValPercentage(j,:) = confusionVal(j,:)/sum(confusionVal(j,:));
             confusionTestPercentage(j,:) = confusionTest(j,:)/sum(confusionTest(j,:));
@@ -164,7 +170,9 @@ for m=1:runs
 
         model.outputRuns(m+k-1).filteredOutput = y_filtered;
         model.outputRuns(m+k-1).output = y;
-        model.outputRuns(m+k-1).net = net;
+        model.outputRuns(m+k-1).net = net_;
+        
+        model.outputRuns(m+k-1).tr = tr;
 
     end
 end

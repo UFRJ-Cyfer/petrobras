@@ -54,5 +54,6 @@ neuralNetRawInput = mainVallen.fftDataRaw;
 
 modelPlotFigureHandle = plotModel(trainedModel);
 
+
 % save('.\Matlab\Data\mainDataAmplitude40.mat','mainVallen','trainedModel','frequencyDivisions');
 

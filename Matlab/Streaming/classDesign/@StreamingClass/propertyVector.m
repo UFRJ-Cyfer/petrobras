@@ -17,6 +17,18 @@ switch propertyString
         propertyArray = [this.Waves.rms];
     case 'maxAmplitude'
         propertyArray = [this.Waves.maxAmplitude];
+    case 'maxAmplitudeDB'
+        propertyArray = [this.Waves.maxAmplitudeDB];
+    case 'asl'
+        propertyArray = [this.Waves.averageSignalLevel];
+    case 'countToPeak'
+        propertyArray = [this.Waves.countToPeak];
+    case 'averageFrequency'
+        propertyArray = [this.Waves.averageFrequency]; 
+    case 'reverberationFrequency'
+        propertyArray = [this.Waves.reverberationFrequency];
+    case 'initiationFrequency'
+        propertyArray = [this.Waves.initiationFrequency];
     case 'resolution'
         propertyArray = [this.Waves.resolutionLevelCount];
     case 'threshold'

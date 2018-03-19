@@ -2,15 +2,17 @@ function [ wave ] = calculateParameters( wave, fs, streamingClass )
 %CALCULATEPARAMETERS Summary of this function goes here
 %   Detailed explanation goes here
     rawData = wave.rawData;
+    rawDataRectified = rawData;
+    rawDataRectified(rawDataRectified < 0) = rawDataRectified(rawDataRectified < 0) * -1;
     hdtIndex = ceil(streamingClass.hdt*fs);
-     rawDataDB = 20*log(double(rawData) * (10/(2^13*4)) / (10e-3));
+     rawDataDB = 20*log(double(rawDataRectified) * (10/(2^13*4)) / (10e-6)) - 40;
 
     [wave.maxAmplitude, peakIndex] = max(rawData);
-    peakIndex
+%     peakIndex
     %Amp(db) = 20log(V/1u) - preAmp gain (however I did 1/mV because I
     %think [A * cv] = mV
     wave.maxAmplitudeDB = ...
-         20*log(double(wave.maxAmplitude) * (10/(2^13*4)) / (10e-3));
+         20*log(double(wave.maxAmplitude) * (10/(2^13*4)) / (10e-6)) - 80;
      
     wave.averageSignalLevel = mean(rawDataDB(1:end-hdtIndex-1));
      
@@ -27,16 +29,21 @@ function [ wave ] = calculateParameters( wave, fs, streamingClass )
     
     wave.resolutionLevelCount = uint16(length(unique(rawData)));
     
-    wave.averageFrequency = wave.count / (wave.duration*1e6);
+    wave.averageFrequency = double(wave.count) / (double(wave.duration)*1e6);
     
     if (wave.duration - wave.riseTime) ~= 0
         wave.reverberationFrequency = (wave.count - wave.countToPeak)/ ...
-                                      (wave.duration - wave.riseTime)/1e6;
+                                      (double(wave.duration) -  double(wave.riseTime))/1e6;
     else
-        wave.reverberationFrequency = inf;
+        wave.reverberationFrequency = 0; %%%%%%%%%%%%%%%%%%
     end
     
-    wave.initiationFrequency = wave.countToPeak/(wave.riseTime*1e6);
+    if wave.riseTime ==0
+        wave.initiationFrequency = 0;
+    else
+            wave.initiationFrequency = wave.countToPeak/(double(wave.riseTime)*1e6);
+
+    end
     
     
     
