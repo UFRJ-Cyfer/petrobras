@@ -1,6 +1,8 @@
 function [ wave ] = calculateParameters( wave, fs, streamingClass )
-%CALCULATEPARAMETERS Summary of this function goes here
-%   Detailed explanation goes here
+%CALCULATEPARAMETERS Method that calculates the AE wave parameters
+
+%   It basically calculates all PAC AE parameters (check manual).
+
     rawData = wave.rawData;
     rawDataRectified = rawData;
     rawDataRectified(rawDataRectified < 0) = rawDataRectified(rawDataRectified < 0) * -1;

@@ -1,5 +1,10 @@
 function Draw = ImportadorRAW(fileraw)
-%IMPORTADORRAW   Imports the data contained inside a raw streaming file
+
+%IMPORTADORRAW Imports a binary streaming file to Matlab
+
+% Be careful, this function uses memmapfile, which maps the ENTIRE FILE to
+% memory, so for instance, if you try to open a 10GB file with a 8GB RAM
+% computer, this function is not going to work.
 
 m_raw = memmapfile(fileraw,'format','int16');
 N = size(m_raw.Data,1);

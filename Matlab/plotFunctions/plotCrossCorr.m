@@ -1,4 +1,9 @@
 function energyCrossCorrFigHandles = plotCrossCorr(corrInputClasses, frequencyVector, normalized, visible)
+
+%PLOTCROSSCORR Creates plots for the cross correlations
+
+% This function calculates the cross correlation for energy only (for now)
+
 f = frequencyVector;
 regularPlot = 0;
 normalizedPlot = 0;

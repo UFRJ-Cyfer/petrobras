@@ -1,4 +1,8 @@
 function [mainVallen] = streamRawDataToVallenFormat(rawData, separationIndexes)
+
+%STREAMRAWDATATOVALLENFORMAT Translates the streamingStruct to mainVallen
+
+% DEPRECATED, STREAMINGSTRUCT IS NOT USED, LOOK FOR STREAMINGOBJ
 Fs = 2.5e6;
 mainVallen.timeDataRaw = (10/(2^13*4))*double(rawData);
 

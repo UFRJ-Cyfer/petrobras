@@ -1,5 +1,8 @@
 function phaseCorrFigHandles = plotPhaseCorr(corrInputClasses, frequencyVector,visible)
 
+%PLOTPHASECORR Plots the (Phase X output) correlation for each class
+
+
 f = frequencyVector;
 corr_limit = corrInputClasses.correlationLimit;
 

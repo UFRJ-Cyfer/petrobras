@@ -1,4 +1,6 @@
 classdef Wave
+    % WAVE A class that contains an acoustic emission wave and its parameters
+    
     properties
         rawData = -1
         channel = -1

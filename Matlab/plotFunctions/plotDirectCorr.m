@@ -1,5 +1,6 @@
 function energyDirectCorrFigHandles = plotDirectCorr(corrInputClasses, frequencyVector, normalized, visible)
 
+%PLOTDIRECTCORR Plots the direct input X output correlation 
 f = frequencyVector;
 regularPlot = 0;
 normalizedPlot = 0;

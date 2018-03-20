@@ -1,5 +1,12 @@
 function figureHandles = plotModel(trainedModel)
 
+%PLOTMODEL Creates a few plots from the trained neural network model
+
+% The input trainedModel is a special structure outputted by the mainTrain
+% function, and basically contains the neural network for each run. This
+% function then uses one (1) run (the last one) to plot a colormap that
+% shows how the neural network guessed the test set data.
+
 lastTrainIndex = length(trainedModel.outputRuns);
 totalOutput = trainedModel.outputRuns(lastTrainIndex).filteredOutput;
 totalTargets = trainedModel.target;

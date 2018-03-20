@@ -1,5 +1,11 @@
 function [waves, startingTime, triggerTime] = identifyWaves(rawData, channels, fs, noiseLevel)
 
+%IDENTIFYWAVES A function that returns acoustic emission waves of the same size
+
+
+% NOW THIS IS DEPRECATED, AE SIGNALS ARE INHERENTLY OF DIFFERENT DURATIONS, 
+% THIS WAS A FIRST ATTEMPT AT READING THE STREAMING FILES
+
 ts = 1/fs;
 PDT = 200e-6;
 HDT = 5*1000e-6;

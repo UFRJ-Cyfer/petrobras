@@ -1,4 +1,10 @@
 classdef StreamingClass
+    % STREAMINGCLASS A class that contains the acoustic emission test data
+    
+    % This struct basically is a holder of Waves. It contains all waves
+    % extracted throughout the acoustic emission test.
+    
+    % PDT, HDT, HLT are the timing parameters (check PAC Manual)
     properties
         Waves = [];
         hdt = 1000e-6;
@@ -23,7 +29,7 @@ classdef StreamingClass
                 this = this.addWaveCount();
         end
         propertyArray = propertyVector(this, propertyString);
-        [this lastIndex] = identifyWaves(this, rawData, channels, fs, noiseLevel, ...
+        [this, lastIndex] = identifyWaves(this, rawData, channels, fs, noiseLevel, ...
             fileNumber, lastIndex)
     end
 end

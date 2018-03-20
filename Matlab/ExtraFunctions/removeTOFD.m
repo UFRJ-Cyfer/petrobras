@@ -1,6 +1,8 @@
 function [ rawData, noiseLevel, slots] = removeTOFD( rawData, channels )
-%REMOVETOFD Summary of this function goes here
+
+%REMOVETOFD Identify TOFD waves and return their indexes slots
 %   Detailed explanation goes here
+
 NUM_CHANNELS = 16;
 FS = 2.5e6;
 TOLERANCE = 10/100;

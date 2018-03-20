@@ -1,6 +1,15 @@
 function [obj, lastIndex] = identifyWaves(obj, rawData, channels, fs, noiseLevel,...
     fileNumber, lastIndex)
 
+%IDENTIFYWAVES Identify all acoustic emission waves from within a streaming file
+
+
+% This follows (or tries to) the guidelines contained on the PAC Manual
+% describing how the AE capture is done. It uses only two (HDT, HLT) of the
+% three timing parameters. The threshold is a multiplied noiseLevel (by a
+% euristically defined number).
+
+% 
 ts = 1/fs;
 PDT = obj.pdt;
 HDT = obj.hdt;

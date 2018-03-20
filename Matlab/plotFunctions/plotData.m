@@ -1,5 +1,8 @@
 function figureHandles = plotData(mainVallen)
 
+%PLOTDATA Plots both energy and normalized energy separated by classes
+
+
 time_sp = mainVallen.separationIndexes.timeSP;
 time_pi = mainVallen.separationIndexes.timePI;
 

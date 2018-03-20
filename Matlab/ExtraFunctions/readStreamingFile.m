@@ -1,6 +1,9 @@
 function [ rawData ] = readStreamingFile( filename, path )
-%READSTREAMINGFILE Summary of this function goes here
-%   Detailed explanation goes here
+%READSTREAMINGFILE A wrapper that reads a streaming file
+
+%   Basically wrappes ImportadorRAW function so it calls the command prompt
+%   and henceforth the TDMS -> binary converter.
+
 ng = 4;
 N = 16777216;%t%parametro 2 do arquivo tdms
 

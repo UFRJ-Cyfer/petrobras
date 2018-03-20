@@ -1,3 +1,5 @@
+
+
 savepath = 'E:\BACKUPJ\ProjetoPetrobras\Reunioes\12-01-2018\bomb\';
 ah = findobj('Type','figure'); % get all figures
 for m=1:numel(ah) % go over all axes

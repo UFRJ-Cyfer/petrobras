@@ -1,6 +1,5 @@
 function [ propertyArray ] = propertyVector( this, propertyString )
 %PROPERTYVECTOR Returns arrays for each property of Wave object
-%   Detailed explanation goes here
 
 switch propertyString
     case 'channel'
