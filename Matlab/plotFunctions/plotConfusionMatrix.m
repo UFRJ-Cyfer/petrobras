@@ -1,4 +1,5 @@
 function figHandle = plotConfusionMatrix(confusion, labels)
+%PLOTCONFUSIONMATRIX Plots the confusion matrix with the help of heatmap
 
     figure;
     for j=1:size(confusion,2)

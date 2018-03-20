@@ -1,6 +1,10 @@
 function [ textStruct ] = textFileAnalyser( filename, CP4 )
-%TEXTFILEANALYSER Summary of this function goes here
-%   Detailed explanation goes here
+%TEXTFILEANALYSER Translates the text file outputted by PAC or VALLEN tests
+   
+ 
+%   reads from both PAC and vallen text files (the one that outputs the
+%   parameters) and translates the information to a specialized structure
+%   for future use
 
 % replaceinfile(',', '.', [filename])
 temp = importdata([filename], ' ', 0);

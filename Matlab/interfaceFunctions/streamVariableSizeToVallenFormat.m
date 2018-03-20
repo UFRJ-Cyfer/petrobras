@@ -1,4 +1,6 @@
 function [mainVallen] = streamVariableSizeToVallenFormat(streamingObj, fftMatrix)
+%STREAMVARIABLESIZETOVALLENFORMAT Converts the streamingObj object format to the mainVallen one
+
 
 Fs = 2.5e6;
 f = linspace(0, Fs/2, size(fftMatrix,1)); 

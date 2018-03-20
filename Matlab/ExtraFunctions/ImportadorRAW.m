@@ -1,4 +1,6 @@
 function Draw = ImportadorRAW(fileraw)
+%IMPORTADORRAW   Imports the data contained inside a raw streaming file
+
 m_raw = memmapfile(fileraw,'format','int16');
 N = size(m_raw.Data,1);
 

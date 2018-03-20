@@ -1,4 +1,16 @@
 function corrInputClasses = correlationAnalysis(mainVallen)
+%CORRINPUTCLASSES = Performs correlation analysis (input-output) and plot
+
+% The output structure holds all the data from the analysis for several
+% different entries, energy, normalized energy and phase. It also holds
+% what is defined as Green Frequencies (variables with the g-suffix).
+
+% Green Frequencies are that which have oposite correlation coefficient
+% signals when comparing with the output from two different classes.
+% For instance, if a certain frequency has a positive correlation with
+% class SP, but a negative correlation with class PE, that is attributed as
+% a Green Frequency. That index must also be above the minimum, defined as
+% 2/sqrt(Number of Samples)
 
 y_classes = mainVallen.sparseCodification;
 E_not_norm = mainVallen.energy';

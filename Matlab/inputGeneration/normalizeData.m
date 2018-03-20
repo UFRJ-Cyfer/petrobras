@@ -1,6 +1,8 @@
 function [ normalizedData ] = normalizeData( inputData, dim )
-%NORMALIZEDATA Summary of this function goes here
-%   Detailed explanation goes here
+%NORMALIZEDATA Z-Score normalization function
+%   Removes the mean value (sets it to 0) and standard deviation (sets it
+%   to 1)
+
     normalizedData = inputData;
     
     if dim == 1

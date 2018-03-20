@@ -2,6 +2,49 @@ function [neuralNetInput, chosenFrequencies, indexesChosenFrequencies] = ...
     generateInput(rawInput, frequencyDivisions, corrFigHandle,...
     greenFrequencies, greenValues, frequencyVector)
 
+%GENERATEINPUT Creates the neural net input matrix 
+
+% Input Explanation
+% rawInput - The main array used to create the input. All calculations are
+% done on it, and it's completely generic.
+%
+% frequencyDivisions - The slots used for the said calculations, for now
+% they hold the limits on which this function calculates a mean and std.
+%
+% corrFigHandle - A handle for the figures previously done with the
+% correlation analysis function, it is used to visually define the slots
+% previously stated. It creates the frequencyDivisions/chosenFrequencies if
+% it is empty as the function is called (frequencyDivisions = [])
+%
+% greenFrequencies - Special frequencies that have a correlation 
+% coefficient with different signals when comparing with corrCoef's two
+% different classes, a more detailed explanation can be found on the
+% correlationAnalysis.m documentation
+%
+% greenValues - The correlation coefficient of said Green Frequencies
+% Note that the last both inputs can be used on a more generalized way.
+%
+% frequencyVector - Just a vector used to translate indexes to real
+% frequencies, mostly used to clarify the plots.
+%
+
+% USAGE
+% 
+% This function uses greenFrequencies to calculate the relevant indexes on
+% the main data array, rawData, that are going to be used to generate the
+% main input matrix for the neural net. Please note that this is completely
+% generic, if a study on relevant (said so by the correlation analysis)
+% frequencies and their absolute value from the FFT is needed, then rawData
+% is going to be said absolute value, and this function will return/use
+% these relevant slots.
+
+% If however, the need is to now to create a input matrix using the phase
+% information from the FFT, simply use rawData as an array containing said
+% phase values. 
+%
+%
+
+
 f = frequencyVector;
 
 if isempty(frequencyDivisions)
