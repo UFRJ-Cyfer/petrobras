@@ -44,6 +44,8 @@ neuralNetInput = [neuralNetInput; (mainVallen.totalEnergy)];
 
 trainedModel = mainTrain(neuralNetInput, mainVallen.sparseCodification, method, mainVallen.separationIndexes);
 
+
+save('pythonNeuralNetData.mat', 'neuralNetInput','mainVallen.sparseCodification')
 neuralNetOutput = mainVallen.sparseCodification;
 % neuralNetRawInput = mainVallen.fftDataRaw;
 

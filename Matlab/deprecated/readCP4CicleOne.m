@@ -1,5 +1,5 @@
 
-paths = {'M:\CP4-24.05.2016\Ciclo1-1de2','L:\CP4-24.05.2016\Ciclo1-2de2'};
+paths = {'O:\CP4-24.05.2016\Ciclo1-1de2','N:\CP4-24.05.2016\Ciclo1-2de2'};
 listing = {dir(paths{1}),dir(paths{2})};
 
 fileNames = [];

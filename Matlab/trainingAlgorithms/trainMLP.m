@@ -2,7 +2,7 @@ function model = trainMLP(input, target, runs, kCrossVal, useGPU, separationInde
 
 neuralNetStructure = [10];
 net = patternnet(neuralNetStructure);
-net.trainFcn = 'trainbr';
+net.trainFcn = 'trainlm';
 net.performFcn = 'mse';
 % for k=1:length(net.layers)
 %    net.layers{k}.initFcn = 'rands'; 
@@ -15,8 +15,8 @@ duplicatePE = 0;
 shuffledIndexes = randperm(size(target,2));
 
 trainRatio = 60/100;
-valRatio = 15/100;
-testRatio = 25/100; % redundant
+valRatio = 40/100;
+testRatio = 0/100; % redundant
 
 if strcmp(useGPU,'yes')
     net.trainFcn = 'trainscg';
@@ -52,8 +52,8 @@ else
     trainLength = ceil(size(target,2) * trainRatio);
     valLength = ceil(size(target,2) * valRatio);
     net.divideParam.trainInd = shuffledIndexes(1:trainLength);
-    net.divideParam.valInd = shuffledIndexes(trainLength+1:trainLength+1+valLength);
-    net.divideParam.testInd = shuffledIndexes(trainLength+1+valLength+1:end);
+    net.divideParam.valInd = shuffledIndexes(trainLength+1:trainLength+valLength);
+    net.divideParam.testInd = shuffledIndexes(trainLength+1+valLength:end);
     kCrossVal = 1;
     
     if duplicatePE
@@ -68,7 +68,7 @@ confusionMatrix.validation = zeros(size(target,1),size(target,1),runs + kCrossVa
 confusionMatrix.test = zeros(size(target,1),size(target,1),runs + kCrossVal - 1);
 % 
 net.trainParam.min_grad = 1e-16;
-% net.trainParam.max_fail = 10;
+net.trainParam.max_fail = 10000;
 net.trainParam.lr = 0.1;
 net.trainParam.showWindow = 0;
 % net.performFcn = 'crossentropy';  % Cross-Entropy
@@ -95,8 +95,8 @@ for m=1:runs
             shuffledIndexes = randperm(size(target,2));
             net.divideFcn = 'divideind';
             net.divideParam.trainInd = shuffledIndexes(1:trainLength);
-            net.divideParam.valInd = shuffledIndexes(trainLength+1:trainLength+1+valLength);
-            net.divideParam.testInd = shuffledIndexes(trainLength+1+valLength+1:end);
+            net.divideParam.valInd = shuffledIndexes(trainLength+1:trainLength+valLength);
+            net.divideParam.testInd = shuffledIndexes(trainLength+1+valLength:end);
             
             [net.divideParam.trainInd, net.divideParam.valInd, net.divideParam.testInd] = ...
                 balanceClasses(net.divideParam.trainInd, net.divideParam.valInd, net.divideParam.testInd, separationIndexes);

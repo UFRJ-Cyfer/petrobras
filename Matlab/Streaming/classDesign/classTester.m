@@ -304,16 +304,30 @@ for k=[3:7 9:11 13 15 17 18]
     inputMatrix(indexMatrix,:) = [streamingObj.Waves.(fields{k})];
     indexMatrix=  indexMatrix+1;
 end
+
+
+for k=[3:7 9:11 13 15 17 18]
+   
+   (fields{k})
+
+end
 % 
 inputMatrix(:,131:end) = [];
 
-trainedModelWithoutMyVariables = mainTrain...
+trainedModel = mainTrain...
     ([inputMatrix; neuralNetInput(1:5,:)], mainVallen.sparseCodification, method, mainVallen.separationIndexes);
 
 
+ap_ = [1 1 1 2 1 1 3 1 1 1 1 3 1 2 3 1 1 1 1 1 1 1 1 3 1 2 1 1 1 2 2 1 1 2 1 1 1 1 2 1 2 2 3 1 1 3 1 2 1 3 1 3 2 1 1 2 1 2 2 1 1 1 3 1 1 2 1 1 2 3 1 1 1 11 2 2 2 3 1 2 1 3 3 1 1 1 2 1 2 2];
+
+
+for k=1:3
+   sum(ap_==k) 
+end
+
 figure;
 for k=1:100
-   plotperform(trainedModel_.outputRuns(k).tr)
+   plotperform(trainedModel.outputRuns(k).tr)
    pause
 end
 
@@ -451,7 +465,46 @@ STREAMINGMATRIX = double([streamingObj.propertyVector('riseTime')*1e6; ...
              saveas(gcf,[titles{k} '_.png'])
          end
          
+         triggertime = streamingObj.propertyVector('triggerTime');
          
          conf = []
          plotConfusionMatrix(conf, ['SP';'PE';'PI'])
           saveas(gcf,[ 'Confusion.png'])
+          
+          
+          
+          
+          
+          
+          readCP4CicleOne
+          [filesIndexes, sortIndexes] =sort(filesIndexes);
+          folder = folder(sortIndexes);
+          
+          folder = folder(7:end);
+          filesIndexes=filesIndexes(7:end);
+                      fileBlock = fileBlock+200;
+
+                      
+                      [261, 320, 331, 365, 387, 458, 542, 543]
+          handleFigBlock = figure;
+          handleFigBlock_ = figure;
+          for k=30:100
+            fileBlock = (200+1+10*(k-1)):(200+10*k);
+            compoundPath = [];
+            for l=1:10
+                compoundPath = [compoundPath; paths{folder(fileBlock(l))}];
+            end
+            
+            verifyPressureBomb(fileBlock, [3], compoundPath, 'testeFAlta#',handleFigBlock)
+            k
+          end
+          
+rawData = readStreamingFile(['testeFAlta#' num2str(1191,'%03d') '.tdms'], 'J:\BACKUPJ\ProjetoPetrobras');
+
+
+figure;
+for k=1:16
+    plot(rawData(:,k))
+    title(num2str(k))
+    pause
+end

@@ -10,7 +10,7 @@ N = 16777216;%t%parametro 2 do arquivo tdms
 fa = 2.5e6;%Frequencia de aquisicao;
 v = (10/(2^13*4));%fator de conversao de valor binario para volts
 
-filepath_readFiles = 'J:\BACKUPJ\ProjetoPetrobras\CP3RAWCOPY';
+filepath_readFiles = 'J:\BACKUPJ\ProjetoPetrobras\CP4RAWCOPY';
 
 EXEname = 'D:\exportador_idr2';
 

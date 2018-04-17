@@ -28,7 +28,7 @@ offsetTime = fileTime*(fileNumber-1);
 for channel = channels
     
     %     thr = 5*noiseLevel(channel);
-    thr = 3*noiseLevel(channel);
+    thr = 5*noiseLevel(channel);
     thresholdBool = rawData(:,channel) >= thr;
     %    thresholdBool(1:ceil(backTime/ts)) = 0;
     
