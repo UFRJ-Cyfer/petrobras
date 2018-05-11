@@ -32,6 +32,7 @@ function [ wave ] = calculateParameters( wave, fs, streamingClass )
     wave.resolutionLevelCount = uint16(length(unique(rawData)));
     
     wave.averageFrequency = double(wave.count) / (double(wave.duration)*1e6);
+    wave.meanAmplitude = mean(abs(double(rawData)));
     
     if (wave.duration - wave.riseTime) ~= 0
         wave.reverberationFrequency = (wave.count - wave.countToPeak)/ ...

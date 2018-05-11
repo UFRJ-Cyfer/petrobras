@@ -21,6 +21,8 @@
 % % streamingObj.hlt = 1000e-6;
 % % streamingObj.pdt = 800e-6;
 % % 
+
+
 % % noiseLevel = zeros(1,12);
 % % noiseLevel(7) = 100;
 % % 
@@ -43,7 +45,7 @@
 % %  plot(triggerArray, 400*ones(size(triggerArray)),'.')
 % % 
 % %  resolutionArray = streamingObj.propertyVector('resolution');
-%  rawDataCell = streamingObj.propertyVector('rawData');
+%  rawDataCell(131:end) = [];
 % %  
 %  rawDataCell(131:end) = [];
 % %  
@@ -93,6 +95,7 @@ legend('SP', 'PE', 'PI')
 title('Fase')
 xlabel('Frequência (Hz)')
 ylabel('Radiano / \pi')
+
 % % 
 % % 
 % %  triggerArray = streamingObj.propertyVector('triggerTime');
@@ -279,19 +282,24 @@ ylabel('Radiano / \pi')
 % 
 % 
 for k=1:length(streamingObj.Waves)
-    
     streamingObj.Waves(k) = streamingObj.Waves(k).calculateParameters(2.5e6, streamingObj);
 end
 
-% 
-% 
+
+acc = 0;
+for k= 1:size(trainedModel.confusionMatrix.percentValidation,3)
+   
+    cm = trainedModel.confusionMatrix.validation(:,:,k);
+   acc = acc +trace(cm)/sum(sum(cm));
+    
+end
+acc = acc/size(trainedModel.confusionMatrix.percentValidation,3)
 % 
 % y_classes = repmat([1;0;0;],1,83);
 % y_classes = [y_classes repmat([0;1;0;],1,113-82)];
 % y_classes = [y_classes repmat([0;0;1;],1,129-113)];
 % 
 
-% fields = fieldnames(streamingObj.Waves);
 % 
 indexMatrix = 1;
 inputMatrix = zeros(12,468);
@@ -299,19 +307,16 @@ inputMatrix = zeros(12,468);
 % [3:7 9:11 13:16 18]
 %[3:7 9:11 13 15 17 18]
 
-for k=[3:7 9:11 13 15 17 18]
-   
+for k=[3:7 9 11 13 15 17 18]
     inputMatrix(indexMatrix,:) = [streamingObj.Waves.(fields{k})];
-    indexMatrix=  indexMatrix+1;
+    indexMatrix = indexMatrix+1;
 end
 
 
-for k=[3:7 9:11 13 15 17 18]
-   
+for k=[3:7 9 11 13 15 17 18]
    (fields{k})
-
 end
-% 
+
 inputMatrix(:,131:end) = [];
 
 trainedModel = mainTrain...
@@ -384,6 +389,27 @@ outputPhase = outputPhase';
 %     neuralNetInput_(k,:) = mean(outputPhase(frequencyDivisions(2*k-1):frequencyDivisions(2*k) ,:),1);
 %     neuralNetInput_(5+k,:) = std(outputPhase(frequencyDivisions(2*k-1):frequencyDivisions(2*k) ,:),0,1);
 % end
+
+[neuralNetInput_, ~, indexFrequencyDivisionsTest] = generateInput(...
+    mainVallen_.normalizedEnergy, ...
+    testFrequencyDivisions, ...
+    energyCrossCorrFigHandles.normalizedEnergy, ...
+    mainVallen_.frequencyVector(find(corrInputClasses.gIndexesNormalizedEnergy)),...
+    corrInputClasses.normalizedEnergy.mergedClasses(:,find(corrInputClasses.gIndexesNormalizedEnergy)),...
+    mainVallen_.frequencyVector);
+
+
+figure
+diffIndex = abs(diff(1*indexFrequencyDivisions));
+diffIndexFind = find(diffIndex);
+adjArray = [0 1 0 1 0 1 0 1 0]+1;
+
+testFrequencyDivisions = freqSlots(diffIndexFind+adjArray);
+testFrequencyDivisions = [0 testFrequencyDivisions];
+
+plot(testFrequencyDivisions); hold on;
+plot(frequencyDivisionsWrong)
+sum(frequencyDivisionsWrong - testFrequencyDivisions)
 
 frequencyDivisions = [42 127];
 for k=1:length(frequencyDivisions)/2

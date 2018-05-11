@@ -1,11 +1,12 @@
 function model = trainMLP(input, target, runs, kCrossVal, useGPU, separationIndexes)
 
-neuralNetStructure = [10];
+neuralNetStructure = [15];
 net = patternnet(neuralNetStructure);
-net.trainFcn = 'trainlm';
+net.trainFcn = 'trainbr';
 net.performFcn = 'mse';
+% net.layers{end}.transferFcn  = 'tansig';
 % for k=1:length(net.layers)
-%    net.layers{k}.initFcn = 'rands'; 
+%    net.layers{k}.initFcn = 'rands';
 % end
 % net.init;
 % net.trainParam.max_fail = 0;
@@ -14,8 +15,8 @@ trainingIndexes = struct;
 duplicatePE = 0;
 shuffledIndexes = randperm(size(target,2));
 
-trainRatio = 60/100;
-valRatio = 40/100;
+trainRatio = 65/100;
+valRatio = 35/100;
 testRatio = 0/100; % redundant
 
 if strcmp(useGPU,'yes')
@@ -32,17 +33,17 @@ if kCrossVal > 1
             trainingIndexes(k+1).valInd = shuffledIndexes(k*validationSlotLenght+1:end);
             trainingIndexes(k+1).trainInd = shuffledIndexes(~ismember(shuffledIndexes,trainingIndexes(k+1).valInd));
             if duplicatePE
-               aux = trainingIndexes(k+1).trainInd;
-               trainingIndexes(k+1).trainInd = [trainingIndexes(k+1).trainInd, aux(aux < separationIndexes.timePI & ...
+                aux = trainingIndexes(k+1).trainInd;
+                trainingIndexes(k+1).trainInd = [trainingIndexes(k+1).trainInd, aux(aux < separationIndexes.timePI & ...
                     aux > separationIndexes.timeSP)];
             end
         else
             trainingIndexes(k+1).valInd = shuffledIndexes(k*validationSlotLenght+1:(k+1)*validationSlotLenght);
             trainingIndexes(k+1).trainInd = shuffledIndexes(~ismember(shuffledIndexes, trainingIndexes(k+1).valInd));
             if duplicatePE
-               aux = trainingIndexes(k+1).trainInd;
-               trainingIndexes(k+1).trainInd = [trainingIndexes(k+1).trainInd, aux(aux < separationIndexes.timePI & ...
-                   aux > separationIndexes.timeSP)];
+                aux = trainingIndexes(k+1).trainInd;
+                trainingIndexes(k+1).trainInd = [trainingIndexes(k+1).trainInd, aux(aux < separationIndexes.timePI & ...
+                    aux > separationIndexes.timeSP)];
             end
         end
     end
@@ -50,25 +51,20 @@ if kCrossVal > 1
 else
     net.divideFcn = 'divideind';  % Divide data randomly
     trainLength = ceil(size(target,2) * trainRatio);
-    valLength = ceil(size(target,2) * valRatio);
+    valLength = floor(size(target,2) * valRatio);
     net.divideParam.trainInd = shuffledIndexes(1:trainLength);
     net.divideParam.valInd = shuffledIndexes(trainLength+1:trainLength+valLength);
     net.divideParam.testInd = shuffledIndexes(trainLength+1+valLength:end);
     kCrossVal = 1;
     
-    if duplicatePE
-        net.divideParam.trainInd = [net.divideParam.trainInd, ...
-            net.divideParam.trainInd(net.divideParam.trainInd < separationIndexes.timePI & ...
-            net.divideParam.trainInd < separationIndexes.timePI)];
-    end
 end
 
 confusionMatrix.training = zeros(size(target,1),size(target,1),runs + kCrossVal - 1);
 confusionMatrix.validation = zeros(size(target,1),size(target,1),runs + kCrossVal - 1);
 confusionMatrix.test = zeros(size(target,1),size(target,1),runs + kCrossVal - 1);
-% 
+%
 net.trainParam.min_grad = 1e-16;
-net.trainParam.max_fail = 10000;
+net.trainParam.max_fail = 500;
 net.trainParam.lr = 0.1;
 net.trainParam.showWindow = 0;
 % net.performFcn = 'crossentropy';  % Cross-Entropy
@@ -88,7 +84,7 @@ for m=1:runs
             
             [net.divideParam.trainInd, net.divideParam.valInd, net.divideParam.testInd] = ...
                 balanceClasses(net.divideParam.trainInd, net.divideParam.valInd, net.divideParam.testInd, separationIndexes);
-    
+            
         end
         
         if runs > 1
@@ -100,7 +96,7 @@ for m=1:runs
             
             [net.divideParam.trainInd, net.divideParam.valInd, net.divideParam.testInd] = ...
                 balanceClasses(net.divideParam.trainInd, net.divideParam.valInd, net.divideParam.testInd, separationIndexes);
-        
+            
         end
         
         [net_,tr] = train(net,x,t,'useGPU',useGPU);
@@ -146,14 +142,19 @@ for m=1:runs
         
         confusionTrain = confusionmat(trainTargets,y_filtered_conf);
         confusionVal = confusionmat(valTargets,y_filtered_conf);
-        confusionTest = confusionmat(testTargets,y_filtered_conf);
+        
+        if testRatio == 0
+            confusionTest = confusionmat(valTargets,y_filtered_conf);
+        else
+            confusionTest = confusionmat(testTargets,y_filtered_conf);
+        end
         
         confusionTrainPercentage = confusionTrain;
         confusionValPercentage = confusionVal;
         confusionTestPercentage = confusionTest;
-%         
+        %
         for j=1:size(target,1)
-%         for j=1:3
+            %         for j=1:3
             confusionTrainPercentage(j,:) = confusionTrain(j,:)/sum(confusionTrain(j,:));
             confusionValPercentage(j,:) = confusionVal(j,:)/sum(confusionVal(j,:));
             confusionTestPercentage(j,:) = confusionTest(j,:)/sum(confusionTest(j,:));
@@ -167,13 +168,13 @@ for m=1:runs
         confusionMatrix.percentValidation(:,:,m+k-1) = confusionValPercentage;
         confusionMatrix.percentTest(:,:,m+k-1) = confusionTestPercentage;
         
-
+        
         model.outputRuns(m+k-1).filteredOutput = y_filtered;
         model.outputRuns(m+k-1).output = y;
         model.outputRuns(m+k-1).net = net_;
         
         model.outputRuns(m+k-1).tr = tr;
-
+        
     end
 end
 

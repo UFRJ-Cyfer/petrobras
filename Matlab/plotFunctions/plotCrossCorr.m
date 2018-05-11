@@ -57,7 +57,7 @@ end
 if normalizedPlot
     normalizedEnergy = figure;
     
-    % First Subplot
+%     First Subplot
     subplot(3,1,1)
     plot(f,R_sp,'.'); hold on;
     plot(f,ones(size(R_sp))*corr_limit,'r--')

@@ -44,6 +44,14 @@ neuralNetInput = [neuralNetInput; (mainVallen.totalEnergy)];
 
 trainedModel = mainTrain(neuralNetInput, mainVallen.sparseCodification, method, mainVallen.separationIndexes);
 
+auxxxx = find(abs(diff(indexFrequencyDivisions)))
+auxxxx = [0 auxxxx]
+frequencyDivisions=[]
+for k=1:2:9
+   frequencyDivisions(k) =  auxxxx(k)+1
+   frequencyDivisions(k+1) = auxxxx(k+1)+1
+end
+frequencyDivisions = freqSlots(frequencyDivisions)
 
 save('pythonNeuralNetData.mat', 'neuralNetInput','mainVallen.sparseCodification')
 neuralNetOutput = mainVallen.sparseCodification;

@@ -1,4 +1,5 @@
-diary('log_20180405.txt')
+% clear all
+diary('log_20180426.txt')
 fs = 2.5e6; % streaming sampling frequency (Hz)
 f = 75e3; % low pass cutoff frequency (Hz)
 startingTime = 0;
@@ -121,6 +122,7 @@ if examinate
     paths = {'J:\EnsaioIDR02-2\SegundoTuboStreaming', ...
         'J:\EnsaioIDR02-2\SegundoTuboStreaming',...
         'M:\CP3\Ciclo1',...
+        'O:\CP4-24.05.2016\Ciclo2-1de1',... #essa linha tem que ser modificada pra k =5
         'O:\CP4-24.05.2016\Ciclo1-1de2',...
         'N:\CP4-24.05.2016\Ciclo1-2de2'};
     
@@ -139,6 +141,7 @@ if examinate
     fileLength = 16777216;
     startingColumn = 1;
     endColumn = 0;
+    TOFDReferenceChannel = 13;
     
     waveTime = 17e-3;
     
@@ -148,19 +151,21 @@ if examinate
     streamingStruct(1).deltaTime = downsamplingFactor / fs;
     removeCompressorFiles = 1;
     
-%     filesToSkip = [1:144, 145, 187:224, 255, 256, 272, 273, 305, 321, 320, 453, ...
-%         454, 471, 498, 499, 514 ,515, 543, 558, 559, 669, 670, 686,...
-%         687, 711, 729, 751, 769, 770, 883, 902, 903, 921, 941, 942,...
-%         1046, 1068, 1083, 1109, 1110, 1217, 1250, 1264, 1297, 1397]; CP3
-
-    filesToSkip=[1:144];
+    %     filesToSkip = [1:144, 145, 187:224, 255, 256, 272, 273, 305, 321, 320, 453, ...
+    %         454, 471, 498, 499, 514 ,515, 543, 558, 559, 669, 670, 686,...
+    %         687, 711, 729, 751, 769, 770, 883, 902, 903, 921, 941, 942,...
+    %         1046, 1068, 1083, 1109, 1110, 1217, 1250, 1264, 1297, 1397]; CP3
     
-    load('J:\BACKUPJ\ProjetoPetrobras\Matlab\Data\tofdDiferencesCP4.mat')
+    filesToSkip=[1:144 145:1386];
+    
+    load('J:\BACKUPJ\ProjetoPetrobras\Matlab\Data\tofdDifferencesCP4C2.mat')
     lastIndexArray = ones(1,16);
     
-lastIndexArray = lastIndexArray * ceil(2.5e6*1e-3) * -1;
-    for k=5
-        streamingObj = StreamingClass();
+    lastIndexArray = lastIndexArray * ceil(2.5e6*1e-3) * -1;
+    for k=4
+%         streamingObj = StreamingClass();
+        streamingObj.fileTemplate = files{k};
+        streamingObj.folderTDMS = paths{k};
         load([CPtoExaminate{k} '.mat'])
         for numMinBits = initialNumBits
             boolMatrix = (numBitsFileChannel >= numMinBits);
@@ -181,7 +186,7 @@ lastIndexArray = lastIndexArray * ceil(2.5e6*1e-3) * -1;
                 filesToCheck(ia) = [];
             end
             
-                       
+            
             noiseLevelIndex = 1;
             for l=1:length(filesToCheck)
                 
@@ -199,7 +204,7 @@ lastIndexArray = lastIndexArray * ceil(2.5e6*1e-3) * -1;
                     
                 end
                 
-                [ ~, noiseLevel, slots] =  removeTOFD( rawData,13);
+                [ ~, noiseLevel, slots] =  removeTOFD( rawData,TOFDReferenceChannel);
                 noiseLevelMatrix(noiseLevelIndex,1) = filesToCheck(l);
                 noiseLevelMatrix(noiseLevelIndex,2:end) = noiseLevel;
                 noiseLevelIndex = noiseLevelIndex+1;
@@ -227,9 +232,9 @@ lastIndexArray = lastIndexArray * ceil(2.5e6*1e-3) * -1;
         end
         %         streamingStruct(k).noiseLevelMatrix = noiseLevelMatrix;
         diary off
-
-                save(['streamingOBJv73' desc{k}],'streamingObj','-v7.3')
-                save(['streamingOBJ' desc{k}],'streamingObj')
+        
+        save(['streamingOBJv73' desc{k}],'streamingObj','-v7.3')
+        save(['streamingOBJ' desc{k}],'streamingObj')
     end
     
     

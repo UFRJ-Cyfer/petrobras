@@ -19,7 +19,7 @@ classdef Wave
         maxAmplitude = -1
         threshold = -1
 
-        
+        meanAmplitude = -1;
         absoluteTriggerIndex = -1
         triggerTime = -1
         relativeTriggerIndex= -1

@@ -1,4 +1,4 @@
-function [mainVallen] = streamVariableSizeToVallenFormat(streamingObj, fftMatrix)
+function [mainVallen] = streamVariableSizeToVallenFormat(streamingObj, fftMatrix, phaseMatrix)
 %STREAMVARIABLESIZETOVALLENFORMAT Converts the streamingObj object format to the mainVallen one
 
 
@@ -38,7 +38,7 @@ y_classes(:,separationIndexes.timePI+1:end) = repmat([0; 0; 1],1,size(y_classes(
 % mainVallen.timeDataClean = mainVallen.timeDataRaw ;
 % mainVallen.fftDataRaw = fft_vallen;
 % mainVallen.waveIndexes = wave_indexes;
-% mainVallen.phase = P;
+mainVallen.phase = phaseMatrix;
 mainVallen.energy = E_not_norm;
 mainVallen.normalizedEnergy = E;
 % mainVallen.timeVector = tempo;

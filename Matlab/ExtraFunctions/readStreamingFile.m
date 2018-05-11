@@ -10,14 +10,14 @@ N = 16777216;%t%parametro 2 do arquivo tdms
 fa = 2.5e6;%Frequencia de aquisicao;
 v = (10/(2^13*4));%fator de conversao de valor binario para volts
 
-filepath_readFiles = 'J:\BACKUPJ\ProjetoPetrobras\CP4RAWCOPY';
+filepath_readFiles = 'G:\CP4RAWCOPY';
 
-EXEname = 'D:\exportador_idr2';
+EXEname = 'F:\exportador_idr2\exportador_idr2';
 
 filepath_tdms = path;
 filename_tdms = filename ;
 
-filepath_raw = 'D:';
+filepath_raw = 'F:';
 filename_raw = 'temp.raw';
 
 % o conversor é acessivel pela linha de comando do shell do windows. e seus
@@ -40,13 +40,17 @@ else
     if stats.bytes < 536800000
         rawData = [];
     else
+        try
         rawData = ImportadorRAW([filepath_raw '\' filename_raw]);
+        catch
+            print('teste')
+        end
         for ch=1:16
             rawData(:,ch) = rawData(:,ch) - mean(rawData(:,ch));
         end
     end
     save([filepath_readFiles '\' filename_tdms(1:end-4) 'mat'],'rawData')
-end
+ end
 % rawData = v * rawData;
 end
 

@@ -60,7 +60,7 @@ for channel = channels
                 stringIndex = (duration >= HDT/ts);
                 startIndexHDTBlock = startIndexHDTBlock(stringIndex);
                 
-                if (startIndexHDTBlock(end) < beginIndex) || isempty(startIndexHDTBlock)
+                if (startIndexHDTBlock(end) < indexToCapture) || isempty(startIndexHDTBlock)
                     
                     fprintf(['Long wave detected on the end of file %i,' ...
                         ' channel %i, checking next one\n'], fileNumber, channel)

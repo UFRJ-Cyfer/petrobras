@@ -31,5 +31,13 @@ classdef StreamingClass
         propertyArray = propertyVector(this, propertyString);
         [this, lastIndex] = identifyWaves(this, rawData, channels, fs, noiseLevel, ...
             fileNumber, lastIndex)
+        function propertyMatrix = outputAllProperties(this)
+            fields = this.Waves(1,1).fields;
+            propertyMatrix = zeros(length(fields)-1, this.countWaveform);
+            
+            for k=2:length(fields)
+                propertyMatrix(k-1,:) = this.propertyVector(fields{k});
+            end
+        end
     end
 end

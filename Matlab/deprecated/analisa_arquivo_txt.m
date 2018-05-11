@@ -1,4 +1,4 @@
-    pathname = 'E:\BACKUPJ\ProjetoPetrobras\Ensaio IDR02 - 2 SEM Streaming\Amostra 2 Vallen\';
+    pathname = 'J:\BACKUPJ\ProjetoPetrobras\Ensaio IDR02 - 2 SEM Streaming\Amostra 2 Vallen\';
     filename = 'idr02_02_ciclo1_1.txt';
 
     separationIndexes.timeSP = 897;

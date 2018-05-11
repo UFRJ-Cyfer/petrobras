@@ -1,3 +1,4 @@
+
 function [ propertyArray ] = propertyVector( this, propertyString )
 %PROPERTYVECTOR Returns arrays for each property of Wave object
 
@@ -18,12 +19,16 @@ switch propertyString
         propertyArray = [this.Waves.maxAmplitude];
     case 'maxAmplitudeDB'
         propertyArray = [this.Waves.maxAmplitudeDB];
-    case 'asl'
+    case 'averageSignalLevel'
         propertyArray = [this.Waves.averageSignalLevel];
+    case 'resolutionLevelCount'
+        propertyArray = [this.Waves.resolutionLevelCount];
+    case 'meanAmplitude'
+        propertyArray = [this.Waves.meanAmplitude];
     case 'countToPeak'
         propertyArray = [this.Waves.countToPeak];
     case 'averageFrequency'
-        propertyArray = [this.Waves.averageFrequency]; 
+        propertyArray = [this.Waves.averageFrequency];
     case 'reverberationFrequency'
         propertyArray = [this.Waves.reverberationFrequency];
     case 'initiationFrequency'
@@ -34,8 +39,14 @@ switch propertyString
         propertyArray = [this.Waves.threshold];
     case 'triggerTime'
         propertyArray = [this.Waves.triggerTime];
-    case 'absoluteTrigger'
+    case 'splitFile'
+        propertyArray = [this.Waves.splitFile];
+    case 'splitIndex'
+        propertyArray = [this.Waves.splitIndex];
+    case 'absoluteTriggerIndex'
         propertyArray = [this.Waves.absoluteTriggerIndex];
+    case 'relativeTriggerIndex'
+        propertyArray = [this.Waves.relativeTriggerIndex];
     case 'rawData'
         propertyArray = {this.Waves.rawData};
     otherwise

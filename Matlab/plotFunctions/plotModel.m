@@ -7,6 +7,13 @@ function figureHandles = plotModel(trainedModel)
 % function then uses one (1) run (the last one) to plot a colormap that
 % shows how the neural network guessed the test set data.
 
+
+
+%[1 0 0] - red
+%[0 1 0] - green
+%[0 0 1] - blue
+
+
 lastTrainIndex = length(trainedModel.outputRuns);
 totalOutput = trainedModel.outputRuns(lastTrainIndex).filteredOutput;
 totalTargets = trainedModel.target;

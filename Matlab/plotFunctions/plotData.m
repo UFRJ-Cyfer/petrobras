@@ -54,6 +54,38 @@ ylabel('Energia Normalizada')
 xlabel('Frequência (Hz)')
 
 
+%%%%%%%%%%%%%%%%%%%PHASE%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+fc = 1e4;
+fs = 2.5e6;
+
+[b,a] = butter(6,fc/(fs/2));
+phase = filter(b,a,mainVallen.phase);
+
+meanPhaseSP = mean(phase(:,1:time_sp),2);
+meanPhasePE = mean(phase(:,time_sp:time_pi),2);
+meanPhasePI = mean(phase(:,time_pi:end),2);
+
+
+figNormalizedPhaseSP = figure; plot(mainVallen.frequencyVector,meanPhaseSP)
+hold on;
+plot(mainVallen.frequencyVector,meanPhasePE)
+grid on
+title('Fase SP')
+ylabel('Fase (rad) ')
+xlabel('Frequência (Hz)')
+
+figNormalizedPhasePE = figure; plot(mainVallen.frequencyVector,meanPhasePE)
+grid on
+title('Fase PE')
+ylabel('Fase (rad)')
+xlabel('Frequência (Hz)')
+
+figNormalizedPhasePI = figure; plot(mainVallen.frequencyVector,meanPhasePI)
+grid on
+title('Fase PI')
+ylabel('Fase (rad)')
+xlabel('Frequência (Hz)')
+
 % figureHandles.figEnergySP = figEnergySP;
 % figureHandles.figEnergyPE = figEnergyPE;
 % figureHandles.figEnergyPI = figEnergyPI;
