@@ -1,6 +1,6 @@
 function model = trainMLP(input, target, runs, kCrossVal, useGPU, separationIndexes)
 
-neuralNetStructure = [15];
+neuralNetStructure = [10];
 net = patternnet(neuralNetStructure);
 net.trainFcn = 'trainbr';
 net.performFcn = 'mse';
@@ -64,7 +64,7 @@ confusionMatrix.validation = zeros(size(target,1),size(target,1),runs + kCrossVa
 confusionMatrix.test = zeros(size(target,1),size(target,1),runs + kCrossVal - 1);
 %
 net.trainParam.min_grad = 1e-16;
-net.trainParam.max_fail = 500;
+net.trainParam.max_fail = 100;
 net.trainParam.lr = 0.1;
 net.trainParam.showWindow = 0;
 % net.performFcn = 'crossentropy';  % Cross-Entropy

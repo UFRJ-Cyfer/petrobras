@@ -9,10 +9,14 @@ f = linspace(0, Fs/2, size(fftMatrix,1));
  
  absoluteFFT = abs(fftMatrix);
  
- %times for CP3
- timePE = 3000; %cp3
- timePI = 9000; %cp3
+% %  %times for CP3
+%  timePE = 3000; %%cp3
+%  timePI = 9000; %%cp3
  
+ 
+ timePE = 3000; %%cp4
+ timePI = 20000; %%cp4
+%  
 % separationIndexes.timeSP = find(triggerArray < timePE,1);
 separationIndexes.timeSP  = find(triggerArray >= timePE & triggerArray < timePI,1);
 separationIndexes.timePI  = find(triggerArray >= timePI,1);

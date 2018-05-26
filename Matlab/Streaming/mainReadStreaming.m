@@ -1,5 +1,5 @@
 % clear all
-diary('log_20180426.txt')
+diary(['log_' date '__.txt'])
 fs = 2.5e6; % streaming sampling frequency (Hz)
 f = 75e3; % low pass cutoff frequency (Hz)
 startingTime = 0;
@@ -8,86 +8,41 @@ examinate = 1;
 noiseLevelMatrix = zeros(2000,17);
 
 % path = 'J:';
-inicialFile = [1 1 1 0 0 1 1];
-finalFile = [754 400 360 0 0 2296 538];
+inicialFile = [0 0 0 2254 151 1 1];
+finalFile = [0 0 0 2294 1967 2296 538];
 interpolateTwoVector = [1 2 4 8 16 32 64 128 256 516 1024 2048 4096 8192 16384];
 readFiles = 0;
 
-files = {'idr2_02_ciclo_1#','idr2_02_ciclo_1_2#','idr2_02_ciclo_1_3#',...
-    'IDR2_ensaio_03#','ciclo_2#','testeFAlta#','testeFAlta#'};
+files = {'idr2_02_ciclo_1_2#','idr2_02_ciclo_1_3#',...
+    'IDR2_ensaio_03#','testeFAlta#','ciclo_2#'};
 
 paths = {'K:\EnsaioIDR02-2\SegundoTuboStreaming',...
-    'K:\EnsaioIDR02-2\SegundoTuboStreaming',...
-    'K:\EnsaioIDR02-2\SegundoTuboStreaming',...
     'N:\CP3\Ciclo1',...
-    'M:\CP4-24.05.2016\Ciclo2-1de1',...
-    'M:\CP4-24.05.2016\Ciclo1-1de2', ...
-    'L:\CP4-24.05.2016\Ciclo1-2de2'};
+    'N:\CP4-24.05.2016\Ciclo1-2de2',...
+    'O:\CP4-24.05.2016\Ciclo1-1de2', ...
+    'O:\CP4-24.05.2016\Ciclo2-1de1'};
 
-desc = {'CP2_ciclo_1_1', 'CP2_ciclo_1_2', 'CP2_ciclo_1_3',...
-    'CP3_Ciclo_1','CP4_Ciclo_2','CP4_Ciclo_1_1','CP4_Ciclo_1_2'};
+desc = {'CP2_ciclo_1_2', 'CP2_ciclo_1_3',...
+    'CP3_Ciclo_1','CP4_Ciclo_1','CP4_Ciclo_2'};
+
+
 
 if readFiles == 1
-    for cpNumber = 7
-        
-        %         numFiles = finalFile(cpNumber) - inicialFile(cpNumber) + 1;
-        %
-        %         numBitsFileChannel = zeros(numFiles,16);
-        %         numUniqueElementsChannel = numBitsFileChannel;
-        fileID = 438;
-        index = 1;
-        %     for fileNumber = inicialFile(cpNumber):finalFile(cpNumber)
-        for fileNumber = filesRemaining
+    for k = [5]
+        if k==5
+            numBitsFileChannel = zeros(finalFile(k),16);
+            numUniqueElementsChannel = numBitsFileChannel;
+        end
+        for fileNumber = inicialFile(k):finalFile(k)
             fileNumber
-            
-            filename = [files{cpNumber} num2str(fileNumber,'%03d') '.tdms'];
+            filename = [files{k} num2str(fileNumber,'%03d') '.tdms'];
             %converter
-            rawData = readStreamingFile( filename, paths{cpNumber} );
             
-            % %filtering
-            % [filteredNewMA] = filterStreaming(rawData, fs, f, fileNumber);
-            % meanSignal = mean(rawData,1);
-            %
-            % for k=1:16
-            %     figure;
-            %     plot(rawData(:,k),'.'); hold on;
-            %     title(['channel' num2str(k)])
-            % %     plot(meanSignal(k)*ones(size(rawData(:,k))),'LineWidth',1.5);
-            % %     plot(1.5*abs(meanSignal(k))*ones(size(filteredNewMA(:,k))),'LineWidth',1.5);
-            % %     plot(2.0*abs(meanSignal(k))*ones(size(filteredNewMA(:,k))),'LineWidth',1.5);
-            % %     plot(2.5*abs(meanSignal(k))*ones(size(filteredNewMA(:,k))),'LineWidth',1.5);
-            % %     legend('Sinal', '\mu', '1.5\mu', '2.0\mu' ,'2.5\mu','Interpreter','tex')
-            % ylabel('Amplitude (V)')
-            % xlabel('Amostras')
-            % %     legend('Sinal', '\mu','Interpreter','tex')
-            % end
-            
-            %     figure;
-            %     subplot(1,2,1)
-            %     plot(filteredNewMA(:,1),rawData(51:end,4))
-            %     xlabel('tempo (s)')
-            %     title('canal 4 raw')
-            %
-            %     subplot(1,2,2);
-            %     figure;
-            %     plot(filteredNewMA(:,4))
-            %     title('canal 4 filtrado')
-            %     xlabel('tempo (s)')
-            %
-            
-            
-            %     fileID = 1;
-            %
-            %     for channel=1:16
-            %         numUniqueElements = length(unique(rawData(:,channel)));
-            %
-            %         numUniqueElementsFitted = interp1(interpolateTwoVector, interpolateTwoVector, numUniqueElements, 'next');
-            %         numberOfBits = find(numUniqueElementsFitted == interpolateTwoVector) - 1;
-            %
-            %         numBitsFileChannel(fileID,channel) = numberOfBits;
-            %         numUniqueElementsChannel(fileID,channel) = numUniqueElements;
-            %     end
-            %
+            if sortedFolder(fileNumber) == 2 && k==4
+                rawData = readStreamingFile( filename, paths{k-1} , backupPath{k}, 0);
+            else
+                rawData = readStreamingFile( filename, paths{k} , backupPath{k}, 0);
+            end
             
             if ~isempty(rawData)
                 tic
@@ -97,42 +52,37 @@ if readFiles == 1
                     numberOfBits =(find(numUniqueElements <= interpolateTwoVector,1) - 1);
                     
                     
-                    numBitsFileChannel(fileID,channel) = numberOfBits;
-                    numUniqueElementsChannel(fileID,channel) = numUniqueElements;
+                    numBitsFileChannel(fileNumber,channel) = numberOfBits;
+                    numUniqueElementsChannel(fileNumber,channel) = numUniqueElements;
                 end
                 toc
-                fileID = fileID+1;
             end
-            index = index+1;
         end
-        % waves = identifyWaves(filteredNewMA, fs);
         
-        save(['bitsPerChannelCP4Ciclo_1_Parte' num2str(cpNumber-5)],'numBitsFileChannel','numUniqueElementsChannel')
+        save(['bitsPerChannel' desc{k}],'numBitsFileChannel','numUniqueElementsChannel')
     end
     %saving struct
 end
 
-% save(['bitsPerChannelCP4Ciclo_1'],'numBitsFileChannel','numUniqueElementsChannel','sortedFolder')
-
 if examinate
     
-    CPtoExaminate = {'bitsPerChannelCP2_Ciclo1','bitsPerChannelCP2_Ciclo1_2','bitsPerChannelCP3','bitsPerChannelCP4','bitsPerChannelCP4Ciclo_1'};
-    files = {'idr2_02_ciclo_1#','idr2_02_ciclo_1_2#','IDR2_ensaio_03#','ciclo_2#','testeFAlta#'};
+    CPtoExaminate = {'bitsPerChannelCP2_Ciclo1','bitsPerChannelCP2_Ciclo1_2','bitsPerChannelCP3','bitsPerChannelCP4Ciclo_1', 'bitsPerChannelCP4_Ciclo_2'};
+    files = {'idr2_02_ciclo_1#','idr2_02_ciclo_1_2#','IDR2_ensaio_03#','testeFAlta#','ciclo_2#'};
     
     paths = {'J:\EnsaioIDR02-2\SegundoTuboStreaming', ...
-        'J:\EnsaioIDR02-2\SegundoTuboStreaming',...
         'M:\CP3\Ciclo1',...
-        'O:\CP4-24.05.2016\Ciclo2-1de1',... #essa linha tem que ser modificada pra k =5
-        'O:\CP4-24.05.2016\Ciclo1-1de2',...
-        'N:\CP4-24.05.2016\Ciclo1-2de2'};
+        'O:\CP4-24.05.2016\Ciclo1-1de2',... #essa linha tem que ser modificada pra k =5
+        'N:\CP4-24.05.2016\Ciclo1-2de2',...
+        'O:\CP4-24.05.2016\Ciclo2-1de1'};
+    
     
     desc = {'CP2_Ciclo_1', ...
         'CP2_Ciclo_2',...
         'CP3_Ciclo_1',...
-        'CP4_Ciclo_2',...
-        'CP4_Ciclo_1'};
+        'CP4_Ciclo_1',...
+        'CP4_Ciclo_2'};
     
-    initialNumBits = 7;
+    initialNumBits = 8;
     finalNumBits = 14;
     importantData  =[];
     channels = 1:16;
@@ -141,7 +91,7 @@ if examinate
     fileLength = 16777216;
     startingColumn = 1;
     endColumn = 0;
-    TOFDReferenceChannel = 13;
+    TOFDReferenceChannel = 12;
     
     waveTime = 17e-3;
     
@@ -150,23 +100,49 @@ if examinate
     
     streamingStruct(1).deltaTime = downsamplingFactor / fs;
     removeCompressorFiles = 1;
-    
-    %     filesToSkip = [1:144, 145, 187:224, 255, 256, 272, 273, 305, 321, 320, 453, ...
+    %
+    %     filesToSkip = [1:150, 187:224, 255, 256, 272, 273, 305, 321, 320, 453, ...
     %         454, 471, 498, 499, 514 ,515, 543, 558, 559, 669, 670, 686,...
     %         687, 711, 729, 751, 769, 770, 883, 902, 903, 921, 941, 942,...
-    %         1046, 1068, 1083, 1109, 1110, 1217, 1250, 1264, 1297, 1397]; CP3
+    %         1046, 1068, 1083, 1109, 1110, 1217, 1250, 1264, 1297, 1397]; %CP3
     
-    filesToSkip=[1:144 145:1386];
+    filesToSkip = [1:150, 191, 192, 261, 542,543, 727, 728, 893, 894, 925, 926, ...
+        1060, 1061, 1427, 1428, 1604, 1605, 1:2256];%CP4C1
     
-    load('J:\BACKUPJ\ProjetoPetrobras\Matlab\Data\tofdDifferencesCP4C2.mat')
+    %     for l=filesToSkip
+    %         filename = [files{k} num2str(181,'%03d') '.tdms'];
+    %         rawData = readStreamingFile( filename, paths{k} , backupPath{k});
+    %         figure(6);plot(rawData(:,12))
+    %         title(num2str(l))
+    %         pause;
+    %     end
+    %
+    %     filesToSkip = [1:150, 381, 382, 477, 555, 556, 706, 707, 718, 744, 745, 852, 853, 880, 881,...
+    %         894, 923, 924, 937, 938, 951, 1026, 1027,  1110, 1111,...
+    %         1167, 1194, 1195, 1209, 1241, 1325, 1326, 1362 ];%CP4C2
+    %
+    
+    %     filesToSkip=[1:150];
+    
     lastIndexArray = ones(1,16);
     
+    backupPath = {'','',...
+        'J:\BACKUPJ\ProjetoPetrobras\CP3RAWCOPY',...
+        'J:\BACKUPJ\ProjetoPetrobras\CP4RAWCOPY',...
+        'G:\CP4RAWCOPY'};
+    
     lastIndexArray = lastIndexArray * ceil(2.5e6*1e-3) * -1;
-    for k=4
-%         streamingObj = StreamingClass();
+    for k=[4]
+        %         streamingObj = StreamingClass();
         streamingObj.fileTemplate = files{k};
         streamingObj.folderTDMS = paths{k};
         load([CPtoExaminate{k} '.mat'])
+        if k==5
+            load('J:\BACKUPJ\ProjetoPetrobras\Matlab\Data\tofdDifferencesCP4C2.mat')
+        end
+        if k==4
+            load('J:\BACKUPJ\ProjetoPetrobras\Matlab\Data\tofdDifferencesCP4.mat')
+        end
         for numMinBits = initialNumBits
             boolMatrix = (numBitsFileChannel >= numMinBits);
             
@@ -193,14 +169,15 @@ if examinate
                 tic
                 fprintf(['Now verifying file %i\n'], filesToCheck(l))
                 filename = [files{k} num2str(filesToCheck(l),'%03d') '.tdms'];
-                if k == 5
+                
+                if k == 4
                     if sortedFolder(filesToCheck(l)) == 1
-                        rawData = readStreamingFile( filename, paths{k-1} );
+                        rawData = readStreamingFile( filename, paths{k-1} , backupPath{k});
                     else
-                        rawData = readStreamingFile( filename, paths{k} );
+                        rawData = readStreamingFile( filename, paths{k} , backupPath{k});
                     end
                 else
-                    rawData = readStreamingFile( filename, paths{k} );
+                    rawData = readStreamingFile( filename, paths{k} , backupPath{k});
                     
                 end
                 
@@ -210,18 +187,20 @@ if examinate
                 noiseLevelIndex = noiseLevelIndex+1;
                 
                 for j=channels
-                    hasChannel = find(tofdDiferences.channels == j);
-                    if ~isempty(hasChannel)
-                        newSlots = slots+tofdDiferences.deltaIndexes(hasChannel);
-                        newSlots(newSlots<=0) = 1;
-                        newSlots(newSlots>16777216) = 16777216;
-                        rawData(newSlots,j) = NaN;
+                    if noiseLevel(j) < 500
+                        hasChannel = find(tofdDifferences.channels == j);
+                        if ~isempty(hasChannel)
+                            newSlots = slots+tofdDifferences .deltaIndexes(hasChannel);
+                            newSlots(newSlots<=0) = 1;
+                            newSlots(newSlots>16777216) = 16777216;
+                            rawData(newSlots,j) = NaN;
+                        end
                     end
                 end
                 
-                [streamingObj, lastIndexArray] = streamingObj.identifyWaves(rawData,...
+                [streamingObj, lastIndexArray] = streamingObj_.identifyWaves(rawData,...
                     channels(boolMatrix(filesToCheck(l),:)), fs, ...
-                    noiseLevel, filesToCheck(l), lastIndexArray);
+                    noiseLevel, filesToCheck(l), lastIndexArray,backupPath{k});
                 
                 
                 elapsedTime = toc;
@@ -230,12 +209,11 @@ if examinate
             
             
         end
-        %         streamingStruct(k).noiseLevelMatrix = noiseLevelMatrix;
+        streamingOBJ.noiseLevelMatrix = noiseLevelMatrix;
         diary off
         
         save(['streamingOBJv73' desc{k}],'streamingObj','-v7.3')
         save(['streamingOBJ' desc{k}],'streamingObj')
     end
-    
-    
 end
+

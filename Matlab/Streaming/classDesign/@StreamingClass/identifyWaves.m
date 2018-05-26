@@ -1,5 +1,5 @@
 function [obj, lastIndex] = identifyWaves(obj, rawData, channels, fs, noiseLevel,...
-    fileNumber, lastIndex)
+    fileNumber, lastIndex, backupPath)
 
 %IDENTIFYWAVES Identify all acoustic emission waves from within a streaming file
 
@@ -28,7 +28,7 @@ offsetTime = fileTime*(fileNumber-1);
 for channel = channels
     
     %     thr = 5*noiseLevel(channel);
-    thr = 5*noiseLevel(channel);
+    thr = 3*noiseLevel(channel);
     thresholdBool = rawData(:,channel) >= thr;
     %    thresholdBool(1:ceil(backTime/ts)) = 0;
     
@@ -59,15 +59,15 @@ for channel = channels
                 duration = endIndex-startIndexHDTBlock+1;
                 stringIndex = (duration >= HDT/ts);
                 startIndexHDTBlock = startIndexHDTBlock(stringIndex);
-                
-                if (startIndexHDTBlock(end) < indexToCapture) || isempty(startIndexHDTBlock)
+                %
+                if (isempty(startIndexHDTBlock) || startIndexHDTBlock(end) < indexToCapture) 
                     
                     fprintf(['Long wave detected on the end of file %i,' ...
                         ' channel %i, checking next one\n'], fileNumber, channel)
                     
                     rawDataAfter = readStreamingFile(...
                         [obj.fileTemplate num2str(fileNumber+1) '.tdms'], ...
-                        obj.folderTDMS);
+                        obj.folderTDMS, backupPath);
                     
                     thresholdBoolAfter = rawDataAfter(:,channel) >= thr;
                     
@@ -81,8 +81,11 @@ for channel = channels
                         stringIndexAfter = (durationAfter >= HDT/ts);
                         startIndexHDTBlockAfter = startIndexHDTBlockAfter(stringIndexAfter);
                         
+                        if ~isempty(startIndexHDTBlockAfter)
                         lastIndex(channel) =  startIndexHDTBlockAfter(1);
-                        
+                        else
+                            lastIndex(channel) = ceil(HDT/fs);
+                        end
                         capturedWave = [rawData(beginIndex:end ,channel) ;...
                             rawDataAfter(1:lastIndex(channel), channel)];
                         splitFile = 1;
@@ -105,6 +108,7 @@ for channel = channels
                         indexToCapture, indexToCapture-beginIndex);
                     
                     wave = wave.calculateParameters(fs, obj);
+                    wave.file = fileNumber;
                     
                     if splitFile
                        wave.splitFile = true;
@@ -112,7 +116,7 @@ for channel = channels
                     end
                     %        startingTime(waveCount) = time(beginIndex);
                     %        triggerTime(waveCount) = time(indexToCapture);
-                    
+                    plot(wave.rawData)
                     obj = obj.addWave(wave);
                 end
             end
@@ -136,6 +140,5 @@ end
 % triggerTime = triggerTimeAux;
 % startingTime = startingTimeAux;
 % waves = int16(wavesAux);
-
 
 end

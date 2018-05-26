@@ -49,6 +49,8 @@ switch propertyString
         propertyArray = [this.Waves.relativeTriggerIndex];
     case 'rawData'
         propertyArray = {this.Waves.rawData};
+    case 'file'
+        propertyArray = [this.Waves.file];
     otherwise
         fprintf('No such %s property!' , propertyString)
 end

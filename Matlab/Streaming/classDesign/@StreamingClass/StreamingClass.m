@@ -11,6 +11,10 @@ classdef StreamingClass
         hlt = 1000e-6;
         pdt = 800e-6;
         countWaveform = 0;
+        spIndexes = [];
+        peIndexes = [];
+        piIndexes = [];
+        noiseLevelMatrix = [];
         description = 'CP3'
         folderTDMS = 'N:\CP3\Ciclo1'
         folderMatlabCopy = 'J:\BACKUPJ\ProjetoPetrobras'
@@ -30,7 +34,7 @@ classdef StreamingClass
         end
         propertyArray = propertyVector(this, propertyString);
         [this, lastIndex] = identifyWaves(this, rawData, channels, fs, noiseLevel, ...
-            fileNumber, lastIndex)
+            fileNumber, lastIndex, backupPath)
         function propertyMatrix = outputAllProperties(this)
             fields = this.Waves(1,1).fields;
             propertyMatrix = zeros(length(fields)-1, this.countWaveform);

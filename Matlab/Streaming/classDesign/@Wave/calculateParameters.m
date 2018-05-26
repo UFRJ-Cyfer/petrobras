@@ -14,7 +14,7 @@ function [ wave ] = calculateParameters( wave, fs, streamingClass )
     %Amp(db) = 20log(V/1u) - preAmp gain (however I did 1/mV because I
     %think [A * cv] = mV
     wave.maxAmplitudeDB = ...
-         20*log(double(wave.maxAmplitude) * (10/(2^13*4)) / (10e-6)) - 80;
+         20*log(double(wave.maxAmplitude) * (10/(2^15)) / (10e-6)) - 80;
      
     wave.averageSignalLevel = mean(rawDataDB(1:end-hdtIndex-1));
      

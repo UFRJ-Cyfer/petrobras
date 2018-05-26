@@ -18,13 +18,14 @@ classdef Wave
         initiationFrequency  = -1
         maxAmplitude = -1
         threshold = -1
-
+        
         meanAmplitude = -1;
         absoluteTriggerIndex = -1
         triggerTime = -1
         relativeTriggerIndex= -1
         splitFile = false
         splitIndex = uint32(0);
+        file = uint32(0);
     end
     methods
         function obj =  Wave(varargin)
