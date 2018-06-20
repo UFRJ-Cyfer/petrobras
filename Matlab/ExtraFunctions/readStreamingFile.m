@@ -10,6 +10,7 @@ N = 16777216;%t%parametro 2 do arquivo tdms
 fa = 2.5e6;%Frequencia de aquisicao;
 v = (10/(2^13*4));%fator de conversao de valor binario para volts
 
+
 filepath_readFiles = backupPath;
 
 EXEname = 'F:\exportador_idr2\exportador_idr2';
@@ -20,6 +21,7 @@ filename_tdms = filename ;
 filepath_raw = 'F:';
 filename_raw = 'temp.raw';
 
+STOP = 0;
 % o conversor é acessivel pela linha de comando do shell do windows. e seus
 % argumentos sao como segue:
 % exportador_idr2 CAMINHOTDMS ng N CAMINHOBIN
@@ -33,26 +35,30 @@ if exist([filepath_readFiles '\' filename_tdms(1:end-4) 'mat'], 'file') == 2
     rawData = holder.rawData;
 else
     dos(commandline);%faz a conversao com o .exe externo
-
+    
     stats = dir([filepath_tdms '\' filename_tdms]);
-
+    
     %importa do arquivo binario para o matlab
-%     if stats.bytes < 536800000
-%         rawData = [];
-%     else
-        try
+    %     if stats.bytes < 536800000
+    %         rawData = [];
+    %     else
+    try
         rawData = ImportadorRAW([filepath_raw '\' filename_raw]);
-        catch
-            print('teste')
-        end
+    catch
+        STOP = 1;
+        disp('Import function ERROR')
+    end
+    if ~STOP
         for ch=1:16
             rawData(:,ch) = rawData(:,ch) - mean(rawData(:,ch));
         end
-%     end
-    if isempty(varargin)
-         save([filepath_readFiles '\' filename_tdms(1:end-4) 'mat'],'rawData')
+        %     end
+        if isempty(varargin)
+            save([filepath_readFiles '\' filename_tdms(1:end-4) 'mat'],'rawData')
+        end
+    else
+    rawData = [];    
     end
- end
+end
 % rawData = v * rawData;
 end
-

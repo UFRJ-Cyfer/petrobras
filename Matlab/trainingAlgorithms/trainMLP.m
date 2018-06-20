@@ -19,6 +19,9 @@ trainRatio = 65/100;
 valRatio = 35/100;
 testRatio = 0/100; % redundant
 
+separationIndexes.timeSP = find(target(2,:),1)-1;
+separationIndexes.timePI = find(target(3,:),1);
+
 if strcmp(useGPU,'yes')
     net.trainFcn = 'trainscg';
 end
@@ -32,19 +35,9 @@ if kCrossVal > 1
         if (k+1)*validationSlotLenght > size(target,2)
             trainingIndexes(k+1).valInd = shuffledIndexes(k*validationSlotLenght+1:end);
             trainingIndexes(k+1).trainInd = shuffledIndexes(~ismember(shuffledIndexes,trainingIndexes(k+1).valInd));
-            if duplicatePE
-                aux = trainingIndexes(k+1).trainInd;
-                trainingIndexes(k+1).trainInd = [trainingIndexes(k+1).trainInd, aux(aux < separationIndexes.timePI & ...
-                    aux > separationIndexes.timeSP)];
-            end
         else
             trainingIndexes(k+1).valInd = shuffledIndexes(k*validationSlotLenght+1:(k+1)*validationSlotLenght);
             trainingIndexes(k+1).trainInd = shuffledIndexes(~ismember(shuffledIndexes, trainingIndexes(k+1).valInd));
-            if duplicatePE
-                aux = trainingIndexes(k+1).trainInd;
-                trainingIndexes(k+1).trainInd = [trainingIndexes(k+1).trainInd, aux(aux < separationIndexes.timePI & ...
-                    aux > separationIndexes.timeSP)];
-            end
         end
     end
     

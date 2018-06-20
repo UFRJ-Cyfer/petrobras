@@ -1,6 +1,5 @@
 %  load('J:\BACKUPJ\ProjetoPetrobras\Matlab\Data\streamingOBJ\streamingOBJCP3_Ciclo_1.mat')
 load('frequencyDivisions.mat')
-
 rawDataCell = streamingObj.propertyVector('rawData');
 
 fields = fieldnames(streamingObj.Waves);
@@ -8,8 +7,11 @@ freqSlots = linspace(0, 1.25e6, 2^11);
 partialFrequencyVector = zeros(1,2^12-1);
 fftWaves = {};
 % LASTINDEX = 306;
-% rawDataCell(LASTINDEX:end) = [];
+% rawDataCell(LASTINDEX:end) = []; CP3
 % rawDataCell(212) = [];
+
+LASTINDEX = 193;
+rawDataCell(LASTINDEX:end) = [];
 
 
 for k=1:length(rawDataCell)
@@ -37,6 +39,9 @@ for k=1:length(fftWaves)
     k
 end
 
+% for k=220:length(streamingObj.Waves)
+%     streamingObj.Waves(k).triggerTime =streamingObj.Waves(k).triggerTime + streamingObj.Waves(229).triggerTime ;
+% end
 [mainVallen] = streamVariableSizeToVallenFormat(streamingObj, outputAbs', outputPhase');
 corrInputClasses = correlationAnalysis(mainVallen);
 
@@ -59,13 +64,6 @@ phase = filter(b,a,mainVallen.phase);
 
 frequencyDivisions = [];
 
-[neuralNetInputPhase, frequencyDivisions, indexFrequencyDivisions_] = generateInput(...
-    phase, ...
-    frequencyDivisions, ...
-    energyCrossCorrFigHandles.normalizedEnergy, ...
-    mainVallen.frequencyVector(find(corrInputClasses.gIndexesNormalizedEnergy)),...
-    corrInputClasses.normalizedEnergy.mergedClasses(:,find(corrInputClasses.gIndexesNormalizedEnergy)),...
-    mainVallen.frequencyVector);
 
 [neuralNetInput, frequencyDivisions, indexFrequencyDivisions] = generateInput(...
     mainVallen.normalizedEnergy, ...
@@ -74,6 +72,16 @@ frequencyDivisions = [];
     mainVallen.frequencyVector(find(corrInputClasses.gIndexesNormalizedEnergy)),...
     corrInputClasses.normalizedEnergy.mergedClasses(:,find(corrInputClasses.gIndexesNormalizedEnergy)),...
     mainVallen.frequencyVector);
+
+[neuralNetInputPhase, frequencyDivisions, indexFrequencyDivisions_] = generateInput(...
+    phase, ...
+    frequencyDivisions, ...
+    energyCrossCorrFigHandles.normalizedEnergy, ...
+    mainVallen.frequencyVector(find(corrInputClasses.gIndexesNormalizedEnergy)),...
+    corrInputClasses.normalizedEnergy.mergedClasses(:,find(corrInputClasses.gIndexesNormalizedEnergy)),...
+    mainVallen.frequencyVector);
+
+
 
 
 for k=1:length(streamingObj.Waves)
@@ -98,8 +106,17 @@ for k=variables
    fields{k} 
 end
 % 
-% inputMatrix(:,LASTINDEX:end) = [];
-% inputMatrix(:,212) = [];
+inputMatrix(:,151:end) = [];
+neuralNetInput(:,151:end) = [];
+mainVallen.sparseCodification(:,151:end) = [];
+
+inputMatrix(:,indexes) = [];
+neuralNetInput(:,indexes) = [];
+mainVallen.sparseCodification(:,indexes) = [];
+
+inputMatrix(:,212) = [];
+neuralNetInput(:,212) = [];
+mainVallen.sparseCodification(:,212) = [];
 
 % mainVallen4Classes = mainVallen;
 % % trainedModelWithPhase = trainedModel__;
@@ -128,8 +145,14 @@ end
 %     mainVallen4Classes.sparseCodification, method, mainVallen4Classes.separationIndexes);
 % mainVallen.sparseCodification(1,183:214) = 1;
 % mainVallen.sparseCodification(2,183:214) = 0;
+% 
+% TTIME = streamingObj.propertyVector('triggerTime');
+% secondSPIndex = (TTIME < T+3100) & (TTIME > T);
+% 
+% mainVallen.sparseCodification(1, secondSPIndex) = 1;
+% mainVallen.sparseCodification(2, secondSPIndex) = 0;
 
-trainedModelWithoutPhase_ = mainTrain...
+trainedModelWithoutPhase = mainTrain...
     ([inputMatrix;neuralNetInput(1:size(neuralNetInput,1)/2,:)], mainVallen.sparseCodification, method, mainVallen.separationIndexes);
 
 
@@ -143,7 +166,7 @@ totalOutput(2,[255]) = 1;
 totalOutput =[];
 
 for k=1:100
-totalOutput(:,:,k)= trainedModelWithoutPhase_.outputRuns(k).filteredOutput;
+totalOutput(:,:,k)= trainedModelWithoutPhase.outputRuns(k).filteredOutput;
 end
 
 figure;
@@ -158,13 +181,13 @@ aux = sum(trainedModelWithoutPhase.confusionMatrix.validation, 3);
 accuracyScore = trace(aux)/sum(sum(aux))
 
 sum(trainedModelWeirdIndexes4Classes.confusionMatrix.validation, 3)
-100*mean(trainedModelWithoutPhase_.confusionMatrix.percentValidation, 3)
-100*std(trainedModelWithoutPhase_.confusionMatrix.percentValidation,[], 3)
+100*mean(trainedModelWithoutPhase.confusionMatrix.percentValidation, 3)
+100*std(trainedModelWithoutPhase.confusionMatrix.percentValidation,[], 3)
 
 
 100*mean(trainedModelWithPhase.confusionMatrix.percentValidation, 3)
 
-modelPlotFigureHandle = plotModel(trainedModelWithoutPhase_);
+modelPlotFigureHandle = plotModel(trainedModelWithoutPhase__);
 
 % 
 % 
@@ -179,11 +202,30 @@ modelPlotFigureHandle = plotModel(trainedModelWithoutPhase_);
 %     savefig([num2str(weirdIndexes(k))])
 %     
 % end
-figure
-for k=1:668
-    plot(streamingObj.Waves(k).rawData);
-    title(num2str(k))
-    pause;
-    
-    
+% figure
+% for k=1:668
+%     plot(streamingObj.Waves(k).rawData);
+%     title(num2str(k))
+%     pause;
+%     
+%     
+% end
+% 
+% 
+indexes = [];
+triggerTime = streamingObj.propertyVector('triggerTime');
+for k=2:length(triggerTime)
+   if sum(triggerTime(1:k-1) >= triggerTime(k)) > 0
+        indexes = [indexes; k];
+   end
 end
+streamingObj.Waves(indexes) = [];
+% % hold on
+% % % plot(indexes,triggerTime(indexes),'.')
+% % % 
+% % for k=230:280
+% %    streamingObj.Waves(k).triggerTime =  streamingObj.Waves(k).triggerTime + streamingObj.Waves(229).triggerTime;
+% % end
+% % %  
+% 
+% streamingObj.reportObj()

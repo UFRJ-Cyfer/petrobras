@@ -1,6 +1,6 @@
 function [neuralNetInput, chosenFrequencies, indexesChosenFrequencies] = ...
     generateInput(rawInput, frequencyDivisions, corrFigHandle,...
-    greenFrequencies, greenValues, frequencyVector)
+    frequencyVector)
 
 %GENERATEINPUT Creates the neural net input matrix 
 
@@ -94,7 +94,6 @@ end
 
 
 chosenFrequencies = freq;
-indexesValidFrequency = ismember(f,greenFrequencies);
 indexesChosenFrequencies = ismember(f,freq);
 
 duplicates = [];

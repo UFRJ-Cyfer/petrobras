@@ -1,6 +1,6 @@
 function [figHandles] = reportStreaming(this, language)
 %REPORTSTREAMING Creates several figures to report a streamingOBJ
-units = {'',' (s)', '', ' (J)', ' (s)', '', ' (dB)', '', ' (dB)', '', '', '' , '', '', '', '', '' , '', '', ''}
+units = {'',' (s)', '', ' (J)', ' (s)', '', ' (dB)', '', ' (dB)', '', '', '' , '', '', '', '', '' , '', '', ''};
 
 FONTSIZE = 12;
 
