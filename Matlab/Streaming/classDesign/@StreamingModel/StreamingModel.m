@@ -3,7 +3,8 @@ classdef StreamingModel
         target = [];
         input = [];
         corrStruct = [];
-        frequencyDivisions = [];
+        frequencyDivisions = struct('power',[],'normalizedPower',[],'phase',[]);
+        indexesChosenFrequencies = struct('power',[],'normalizedPower',[],'phase',[]);
         figHandles = [];
         frequencyArray = [];
         trainedModel = [];
@@ -24,6 +25,7 @@ classdef StreamingModel
         this = corrAnalysis(this, inputVariable, variableString);
         this = defineInputs(this)
         this = plotCorrAnalysis(this)
+        this = generateInput(this, streamingClass)
     end
     
     

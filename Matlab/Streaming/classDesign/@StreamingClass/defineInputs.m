@@ -20,17 +20,11 @@ for k=variables
     indexMatrix = indexMatrix+1;
 end
 
+this.StreamingModel = this.StreamingModel.generateInput(this);
+
 for varIndex = 1:length(fieldNames)
-    var = fieldNames{varIndex};
-    corrFigHandle = this.StreamingModel.figHandles(varIndex);
-        
-        [this.StreamingModel.input.(var),...
-            this.frequencyDivisions.(var), ...
-            this.indexesChosenFrequencies.(var)] = ...
-            generateInput(this.(var), this.frequencyDivisions.(var), corrFigHandle,...
-            this.frequencyArray);
-        
-        
+    var = fieldNames{varIndex};   
     this.StreamingModel.input.(var) = [inputMatrix; this.StreamingModel.input.(var)];  
 end
+
 end

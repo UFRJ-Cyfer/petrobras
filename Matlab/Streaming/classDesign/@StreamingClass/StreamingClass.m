@@ -30,9 +30,7 @@ classdef StreamingClass
         folderMatlabCopy = [];
         fileTemplate = [];
         
-        frequencyDivisions = struct('power',[],'normalizedPower',[],'phase',[]);
-        indexesChosenFrequencies = struct('power',[],'normalizedPower',[],'phase',[]);
-        
+    
         power = [];
         normalizedPower = [];
         phase = [];
