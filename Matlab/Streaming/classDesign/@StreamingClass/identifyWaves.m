@@ -1,5 +1,5 @@
 function [obj, lastIndex] = identifyWaves(obj, rawData, channels, fs, noiseLevel,...
-    fileNumber, lastIndex, backupPath)
+    fileNumber, lastIndex, backupPath, cycle)
 
 %IDENTIFYWAVES Identify all acoustic emission waves from within a streaming file
 
@@ -9,7 +9,7 @@ function [obj, lastIndex] = identifyWaves(obj, rawData, channels, fs, noiseLevel
 % three timing parameters. The threshold is a multiplied noiseLevel (by a
 % euristically defined number).
 
-% 
+%
 ts = 1/fs;
 PDT = obj.pdt;
 HDT = obj.hdt;
@@ -60,14 +60,20 @@ for channel = channels
                 stringIndex = (duration >= HDT/ts);
                 startIndexHDTBlock = startIndexHDTBlock(stringIndex);
                 %
-                if (isempty(startIndexHDTBlock) || startIndexHDTBlock(end) < indexToCapture) 
+                if (isempty(startIndexHDTBlock) || startIndexHDTBlock(end) < indexToCapture)
                     
                     fprintf(['Long wave detected on the end of file %i,' ...
                         ' channel %i, checking next one\n'], fileNumber, channel)
                     
+                    try
+                        folderPath = obj.folderTDMS{cycle};
+                    catch E
+                        folderPath = obj.folderTDMS{1};
+                    end
+                    
                     rawDataAfter = readStreamingFile(...
-                        [obj.fileTemplate num2str(fileNumber+1,'%03d') '.tdms'], ...
-                        obj.folderTDMS, backupPath);
+                        [obj.fileTemplate{cycle} num2str(fileNumber+1,'%03d') '.tdms'], ...
+                        folderPath, backupPath);
                     
                     thresholdBoolAfter = rawDataAfter(:,channel) >= thr;
                     
@@ -82,7 +88,7 @@ for channel = channels
                         startIndexHDTBlockAfter = startIndexHDTBlockAfter(stringIndexAfter);
                         
                         if ~isempty(startIndexHDTBlockAfter)
-                        lastIndex(channel) =  startIndexHDTBlockAfter(1);
+                            lastIndex(channel) =  startIndexHDTBlockAfter(1);
                         else
                             lastIndex(channel) = ceil(HDT/fs);
                         end
@@ -111,12 +117,12 @@ for channel = channels
                     wave.file = fileNumber;
                     
                     if splitFile
-                       wave.splitFile = true;
-                       wave.splitIndex = uint32(length(capturedWave) - lastIndex(channel) + 1);
+                        wave.splitFile = true;
+                        wave.splitIndex = uint32(length(capturedWave) - lastIndex(channel) + 1);
                     end
                     %        startingTime(waveCount) = time(beginIndex);
                     %        triggerTime(waveCount) = time(indexToCapture);
-                    plot(wave.rawData)
+                    %                     plot(wave.rawData)
                     obj = obj.addWave(wave);
                 end
             end

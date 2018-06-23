@@ -68,7 +68,7 @@ if isempty(this.frequencyDivisions.(var))
         end
     end
 else
-    freq = this.frequencyDivisions;
+    freq = this.frequencyDivisions.(var);
 %     set(corrFigHandle, 'Visible', 'on');
 %     set(0, 'currentfigure', corrFigHandle);
 %     clickedAx = gca;

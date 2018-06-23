@@ -3,6 +3,7 @@ function this = plotCorrAnalysis(this)
 fieldNames = fieldnames(this.corrStruct);
 f = this.frequencyArray;
 corr_limit = 1.96/sqrt(size(this.target,2));
+
 for variableIndex = 1:length(fieldNames)
     var = fieldNames{variableIndex};
     this.figHandles(variableIndex) = figure(100+variableIndex);
@@ -15,8 +16,12 @@ for variableIndex = 1:length(fieldNames)
     plot(f(find(sign(this.corrStruct.(var).SPPE) == -1)),...
         this.corrStruct.(var).SP(sign(this.corrStruct.(var).SPPE) == -1),'g.');
     
-    title(var)
-    ylabel('Correlação SP x PE');
+    titleVar = [upper(var(1)) var(2:end)];
+    titleVar = (regexprep(titleVar, '([A-Z])', ' $1'));
+    titleVar(1) = [];
+    
+    title(titleVar)
+    ylabel('Correlation NP x SP'); % SP x PE
     grid on;
     
     % Second Subplot
@@ -30,7 +35,7 @@ for variableIndex = 1:length(fieldNames)
     plot(f(sign(this.corrStruct.(var).PEPI) == -1),...
         this.corrStruct.(var).PE(sign(this.corrStruct.(var).PEPI) == -1),'g.');
     
-    ylabel('Correlação PE x PI');
+    ylabel('Correlation SP x UP'); %PE x PI
     grid on;
     
     % Third Subplot
@@ -44,8 +49,8 @@ for variableIndex = 1:length(fieldNames)
     plot(f(find(sign(this.corrStruct.(var).PISP) == -1)),...
         this.corrStruct.(var).PI(sign(this.corrStruct.(var).PISP) == -1),'g.');
     
-    ylabel('Correlação PI x SP');
-    xlabel('Frequência (Hz)')
+    ylabel('Correlation UP x NP'); % PI x SP
+    xlabel('Frequency (Hz)')
     grid on;
 end
 
