@@ -1,4 +1,4 @@
-function [this] = verifyStreamingResolution(this, cycle)
+function [this] = verifyStreamingResolution(this, cycle, initialFile)
 
 interpolateTwoVector = [1 2 4 8 16 32 64 128 256 516 1024 2048 4096 8192 16384];
 
@@ -11,7 +11,7 @@ catch E
     folderPath = this.folderTDMS{1};
 end
 
-for fileNumber = 1:this.totalFiles(cycle)
+for fileNumber = initialFile:this.totalFiles(cycle)
     
     
     filename = [this.fileTemplate{cycle} num2str(fileNumber,'%03d') '.tdms'];

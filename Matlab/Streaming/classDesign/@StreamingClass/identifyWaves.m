@@ -15,6 +15,7 @@ PDT = obj.pdt;
 HDT = obj.hdt;
 HLT = obj.hlt;
 backTime = 2*1000e-6;
+lastIndexLocal = zeros(1,16);
 
 startingTime = zeros(1,1000) - 1;
 triggerTime = startingTime;
@@ -27,8 +28,8 @@ offsetTime = fileTime*(fileNumber-1);
 
 for channel = channels
     
-    %     thr = 5*noiseLevel(channel);
-    thr = 3*noiseLevel(channel);
+        thr = 5*noiseLevel(channel);
+%     thr = 3*noiseLevel(channel);
     thresholdBool = rawData(:,channel) >= thr;
     %    thresholdBool(1:ceil(backTime/ts)) = 0;
     
@@ -102,8 +103,8 @@ for channel = channels
                 else
                     [HDTRStart] = min(startIndexHDTBlock(startIndexHDTBlock > indexToCapture) - indexToCapture);
                     endIndex = indexToCapture + HDTRStart;
-                    lastIndex(channel) = endIndex + ceil(HDT*fs);
-                    capturedWave = rawData(beginIndex:lastIndex(channel),channel);
+                    lastIndexLocal(channel) = endIndex + ceil(HDT*fs);
+                    capturedWave = rawData(beginIndex:lastIndexLocal(channel),channel);
                     
                 end
                 
@@ -127,7 +128,7 @@ for channel = channels
                 end
             end
             
-            [auxIndex] = find(indexes-(lastIndex(channel) + ...
+            [auxIndex] = find(indexes-(lastIndexLocal(channel) + ...
                 ceil((HLT+backTime)/ts)) > 0);
             indexes = indexes(auxIndex);
             %only one wave captured

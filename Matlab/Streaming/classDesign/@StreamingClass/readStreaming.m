@@ -1,7 +1,15 @@
-function this = readStreaming(this)
+function this = readStreaming(this, varargin)
 CHANNELS = 1:16;
 fs = 2.5e6;
-for cycle=1:length(this.fileTemplate)
+initialCycle = 1;
+initialFile = 1;
+
+if nargin == 3
+    initialCycle = varargin{1};
+    initialFile = varargin{2};
+end
+
+for cycle=initialCycle:length(this.fileTemplate)
     lastIndexArray = zeros(1,16);
     boolMatrix = (this.numBitsFileChannel{cycle} >= this.minBits);
     
@@ -11,10 +19,12 @@ for cycle=1:length(this.fileTemplate)
     
     filesToCheck = filesToCheck.*auxVec';
     filesToCheck = filesToCheck(filesToCheck~=0);
+    filesToCheck(filesToCheck > this.totalFiles(cycle)) = [];
     noiseLevelMatrix = zeros(length(filesToCheck),1+16);
-    if cycle >=2
-        this.cycleDividers(cycle-1) = this.countWaveform + 1;
-    end
+    
+%     if cycle >= 2
+%         this.cycleDividers(cycle-1) = this.countWaveform + 1;
+%     end
     
     try
         folderPath = this.folderTDMS{cycle};
@@ -30,6 +40,8 @@ for cycle=1:length(this.fileTemplate)
     noiseLevelIndex = 1;
     for file=1:length(filesToCheck)
         
+        if filesToCheck(file) >= initialFile
+            
         
         tic
         fprintf(['Now verifying file %i\n'], filesToCheck(file))
@@ -38,7 +50,7 @@ for cycle=1:length(this.fileTemplate)
         
         
         if strcmp(this.description,'CP4') && cycle == 1
-            if this.sortedFolder(file) == 2
+            if this.sortedFolder(filesToCheck(file)) == 2
                 rawData = readStreamingFile( filename, this.folderTDMS{3}, this.folderMatlabCopy);
             else
                 rawData = readStreamingFile( filename, folderPath, this.folderMatlabCopy);
@@ -72,12 +84,13 @@ for cycle=1:length(this.fileTemplate)
         
         elapsedTime = toc;
         fprintf('File analyzed in %.3f seconds \n', elapsedTime)
+        end
     end
     
-    this.noiseLevelMatrix{cycle} = noiseLevelMatrix;
+%     this.noiseLevelMatrix{cycle} = noiseLevelMatrix;
     
 end
-S.(this.description) = this;
-save(['streamingOBJ' this.description],'-struct','S')
-save(['streamingOBJ' this.description],'-struct','S','-v7.3')
+% S.(this.description) = this;
+% save(['streamingOBJ' this.description],'-struct','S')
+% save(['streamingOBJ' this.description],'-struct','S','-v7.3')
 end
