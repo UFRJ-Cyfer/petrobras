@@ -11,7 +11,7 @@ Thus, this chapter begins detailing the destructive test done, extends to the ra
 
 \section{Acoustic Emission Test} \label{sec:AETest}
 
-The test uses a close-ended steel (API XL 60 series) cylinder with $20$ inch diameter, $40$ metre length and $1.45$ centimetres of thickness, a semi-elliptical pre-crack extending until half of its thickness (approximately $0.7 cm$) was inserted at half its length.
+The AE tests were performed by engineers of the Physical Metallurgy Laboratory (LAMEF) at the Federal University of Rio Grande do Sul (UFRGS). It uses a close-ended steel (API XL 60 series) pipe with $20$ inch diameter, $40$ metre length and $1.45$ centimetres of thickness, a semi-elliptical pre-crack extending until half of its thickness (approximately $0.7 cm$) was inserted at half its length.
 
 %mention the rubber cape !!!!!!!!!!
 
@@ -24,8 +24,9 @@ The hydrostatic test consists of a gradual increase of pressure (after filling t
 	\label{fig:pressure_time}
 \end{figure}
 
-A sensor array was then disposed on top of the naked steel and the rubber cape (Figure \ref{fig:sensor_disposition}) throughout the tube's length surrounding the crack.
-%mention TOFD -> AE sensor or AE sensor -> TOFD ?
+A sensor array was then disposed on top of the naked steel and the rubber cape (Figure \ref{fig:sensor_disposition}) throughout the tube's length. Immediately surrounding the crack a couple of ultrasound sensors were placed to measure its propagation throughout the test, those work based on Time-of-flight diffraction ultrasonics (TOFD) \cite{charlesworthEngineeringApplicationsUltrasonic2001}, \cite{silkPotentialScatteredDiffracted1975} and are named with respect to the technique (TOFD sensors).
+
+% mention TOFD -> AE sensor or AE sensor -> TOFD ?
 
 \begin{figure}[H]
 	\centering
@@ -34,7 +35,61 @@ A sensor array was then disposed on top of the naked steel and the rubber cape (
 	\label{fig:sensor_disposition}
 \end{figure}
 
+Three different streaming sensors (Figure \ref{fig:sensor_disposition}) were used, the R1.5 \cite{physicalacousticsR1520KHz}, R15\cite{physicalacousticsR15IAST150KHz} and WD \cite{physicalacousticsWD100900KHz} sensors. Their inner workings and configuration (including conditioning circuits) will not be discussed in this work. It is important to note however, that they work on different frequency ranges (Table \ref{tab:sensor_freq}) and naturally have diverse responses.
+
+\begin{table}[H] \label{tab:sensor_freq}
+	\centering
+	\caption{Streaming Sensors Frequency Range.}
+	\begin{tabular}{cc}
+		\hline
+		Sensor & Frequency Range (kHz) \\ \hline
+		R1.5   & 5 - 20                \\
+		R15    & 50 - 400              \\
+		WD     & 100 - 900             \\ \hline
+	\end{tabular}
+\end{table}
+
+These sensors were then sampled using a (not specified) 16 bit Analogue-to-Digital Converter (ADC) at $2.5 GHz$ during the whole test, their data was then put into a special formatted file created by National Instruments (NI), the Technical Data  Management Streaming (TDMS) file \cite{nationalinstrumentsNITDMSFile}. 
+
+
 \section{Streaming Raw Data}
+
+Normally, these files can be opened using some specific NI software like \textit{DIAdem} but the LAMEF engineers made slight modifications (Figure \ref{fig:lamef_mods}) when saving the ADC data, using a $32 bit$ word (normally holding one sample) made of two concatenated $16 bit$ integers (that came from the ADC), thus effectively doubling the amount of data stored without requiring additional space.
+
+\begin{figure}[H]
+	\centering
+	\def\svgwidth{0.7\columnwidth}
+	\input{images/low_level_mod_lamef_.pdf_tex}
+	\caption{Low-Level Modifications Done to Signal Acquisition.}
+	\label{fig:lamef_mods}
+\end{figure}
+
+
+In order to read the TDMS files, LAMEF provided a special compiled LABView routine that transforms each TDMS file to a binary one and a MATLAB script that loads the file to memory. Out of all the tests, only the first one (CP1) did not burst, even after $5$ filling cycles, since identifying the burst is essential (Section \ref{sec:objective}) all CP1 data was discarded and it will not be discussed any further.
+
+A single TDMS file translates to roughly $6.7$ seconds (Figure \ref{fig:tdms_example}), containing $2^{24}$ samples taken from its $16$ different sensors (channels) leading to a $2^{24} \times 16$ integer (16-bit) matrix. In sum (Table \ref{tab:streaming_data}), all data came from (eventually) ruptured ducts and theoretically contain useful data.
+
+\begin{table}[H]\label{tab:streaming_data}
+	\centering
+	\caption{Hydrostatic Test Summary}
+	\resizebox{\columnwidth}{!}{%
+	\begin{tabular}{ccccccc}
+		\hline
+		Test & Date       & \thead{Pre-Crack Depth\\ (millimetres)} & \thead{Rupture Cycle} & \thead{Pressure\\ at Rupture\\ (bar)} & \thead{Data Volume\\ (Gigabytes)}  & Files\\ \hline
+		CP1  & 18/03/2015 & 5.5                           & X             & -                         & 3900    & X               \\
+		CP2  & 28/07/2015 & 7.9                           & 1             & 230                       & 900     & 1513               \\
+		CP3  & 06/11/2015 & 6.6                           & 1             & 264                       & 900 	& 1500                    \\
+		CP4  & 23/05/2016 & 7.0                          & 2             & 283                       & 1500	&  4261                \\ \hline
+	\end{tabular}%
+}
+\end{table}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.1\textwidth]{sup_learning_schematic}
+	\caption{Data from TDMS File 900, Channel 12 From Test CP3}
+	\label{fig:tdms_example}
+\end{figure}
 
 \section{Preprocessing}
 \subsection{Resolution Analysis}

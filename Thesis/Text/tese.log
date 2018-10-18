@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.19 (MiKTeX 2.9.6840 64-bit) (preloaded format=pdflatex 2018.10.8)  11 OCT 2018 20:02
+This is pdfTeX, Version 3.14159265-2.6-1.40.19 (MiKTeX 2.9.6840 64-bit) (preloaded format=pdflatex 2018.10.8)  17 OCT 2018 19:05
 entering extended mode
 **./tese.tex
 (tese.tex
@@ -372,6 +372,12 @@ File: color.cfg 2016/01/02 v1.6 sample color configuration
 )
 Package color Info: Driver file: pdftex.def on input line 147.
 )
+("D:\Program Files\MiKTeX 2.9\tex\latex\makecell\makecell.sty"
+Package: makecell 2009/08/03 V0.1e Managing of Tab Column Heads and Cells
+\rotheadsize=\dimen135
+\c@nlinenum=\count122
+\TeXr@lab=\toks28
+)
 \@losfile=\write3
 \openout3 = `tese.syx'.
 
@@ -384,37 +390,37 @@ Writing index of abbreviations file tese.abx
 (tese.aux (introduction.aux) (methods.aux))
 \openout1 = `tese.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 46.
-LaTeX Font Info:    ... okay on input line 46.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 46.
-LaTeX Font Info:    ... okay on input line 46.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 46.
-LaTeX Font Info:    ... okay on input line 46.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 46.
-LaTeX Font Info:    ... okay on input line 46.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 46.
-LaTeX Font Info:    ... okay on input line 46.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 46.
-LaTeX Font Info:    ... okay on input line 46.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 46.
-LaTeX Font Info:    ... okay on input line 46.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 47.
+LaTeX Font Info:    ... okay on input line 47.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 47.
+LaTeX Font Info:    ... okay on input line 47.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 47.
+LaTeX Font Info:    ... okay on input line 47.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 47.
+LaTeX Font Info:    ... okay on input line 47.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 47.
+LaTeX Font Info:    ... okay on input line 47.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 47.
+LaTeX Font Info:    ... okay on input line 47.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 47.
+LaTeX Font Info:    ... okay on input line 47.
 Package lastpage Info: Please have a look at the pageslts package at
 (lastpage)             https://www.ctan.org/pkg/pageslts
-(lastpage)             ! on input line 46.
+(lastpage)             ! on input line 47.
 
 (C:\Users\Cyfer\AppData\Roaming\MiKTeX\2.9\tex\context\base\supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
-\scratchcounter=\count122
-\scratchdimen=\dimen135
+\scratchcounter=\count123
+\scratchdimen=\dimen136
 \scratchbox=\box34
-\nofMPsegments=\count123
-\nofMParguments=\count124
-\everyMPshowfont=\toks28
-\MPscratchCnt=\count125
-\MPscratchDim=\dimen136
-\MPnumerator=\count126
-\makeMPintoPDFobject=\count127
-\everyMPtoPDFconversion=\toks29
+\nofMPsegments=\count124
+\nofMParguments=\count125
+\everyMPshowfont=\toks29
+\MPscratchCnt=\count126
+\MPscratchDim=\dimen137
+\MPnumerator=\count127
+\makeMPintoPDFobject=\count128
+\everyMPtoPDFconversion=\toks30
 ) ("D:\Program Files\MiKTeX 2.9\tex\latex\oberdiek\epstopdf-base.sty"
 Package: epstopdf-base 2016/05/15 v2.6 Base part for package epstopdf
 
@@ -464,41 +470,41 @@ G,.JBIG2,.JB2,.eps]
 * (1in=72.27pt=25.4mm, 1cm=28.453pt)
 
 \AtBeginShipoutBox=\box35
-Package hyperref Info: Link coloring OFF on input line 46.
+Package hyperref Info: Link coloring OFF on input line 47.
 ("D:\Program Files\MiKTeX 2.9\tex\latex\hyperref\nameref.sty"
 Package: nameref 2016/05/21 v2.44 Cross-referencing by name of section
 
 ("D:\Program Files\MiKTeX 2.9\tex\generic\oberdiek\gettitlestring.sty"
 Package: gettitlestring 2016/05/16 v1.5 Cleanup title references (HO)
 )
-\c@section@level=\count128
+\c@section@level=\count129
 )
-LaTeX Info: Redefining \ref on input line 46.
-LaTeX Info: Redefining \pageref on input line 46.
-LaTeX Info: Redefining \nameref on input line 46.
+LaTeX Info: Redefining \ref on input line 47.
+LaTeX Info: Redefining \pageref on input line 47.
+LaTeX Info: Redefining \nameref on input line 47.
 
 (tese.out) (tese.out)
 \@outlinefile=\write5
 \openout5 = `tese.out'.
 
-Package hyperref Info: Option `breaklinks' set `true' on input line 68.
-Package hyperref Info: Option `raiselinks' set `true' on input line 68.
-Package hyperref Info: Option `pageanchor' set `true' on input line 68.
+Package hyperref Info: Option `breaklinks' set `true' on input line 69.
+Package hyperref Info: Option `raiselinks' set `true' on input line 69.
+Package hyperref Info: Option `pageanchor' set `true' on input line 69.
 <coppe-logo.pdf, id=115, 177.463pt x 76.285pt>
 File: coppe-logo.pdf Graphic file (type pdf)
 <use coppe-logo.pdf>
-Package pdftex.def Info: coppe-logo.pdf  used on input line 68.
+Package pdftex.def Info: coppe-logo.pdf  used on input line 69.
 (pdftex.def)             Requested size: 177.46255pt x 76.2848pt.
 
-Underfull \hbox (badness 6792) in paragraph at lines 68--68
+Underfull \hbox (badness 6792) in paragraph at lines 69--69
 \OT1/cmr/m/n/12 como parte dos requisitos necessarios a
  []
 
-LaTeX Font Info:    Try loading font information for U+msa on input line 68.
+LaTeX Font Info:    Try loading font information for U+msa on input line 69.
 ("D:\Program Files\MiKTeX 2.9\tex\latex\amsfonts\umsa.fd"
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
-LaTeX Font Info:    Try loading font information for U+msb on input line 68.
+LaTeX Font Info:    Try loading font information for U+msb on input line 69.
 
 ("D:\Program Files\MiKTeX 2.9\tex\latex\amsfonts\umsb.fd"
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
@@ -509,15 +515,15 @@ File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 mf/tex/latex/coppe/coppe-logo.pdf>] [2
 
 ]
-Underfull \hbox (badness 7030) in paragraph at lines 70--70
+Underfull \hbox (badness 7030) in paragraph at lines 71--71
 []\OT1/cmr/m/n/12 Tese (doutorado) -- UFRJ/COPPE/Programa de
  []
 
 
-LaTeX Warning: Reference `bib:begin' on page iii undefined on input line 70.
+LaTeX Warning: Reference `bib:begin' on page iii undefined on input line 71.
 
 
-LaTeX Warning: Reference `bib:end' on page iii undefined on input line 70.
+LaTeX Warning: Reference `bib:end' on page iii undefined on input line 71.
 
 [3
 
@@ -582,7 +588,7 @@ Package natbib Warning: Citation `turingCOMPUTINGMACHINERYINTELLIGENCE1950' on
 page 2 undefined on input line 22.
 
 [2]
-<images/sup_learning_schematic.pdf, id=222, 220.6945pt x 140.10342pt>
+<images/sup_learning_schematic.pdf, id=228, 220.6945pt x 140.10342pt>
 File: images/sup_learning_schematic.pdf Graphic file (type pdf)
 <use images/sup_learning_schematic.pdf>
 Package pdftex.def Info: images/sup_learning_schematic.pdf  used on input line 
@@ -596,7 +602,7 @@ Package pdftex.def Info: images/sup_learning_schematic.pdf  used on input line
 l.57 O
       ver the years, several studies (?????) have been published on the brai...
  <./images/sup_learning_schematic.pdf>] (brain_neuron.pdf_tex
-<images/brain_neuron.pdf, id=248, page=1, 300.99025pt x 161.83963pt>
+<images/brain_neuron.pdf, id=254, page=1, 300.99025pt x 161.83963pt>
 File: images/brain_neuron.pdf Graphic file (type pdf)
 <use images/brain_neuron.pdf, page 1>
 Package pdftex.def Info: images/brain_neuron.pdf , page1 used on input line 56.
@@ -608,25 +614,25 @@ Package natbib Warning: Citation `wikimediacommonsNeuron2006' on page 4 undefin
 ed on input line 65.
 
 (images/brain_neuron_mod.pdf_tex
-<images/brain_neuron_mod.pdf, id=250, page=1, 300.99025pt x 161.83963pt>
+<images/brain_neuron_mod.pdf, id=256, page=1, 300.99025pt x 161.83963pt>
 File: images/brain_neuron_mod.pdf Graphic file (type pdf)
 <use images/brain_neuron_mod.pdf, page 1>
 Package pdftex.def Info: images/brain_neuron_mod.pdf , page1 used on input line
  56.
 (pdftex.def)             Requested size: 256.07741pt x 137.69768pt.
-<images/brain_neuron_mod.pdf, id=251, page=2, 300.99025pt x 161.83963pt>
+<images/brain_neuron_mod.pdf, id=257, page=2, 300.99025pt x 161.83963pt>
 File: images/brain_neuron_mod.pdf Graphic file (type pdf)
 <use images/brain_neuron_mod.pdf, page 2>
 Package pdftex.def Info: images/brain_neuron_mod.pdf , page2 used on input line
  63.
 (pdftex.def)             Requested size: 256.07741pt x 137.69768pt.
-<images/brain_neuron_mod.pdf, id=252, page=3, 300.99025pt x 161.83963pt>
+<images/brain_neuron_mod.pdf, id=258, page=3, 300.99025pt x 161.83963pt>
 File: images/brain_neuron_mod.pdf Graphic file (type pdf)
 <use images/brain_neuron_mod.pdf, page 3>
 Package pdftex.def Info: images/brain_neuron_mod.pdf , page3 used on input line
  65.
 (pdftex.def)             Requested size: 256.07741pt x 137.69768pt.
-<images/brain_neuron_mod.pdf, id=253, page=4, 300.99025pt x 161.83963pt>
+<images/brain_neuron_mod.pdf, id=259, page=4, 300.99025pt x 161.83963pt>
 File: images/brain_neuron_mod.pdf Graphic file (type pdf)
 <use images/brain_neuron_mod.pdf, page 4>
 Package pdftex.def Info: images/brain_neuron_mod.pdf , page4 used on input line
@@ -648,7 +654,7 @@ ed on input line 81.
                                                   \fi \fi 
 l.84 
       <./images/brain_neuron.pdf>]
-<images/perceptron.pdf, id=261, 224.4636pt x 143.76863pt>
+<images/perceptron.pdf, id=267, 224.4636pt x 143.76863pt>
 File: images/perceptron.pdf Graphic file (type pdf)
 <use images/perceptron.pdf>
 Package pdftex.def Info: images/perceptron.pdf  used on input line 111.
@@ -676,7 +682,7 @@ n: multiple pdfs with page group included in a single page
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
-l.97   \include{introduction}
+l.98   \include{introduction}
                               <./images/perceptron.pdf>]
 \openout2 = `methods.aux'.
 
@@ -692,50 +698,100 @@ File: images/sup_learning_schematic.pdf Graphic file (type pdf)
 Package pdftex.def Info: images/sup_learning_schematic.pdf  used on input line 
 22.
 (pdftex.def)             Requested size: 42.68173pt x 27.09451pt.
+
+
+Package natbib Warning: Citation `charlesworthEngineeringApplicationsUltrasonic
+2001' on page 8 undefined on input line 27.
+
+
+Package natbib Warning: Citation `silkPotentialScatteredDiffracted1975' on page
+ 8 undefined on input line 27.
+
 File: images/sup_learning_schematic.pdf Graphic file (type pdf)
 <use images/sup_learning_schematic.pdf>
 Package pdftex.def Info: images/sup_learning_schematic.pdf  used on input line 
-32.
+33.
 (pdftex.def)             Requested size: 42.68173pt x 27.09451pt.
-) [8pdfTeX warning (ext4): destination with the same identifier (name{figure.2.
+
+Package natbib Warning: Citation `physicalacousticsR1520KHz' on page 8 undefine
+d on input line 38.
+
+
+Package natbib Warning: Citation `physicalacousticsR15IAST150KHz' on page 8 und
+efined on input line 38.
+
+
+Package natbib Warning: Citation `physicalacousticsWD100900KHz' on page 8 undef
+ined on input line 38.
+
+
+Package natbib Warning: Citation `nationalinstrumentsNITDMSFile' on page 8 unde
+fined on input line 52.
+
+[8pdfTeX warning (ext4): destination with the same identifier (name{figure.2.1}
+) has been already used, duplicate ignored
+
+\AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
+                                                  \fi \fi 
+l.58 
+     pdfTeX warning (ext4): destination with the same identifier (name{figure.2
+.2}) has been already used, duplicate ignored
+
+\AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
+                                                  \fi \fi 
+l.58 
+     pdfTeX warning (ext4): destination with the same identifier (name{table.2.
 1}) has been already used, duplicate ignored
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
-l.99   \include{methods}
-                        pdfTeX warning (ext4): destination with the same identi
-fier (name{figure.2.2}) has been already used, duplicate ignored
+l.58 
+     ] (images/low_level_mod_lamef_.pdf_tex
+<images/low_level_mod_lamef_.pdf, id=325, page=1, 307.69786pt x 199.01248pt>
+File: images/low_level_mod_lamef_.pdf Graphic file (type pdf)
+<use images/low_level_mod_lamef_.pdf, page 1>
+Package pdftex.def Info: images/low_level_mod_lamef_.pdf , page1 used on input 
+line 56.
+(pdftex.def)             Requested size: 298.75264pt x 193.23013pt.
+)) [9pdfTeX warning (ext4): destination with the same identifier (name{figure.2
+.3}) has been already used, duplicate ignored
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
-l.99   \include{methods}
-                        ] [9]
+l.100   \include{methods}
+                         pdfTeX warning (ext4): destination with the same ident
+ifier (name{table.2.2}) has been already used, duplicate ignored
+
+\AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
+                                                  \fi \fi 
+l.100   \include{methods}
+                          <./images/low_level_mod_lamef_.pdf>] [10]
 
 Package natbib Warning: There were undefined citations.
 
 
 AED: lastpage setting LastPage
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 101.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 101.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 102.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 102.
 (tese.aux (introduction.aux) (methods.aux))
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 101.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 101.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 102.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 102.
 Package rerunfilecheck Info: File `tese.out' has not changed.
 (rerunfilecheck)             Checksum: F2B48D986F6521C47B8D3A5E0F5148FF;1851.
 
 
 LaTeX Warning: There were undefined references.
 
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 101.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 102.
  ) 
 Here is how much of TeX's memory you used:
- 7962 strings out of 492970
- 114686 string characters out of 3135855
- 234619 words of memory out of 3000000
- 11600 multiletter control sequences out of 15000+200000
- 11736 words of font info for 43 fonts, out of 3000000 for 9000
+ 8141 strings out of 492970
+ 116828 string characters out of 3135855
+ 237613 words of memory out of 3000000
+ 11766 multiletter control sequences out of 15000+200000
+ 13435 words of font info for 51 fonts, out of 3000000 for 9000
  1141 hyphenation exceptions out of 8191
- 35i,16n,30p,721b,363s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 35i,17n,30p,721b,363s stack positions out of 5000i,500n,10000p,200000b,50000s
 <D:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmbx10.pfb><D:/Pr
 ogram Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmbx12.pfb><D:/Program Fi
 les/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmbxti10.pfb><D:/Program Files/Mi
@@ -749,9 +805,9 @@ D:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr7.pfb><D:/Program
  Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr8.pfb><D:/Program Files/MiK
 TeX 2.9/fonts/type1/public/amsfonts/cm/cmsy10.pfb><D:/Program Files/MiKTeX 2.9/
 fonts/type1/public/amsfonts/cm/cmti12.pfb>
-Output written on tese.pdf (19 pages, 290886 bytes).
+Output written on tese.pdf (20 pages, 323318 bytes).
 PDF statistics:
- 368 PDF objects out of 1000 (max. 8388607)
- 58 named destinations out of 1000 (max. 500000)
- 265 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 387 PDF objects out of 1000 (max. 8388607)
+ 62 named destinations out of 1000 (max. 500000)
+ 270 words of extra memory for PDF output out of 10000 (max. 10000000)
 
