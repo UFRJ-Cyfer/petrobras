@@ -1,4 +1,4 @@
-\begin{thebibliography}{9}
+\begin{thebibliography}{10}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \expandafter\ifx\csname urlstyle\endcsname\relax
@@ -6,62 +6,71 @@
   \providecommand{\doi}{doi: \begingroup \urlstyle{rm}\Url}\fi
 \newcommand{\enquote}[1]{``#1''}
 
-\bibitem[\MakeUppercase{Abraham}\emph{ et~al.}(1988)Abraham, Marsden, e
-  Ratiu]{book-example}
-\MakeUppercase{Abraham, R., Marsden, J.~E., Ratiu, T.}
-\newblock \emph{Manifolds, Tensor Analysis, and Applications}.
-\newblock 2 ed. New York, Springer-Verlag, 1988.
+\bibitem[\MakeUppercase{{Wikimedia Commons}}(2006){Wikimedia
+  Commons}]{wikimediacommonsNeuron2006}
+\MakeUppercase{{Wikimedia Commons}}.
+\newblock \enquote{Neuron}.
+  https://upload.wikimedia.org/wikipedia/commons/b/b5/Neuron.svg, dez. 2006.
 
-\bibitem[\MakeUppercase{Iesan}(1996)Iesan]{article-example}
-\MakeUppercase{Iesan, D.}
-\newblock \enquote{Existence Theorems in the Theory of Mixtures}, \emph{Journal
-  of Elasticity}, v.~42, n.~2, \penalty0 pp.~145--163, fev. 1996.
+\bibitem[Wor(2016)]{WorldFactbookCentral2016}
+\enquote{The {{World Factbook}} \textemdash{} {{Central Intelligence Agency}}}.
+  https://www.cia.gov/library/publications/the-world-factbook/fields/2117.html,
+  2016.
 
-\bibitem[\MakeUppercase{Maestrello}(1976)Maestrello]{techreport-example}
-\MakeUppercase{Maestrello, L.}
-\newblock \emph{Two-Point Correlations of Sound Pressure in the Far Field of a
-  Jet: Experiment}.
-\newblock {NASA} {TM}~{X}-72835, 1976.
+\bibitem[\MakeUppercase{Turing}(1950)Turing]{turingCOMPUTINGMACHINERYINTELLIGENCE1950}
+\MakeUppercase{Turing, A.~M.}
+\newblock \enquote{I.\textemdash{{COMPUTING MACHINERY AND INTELLIGENCE}}},
+  \emph{Mind}, v.~LIX, n. 236, \penalty0 pp.~433--460, 1950.
+\newblock ISSN: 0026-4423, 1460-2113.
+\newblock \doi{10.1093/mind/LIX.236.433}.
 
-\bibitem[\MakeUppercase{Garret}(1977)Garret]{techreport-exampleIn}
-\MakeUppercase{Garret, D.~A.}
-\newblock \emph{The Microscopic Detection of Corrosion in Aluminum Aircraft
-  Structures with Thermal Neutron Beams and Film Imaging Methods}.
-\newblock In: Report NBSIR 78-1434, National Bureau of Standards, Washington,
-  D.C., 1977.
+\bibitem[\MakeUppercase{Charlesworth} e
+  \MakeUppercase{Temple}(2001)Charlesworth e
+  Temple]{charlesworthEngineeringApplicationsUltrasonic2001}
+\MakeUppercase{Charlesworth, J.~P., Temple, J. A.~G.}
+\newblock \emph{Engineering {{Applications}} of {{Ultrasonic Time}}-of-Flight
+  {{Diffraction}}}.
+\newblock {Research Studies Press}, 2001.
+\newblock ISBN: 978-0-86380-239-3.
 
-\bibitem[\MakeUppercase{Gurtin}(1977)Gurtin]{inproceedings-example}
-\MakeUppercase{Gurtin, M.~E.}
-\newblock \enquote{On the nonlinear theory of elasticity}. In:
-  \emph{Proceedings of the International Symposium on Continuum Mechanics and
-  Partial Differential Equations: Contemporary Developments in Continuum
-  Mechanics and Partial Differential Equations}, pp. 237--253, Rio de Janeiro,
-  ago. 1977.
+\bibitem[\MakeUppercase{Silk} e \MakeUppercase{Lidington}(1975)Silk e
+  Lidington]{silkPotentialScatteredDiffracted1975}
+\MakeUppercase{Silk, M.~G., Lidington, B.~H.}
+\newblock \enquote{The Potential of Scattered or Diffracted Ultrasound in the
+  Determination of Crack Depth}, \emph{Non-Destructive Testing}, v.~8, n.~3,
+  \penalty0 pp.~146--151, jun. 1975.
+\newblock ISSN: 0029-1021.
+\newblock \doi{10.1016/0029-1021(75)90024-9}.
 
-\bibitem[\MakeUppercase{Cowin}(1987)Cowin]{incollection-example}
-\MakeUppercase{Cowin, S.~C.}
-\newblock \enquote{Adaptive Anisotropy: An Example in Living Bone}. In:
-  \emph{Non-Classical Continuum Mechanics}, v. 122, \emph{London Mathematical
-  Society Lecture Note Series}, Cambridge University Press, pp. 174--186, 1987.
+\bibitem[\MakeUppercase{{Physical Acoustics}}({\natexlab{a}}){Physical
+  Acoustics}]{physicalacousticsR1520KHz}
+\MakeUppercase{{Physical Acoustics}}.
+\newblock \enquote{R1.5 - 5-20 {{kHz Very Low Frequency AE Sensor}}}.
+  https://www.physicalacoustics.com/by-product/sensors/R1.5-5-20-kHz-Very-Low-Frequency-AE-Sensor,
+  {\natexlab{a}}.
 
-\bibitem[\MakeUppercase{Edwards}(1976)Edwards]{inbook-example}
-\MakeUppercase{Edwards, D.~K.}
-\newblock \enquote{Thermal Radiation Measurements}. In: Eckert, E. R.~G.,
-  Goldstein, R.~J. (Eds.), \emph{Measurements in Heat Transfer}, 2 ed.,
-  cap.~10, New York, USA, Hemisphere Publishing Corporation, 1976.
+\bibitem[\MakeUppercase{{Physical Acoustics}}({\natexlab{b}}){Physical
+  Acoustics}]{physicalacousticsR15IAST150KHz}
+\MakeUppercase{{Physical Acoustics}}.
+\newblock \enquote{{{R15I}}-{{AST}} - 150 {{kHz Integral Preamp AE Sensor}}}.
+  https://www.physicalacoustics.com/by-product/sensors/R15I-AST-150-kHz-Integral-Preamp-AE-Sensor,
+  {\natexlab{b}}.
 
-\bibitem[\MakeUppercase{Tuntomo}(1990)Tuntomo]{mastersthesis-example}
-\MakeUppercase{Tuntomo, A.}
-\newblock \emph{Transport Phenomena in a Small Particle with Internal Radiant
-  Absorption}.
-\newblock {Ph.D.} dissertation, University of California at Berkeley, Berkeley,
-  California, USA, 1990.
+\bibitem[\MakeUppercase{{Physical Acoustics}}({\natexlab{c}}){Physical
+  Acoustics}]{physicalacousticsWD100900KHz}
+\MakeUppercase{{Physical Acoustics}}.
+\newblock \enquote{{{WD}} - 100-900 {{kHz Wideband Differential AE Sensor}}}.
+  https://www.physicalacoustics.com/by-product/sensors/WD-100-900-kHz-Wideband-Differential-AE-Sensor,
+  {\natexlab{c}}.
 
-\bibitem[\MakeUppercase{Paes~Junior}(1994)Paes~Junior]{phdthesis-example}
-\MakeUppercase{Paes~Junior, H.~R.}
-\newblock \emph{Influ{\^e}ncia da Espessura da Camada Intr{\'i}nseca e Energia
-  do Foton na Degrada{\c c}\~ao de C{\'e}lulas Solares de Sil{\'i}cio Amorfo
-  Hidrogenado}.
-\newblock Tese de {D.Sc.}, COPPE/UFRJ, Rio de Janeiro, RJ, Brasil, 1994.
+\bibitem[\MakeUppercase{{National Instruments}}(){National
+  Instruments}]{nationalinstrumentsNITDMSFile}
+\MakeUppercase{{National Instruments}}.
+\newblock \enquote{The {{NI TDMS File Format}}}. .
+
+\bibitem[\MakeUppercase{{Mistras Group}}(2011){Mistras
+  Group}]{mistrasgroupDiSPAEwinUSER2011}
+\MakeUppercase{{Mistras Group}}.
+\newblock \enquote{{{DiSP}} with {{AEwin USER}}'{{S MANUAL}}}. jul. 2011.
 
 \end{thebibliography}

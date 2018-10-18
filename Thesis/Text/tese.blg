@@ -1,7 +1,12 @@
 This is BibTeX, Version 0.99dThe top-level auxiliary file: tese.aux
+A level-1 auxiliary file: introduction.aux
+A level-1 auxiliary file: methods.aux
 The style file: coppe-unsrt.bst
-Database file #1: example.bib
-Warning--empty institution in techreport-example
-Warning--empty address in incollection-example
-Warning--can't use both author and editor fields in inbook-example
-(There were 3 warnings)
+Database file #1: masterThesis.bib
+`address' is a missing field, not a string, for entry charlesworthEngineeringApplicationsUltrasonic2001
+while executing---line 1327 of file coppe-unsrt.bst
+Warning--empty year in physicalacousticsR1520KHz
+Warning--empty year in physicalacousticsR15IAST150KHz
+Warning--empty year in physicalacousticsWD100900KHz
+Warning--empty year in nationalinstrumentsNITDMSFile
+(There was 1 error message)

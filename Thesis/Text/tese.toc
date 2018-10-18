@@ -2,8 +2,8 @@
 \babel@toc {english}{}
 \babel@toc {english}{}
 \babel@toc {english}{}
-\contentsline {chapter}{List of Figures}{ix}{chapter*.3}
-\contentsline {chapter}{List of Tables}{x}{chapter*.4}
+\contentsline {chapter}{List of Figures}{x}{chapter*.3}
+\contentsline {chapter}{List of Tables}{xi}{chapter*.4}
 \contentsline {chapter}{\numberline {1}Introduction}{1}{chapter.1}
 \contentsline {section}{\numberline {1.1}Introduction}{1}{section.1.1}
 \contentsline {section}{\numberline {1.2}Theory}{1}{section.1.2}
@@ -15,18 +15,23 @@
 \contentsline {subsection}{\numberline {1.4.1}Multi Layer Perceptron}{6}{subsection.1.4.1}
 \contentsline {subsection}{\numberline {1.4.2}Backpropagation}{6}{subsection.1.4.2}
 \contentsline {section}{\numberline {1.5}Acoustic Emission}{6}{section.1.5}
+\contentsline {section}{\numberline {1.6}Bibliography Review}{6}{section.1.6}
 \contentsline {chapter}{\numberline {2}Materials and Methods}{7}{chapter.2}
 \contentsline {section}{\numberline {2.1}Acoustic Emission Test}{7}{section.2.1}
 \contentsline {section}{\numberline {2.2}Streaming Raw Data}{9}{section.2.2}
 \contentsline {section}{\numberline {2.3}Preprocessing}{10}{section.2.3}
 \contentsline {subsection}{\numberline {2.3.1}Resolution Analysis}{10}{subsection.2.3.1}
 \contentsline {subsection}{\numberline {2.3.2}TOFD Removal}{10}{subsection.2.3.2}
-\contentsline {subsection}{\numberline {2.3.3}Pressure Bomb Removal}{10}{subsection.2.3.3}
-\contentsline {section}{\numberline {2.4}Wave Capture}{10}{section.2.4}
-\contentsline {subsection}{\numberline {2.4.1}Acoustic Emission Parameters}{10}{subsection.2.4.1}
-\contentsline {subsection}{\numberline {2.4.2}Frequency Data}{10}{subsection.2.4.2}
-\contentsline {section}{\numberline {2.5}Database Structure}{10}{section.2.5}
-\contentsline {section}{\numberline {2.6}Model Definition}{10}{section.2.6}
-\contentsline {subsection}{\numberline {2.6.1}Network Size}{10}{subsection.2.6.1}
-\contentsline {subsection}{\numberline {2.6.2}\textit {Transition Time Estimation}}{10}{subsection.2.6.2}
-\contentsline {subsection}{\numberline {2.6.3}Relevance Analysis}{10}{subsection.2.6.3}
+\contentsline {subsection}{\numberline {2.3.3}Pressure Bomb Removal}{11}{subsection.2.3.3}
+\contentsline {section}{\numberline {2.4}Wave Capture}{12}{section.2.4}
+\contentsline {subsection}{\numberline {2.4.1}Estimating Noise Level}{12}{subsection.2.4.1}
+\contentsline {subsection}{\numberline {2.4.2}Timing Parameters}{13}{subsection.2.4.2}
+\contentsline {subsection}{\numberline {2.4.3}Acoustic Emission Parameters}{14}{subsection.2.4.3}
+\contentsline {subsection}{\numberline {2.4.4}Frequency Data}{14}{subsection.2.4.4}
+\contentsline {section}{\numberline {2.5}Database Structure}{14}{section.2.5}
+\contentsline {section}{\numberline {2.6}Model Definition}{14}{section.2.6}
+\contentsline {subsection}{\numberline {2.6.1}Network Size}{14}{subsection.2.6.1}
+\contentsline {subsection}{\numberline {2.6.2}\textit {Transition Time Estimation}}{14}{subsection.2.6.2}
+\contentsline {subsection}{\numberline {2.6.3}Relevance Analysis}{14}{subsection.2.6.3}
+\contentsline {subsection}{\numberline {2.6.4}Relevance Analysis}{14}{subsection.2.6.4}
+\contentsline {chapter}{Bibliography}{15}{chapter*.21}

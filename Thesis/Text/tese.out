@@ -11,18 +11,23 @@
 \BOOKMARK [2][-]{subsection.1.4.1}{Multi Layer Perceptron}{section.1.4}% 11
 \BOOKMARK [2][-]{subsection.1.4.2}{Backpropagation}{section.1.4}% 12
 \BOOKMARK [1][-]{section.1.5}{Acoustic Emission}{chapter.1}% 13
-\BOOKMARK [0][-]{chapter.2}{Materials and Methods}{}% 14
-\BOOKMARK [1][-]{section.2.1}{Acoustic Emission Test}{chapter.2}% 15
-\BOOKMARK [1][-]{section.2.2}{Streaming Raw Data}{chapter.2}% 16
-\BOOKMARK [1][-]{section.2.3}{Preprocessing}{chapter.2}% 17
-\BOOKMARK [2][-]{subsection.2.3.1}{Resolution Analysis}{section.2.3}% 18
-\BOOKMARK [2][-]{subsection.2.3.2}{TOFD Removal}{section.2.3}% 19
-\BOOKMARK [2][-]{subsection.2.3.3}{Pressure Bomb Removal}{section.2.3}% 20
-\BOOKMARK [1][-]{section.2.4}{Wave Capture}{chapter.2}% 21
-\BOOKMARK [2][-]{subsection.2.4.1}{Acoustic Emission Parameters}{section.2.4}% 22
-\BOOKMARK [2][-]{subsection.2.4.2}{Frequency Data}{section.2.4}% 23
-\BOOKMARK [1][-]{section.2.5}{Database Structure}{chapter.2}% 24
-\BOOKMARK [1][-]{section.2.6}{Model Definition}{chapter.2}% 25
-\BOOKMARK [2][-]{subsection.2.6.1}{Network Size}{section.2.6}% 26
-\BOOKMARK [2][-]{subsection.2.6.2}{Transition Time Estimation}{section.2.6}% 27
-\BOOKMARK [2][-]{subsection.2.6.3}{Relevance Analysis}{section.2.6}% 28
+\BOOKMARK [1][-]{section.1.6}{Bibliography Review}{chapter.1}% 14
+\BOOKMARK [0][-]{chapter.2}{Materials and Methods}{}% 15
+\BOOKMARK [1][-]{section.2.1}{Acoustic Emission Test}{chapter.2}% 16
+\BOOKMARK [1][-]{section.2.2}{Streaming Raw Data}{chapter.2}% 17
+\BOOKMARK [1][-]{section.2.3}{Preprocessing}{chapter.2}% 18
+\BOOKMARK [2][-]{subsection.2.3.1}{Resolution Analysis}{section.2.3}% 19
+\BOOKMARK [2][-]{subsection.2.3.2}{TOFD Removal}{section.2.3}% 20
+\BOOKMARK [2][-]{subsection.2.3.3}{Pressure Bomb Removal}{section.2.3}% 21
+\BOOKMARK [1][-]{section.2.4}{Wave Capture}{chapter.2}% 22
+\BOOKMARK [2][-]{subsection.2.4.1}{Estimating Noise Level}{section.2.4}% 23
+\BOOKMARK [2][-]{subsection.2.4.2}{Timing Parameters}{section.2.4}% 24
+\BOOKMARK [2][-]{subsection.2.4.3}{Acoustic Emission Parameters}{section.2.4}% 25
+\BOOKMARK [2][-]{subsection.2.4.4}{Frequency Data}{section.2.4}% 26
+\BOOKMARK [1][-]{section.2.5}{Database Structure}{chapter.2}% 27
+\BOOKMARK [1][-]{section.2.6}{Model Definition}{chapter.2}% 28
+\BOOKMARK [2][-]{subsection.2.6.1}{Network Size}{section.2.6}% 29
+\BOOKMARK [2][-]{subsection.2.6.2}{Transition Time Estimation}{section.2.6}% 30
+\BOOKMARK [2][-]{subsection.2.6.3}{Relevance Analysis}{section.2.6}% 31
+\BOOKMARK [2][-]{subsection.2.6.4}{Relevance Analysis}{section.2.6}% 32
+\BOOKMARK [0][-]{chapter*.21}{Bibliography}{}% 33
