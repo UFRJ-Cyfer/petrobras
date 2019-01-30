@@ -10,7 +10,7 @@ if nargin == 3
 end
 
 for cycle=initialCycle:length(this.fileTemplate)
-    lastIndexArray = zeros(1,16);
+    lastIndexArray = ones(1,16)*ceil(this.hlt*fs)*-1;
     boolMatrix = (this.numBitsFileChannel{cycle} >= this.minBits);
     
     
@@ -22,9 +22,9 @@ for cycle=initialCycle:length(this.fileTemplate)
     filesToCheck(filesToCheck > this.totalFiles(cycle)) = [];
     noiseLevelMatrix = zeros(length(filesToCheck),1+16);
     
-%     if cycle >= 2
-%         this.cycleDividers(cycle-1) = this.countWaveform + 1;
-%     end
+    if cycle >= 2
+        this.cycleDividers(cycle-1) = this.countWaveform + 1;
+    end
     
     try
         folderPath = this.folderTDMS{cycle};
@@ -75,7 +75,7 @@ for cycle=initialCycle:length(this.fileTemplate)
                     rawData(newSlots,j) = NaN;
                 end
             end
-        end
+        end 
         
         [this, lastIndexArray] = this.identifyWaves(rawData,...
             CHANNELS(boolMatrix(filesToCheck(file),:)), fs, ...
@@ -87,10 +87,10 @@ for cycle=initialCycle:length(this.fileTemplate)
         end
     end
     
-%     this.noiseLevelMatrix{cycle} = noiseLevelMatrix;
+    this.noiseLevelMatrix{cycle} = noiseLevelMatrix;
     
 end
-% S.(this.description) = this;
-% save(['streamingOBJ' this.description],'-struct','S')
-% save(['streamingOBJ' this.description],'-struct','S','-v7.3')
+S.(this.description) = this;
+save(['streamingOBJ' this.description],'-struct','S')
+save(['streamingOBJ' this.description],'-struct','S','-v7.3')
 end

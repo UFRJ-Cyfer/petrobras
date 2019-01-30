@@ -1,13 +1,7 @@
 function [ wave ] = calculateParameters( wave, fs, streamingClass )
-%Method that calculates the AE wave parameters according to PAC Manual
-%
-% :param fs: Sampling frequency, usually $fs=2.5Ghz$.
-% :type fs: double
-%
-% :param streamingClass: An instance of streamingClass.
-% :type streamingClass: streamingClass
-%
-% :returns: An Wave object with calculated parameters.
+%CALCULATEPARAMETERS Method that calculates the AE wave parameters
+
+%   It basically calculates all PAC AE parameters (check manual).
 
     rawData = wave.rawData;
     rawDataRectified = rawData;
@@ -16,7 +10,6 @@ function [ wave ] = calculateParameters( wave, fs, streamingClass )
      rawDataDB = 20*log(double(rawDataRectified(rawDataRectified>0)) * (10/(2^13*4)) / (10e-6)) - 40;
 
     [wave.maxAmplitude, peakIndex] = max(rawData);
-
 %     peakIndex
     %Amp(db) = 20log(V/1u) - preAmp gain (however I did 1/mV because I
     %think [A * cv] = mV

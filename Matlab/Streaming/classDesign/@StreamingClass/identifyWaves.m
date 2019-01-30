@@ -1,21 +1,35 @@
-function [obj, lastIndex] = identifyWaves(obj, rawData, channels, fs, noiseLevel,...
-    fileNumber, lastIndex, backupPath, cycle)
-
-%IDENTIFYWAVES Identify all acoustic emission waves from within a streaming file
-
-
-% This follows (or tries to) the guidelines contained on the PAC Manual
-% describing how the AE capture is done. It uses only two (HDT, HLT) of the
-% three timing parameters. The threshold is a multiplied noiseLevel (by a
-% euristically defined number).
-
+function [obj, lastIndex] = identifyWaves(obj, rawData, channels, fs, noiseLevel,fileNumber, lastIndex, backupPath, cycle)
+%Identifies all acoustic emission waves from within a streaming file. This function follows the guidelines contained on the PAC Manual describing how the AE capture is done. It uses only two (HDT and HLT) of the three timing parameters. The threshold is a multiplied noiseLevel (by a euristically defined number).
 %
+%   :param channels: Array containing all channels to investigate.
+%   :type channels: double array
+%
+%   :param rawData: The raw collected wave data.
+%   :type rawData: int16 Array
+%
+%   :param fs: Sampling Frequency
+%   :type fs: double
+%
+%   :param noiseLevel: An array with the estimated noise level per channel.
+%   :type noiseLevel: double Array
+%
+%   :param fileNumber: Which file to investigate.
+%   :type fileNumber: double
+%
+%   :param backupPath: Absolute path to the local .mat files.
+%   :type backupPath: string
+%
+%   :param cycle: Tells which cycle the file is located at.
+%   :type cycle: double
+%
+%   :returns: A StreamingClass object with the captured waves stored.
+%   :returns: The indexes where the last captured waves ended (per channel).
+
 ts = 1/fs;
 PDT = obj.pdt;
 HDT = obj.hdt;
 HLT = obj.hlt;
 backTime = 2*1000e-6;
-lastIndexLocal = zeros(1,16);
 
 startingTime = zeros(1,1000) - 1;
 triggerTime = startingTime;
@@ -25,6 +39,7 @@ findable = 1;
 
 fileTime = 2^24/(2.5e6);
 offsetTime = fileTime*(fileNumber-1);
+lastIndexLocal = ones(1,16)*ceil(HLT*fs)*-1;
 
 for channel = channels
     
@@ -96,30 +111,36 @@ for channel = channels
                         capturedWave = [rawData(beginIndex:end ,channel) ;...
                             rawDataAfter(1:lastIndex(channel), channel)];
                         splitFile = 1;
+                        obj.DEBUG_lastIndexArray(end+1,channel) = lastIndex(channel);
                     else
                         capturedWave = rawData(beginIndex:end ,channel);
+                        lastIndex(channel) = ceil(HLT*fs)*-1;
+%                         lastIndexLocal(channel) = 2^24;
                     end
+                    
                     findable = 0;
                 else
                     [HDTRStart] = min(startIndexHDTBlock(startIndexHDTBlock > indexToCapture) - indexToCapture);
                     endIndex = indexToCapture + HDTRStart;
                     lastIndexLocal(channel) = endIndex + ceil(HDT*fs);
                     capturedWave = rawData(beginIndex:lastIndexLocal(channel),channel);
-                    
+                   
                 end
                 
-                if length(unique(capturedWave)) >= 64
+                if length(unique(capturedWave)) >= 128
                     
                     wave = Wave(capturedWave, ...
                         channel, thr, offsetTime + time(indexToCapture),...
                         indexToCapture, indexToCapture-beginIndex);
+                    
+                    obj.DEBUG_lastIndexArray(end+1,channel) = lastIndex(channel);
                     
                     wave = wave.calculateParameters(fs, obj);
                     wave.file = fileNumber;
                     
                     if splitFile
                         wave.splitFile = true;
-                        wave.splitIndex = uint32(length(capturedWave) - lastIndex(channel) + 1);
+                        wave.splitIndex = uint32(length(capturedWave) - lastIndexLocal(channel) + 1);
                     end
                     %        startingTime(waveCount) = time(beginIndex);
                     %        triggerTime(waveCount) = time(indexToCapture);
@@ -130,7 +151,15 @@ for channel = channels
             
             [auxIndex] = find(indexes-(lastIndexLocal(channel) + ...
                 ceil((HLT+backTime)/ts)) > 0);
-            indexes = indexes(auxIndex);
+            
+            [auxIndex_] = find(indexes-(lastIndex(channel) + ...
+                ceil((HLT+backTime)/ts)) > 0);
+            
+            if length(auxIndex_) <= length(auxIndex)
+                indexes = indexes(auxIndex_);
+            else
+               indexes = indexes(auxIndex); 
+            end
             %only one wave captured
             if isempty(indexes)
                 break;

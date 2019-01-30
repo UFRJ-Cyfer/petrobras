@@ -15,7 +15,7 @@ function figureHandles = plotModel(trainedModel)
 
 
 lastTrainIndex = length(trainedModel.outputRuns);
-totalOutput = trainedModel.outputRuns(lastTrainIndex).filteredOutput;
+totalOutput = trainedModel.outputRuns(lastTrainIndex).output;
 totalTargets = trainedModel.target;
 
 

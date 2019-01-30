@@ -1,8 +1,14 @@
 function [figHandles] = reportStreaming(this, language)
-% REPORTSTREAMING Creates several figures to report a streamingOBJ
+%  Creates several figures to report a StreamingClass object
+%
+%	:param language: Allows the user to select the language (not working).
+%	:type language: String
+%
+%	:returns: A struct holding all figure handles.
 units = {'',' (s)', '', ' (J)', ' (s)', '', ' (dB)', '', ' (dB)', '', '', '' , '', '', '', '', '' , '', '', ''};
-
-FONTSIZE = 12;
+WIDTH = 8;
+HEIGHT = 8;
+FONTSIZE = 11;
 
 fields = fieldnames(this.Waves); % this is a CELL ARRAY !!!!!
 fields(1) = []; % removing rawData
@@ -46,11 +52,13 @@ for k=1:(length(fields)-3) %excluding splitIndex, splitFile and relativeTriggerI
     bins = h.BinEdges;
 	xlabelString = [xlabels{k} units{k}]
 	xlabel(xlabelString)
-	ylabel('Frequency')
+	ylabel('Count')
 	set(gca,'FontSize', FONTSIZE)
 	set(fig, 'Color', 'w');
 	figHandles.figs(k) = fig;
-	export_fig([savePath fields{k} '/Histogram' xlabelString(find(~isspace(xlabelString)))],'-pdf')
+    set(fig,'PaperUnits', 'centimeters', 'Units', 'centimeters',...
+      'pos',[125 5 WIDTH HEIGHT]);
+ 	export_fig([savePath fields{k} '/Histogram' xlabelString(find(~isspace(xlabelString)))],'-pdf','-png')
 % 	print([savePath fields{k} '/Histogram' xlabelString(find(~isspace(xlabelString)))],'-dpdf', '-r600')
 	savefig([savePath fields{k}  '/Histogram' xlabelString(find(~isspace(xlabelString)))])
 
@@ -63,9 +71,9 @@ for k=1:(length(fields)-3) %excluding splitIndex, splitFile and relativeTriggerI
     legend('NP', 'SP', 'UP')
 	legend boxoff;
 	xlabel(xlabelString)
-	ylabel('Frequency')
+	ylabel('Count')
 	set(gca,'FontSize', FONTSIZE)
-	export_fig([savePath fields{k}  '/ClassesHistogram' xlabelString(find(~isspace(xlabelString)))],'-pdf')
+ 	export_fig([savePath fields{k}  '/ClassesHistogram' xlabelString(find(~isspace(xlabelString)))],'-pdf')
 	savefig([savePath fields{k}  '/ClassesHistogram' xlabelString(find(~isspace(xlabelString)))])
 
     if ~isempty(this.spIndexes) && ~isempty(this.peIndexes) && ~isempty(this.piIndexes)
@@ -94,7 +102,9 @@ for k=1:length(fields)-3 %excluding splitIndex, splitFile and relativeTriggerInd
 	set(gca,'FontSize', FONTSIZE)
 	set(fig, 'Color', 'w');
 	figHandles.figs(end+k) = fig;
-	export_fig([savePath fields{k}  '/Index' ylabelString(find(~isspace(ylabelString)))],'-pdf')
+    set(fig,'PaperUnits', 'centimeters', 'Units', 'centimeters',...
+      'pos',[125 5 WIDTH HEIGHT]);
+ 	export_fig([savePath fields{k}  '/Index' ylabelString(find(~isspace(ylabelString)))],'-pdf')
 	savefig([savePath fields{k}  '/Index' ylabelString(find(~isspace(ylabelString)))])
 
 	plot( ([this.Waves.('triggerTime')]), ([this.Waves.(fields{k})]) ,'.')
@@ -110,11 +120,16 @@ this.StreamingModel = this.StreamingModel.plotCorrAnalysis();
 % close all;
 for k=1:length(this.StreamingModel.figHandles)
     figure(this.StreamingModel.figHandles(k))
+    
+    set(this.StreamingModel.figHandles(k),'PaperUnits', 'centimeters', 'Units', 'centimeters',...
+      'pos',[125 5 WIDTH HEIGHT]);
+  
     allAxesInFigure = findall(this.StreamingModel.figHandles(k),'type','axes');
    	set(allAxesInFigure,'FontSize', FONTSIZE,'FontName', 'Times')
     set(allAxesInFigure, 'SortMethod', 'ChildOrder');
     titleString = allAxesInFigure(3).Title.String;
-	export_fig([savePath 'CorrAnalysis' '/Tempo' titleString(find(~isspace(titleString)))],'-pdf')
+ 	export_fig([savePath 'CorrAnalysis' '/Tempo' titleString(find(~isspace(titleString)))],'-pdf')
 	savefig([savePath 'CorrAnalysis' '/Tempo' titleString(find(~isspace(titleString)))])
+
 end
 end

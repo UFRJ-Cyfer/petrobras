@@ -52,8 +52,8 @@ for ch=channels
     extractedChannel = rawData(:,ch);
     
     slots = [];
-    zeroSlotBackward = 25000;
-    zeroSlotForward = 25000;
+    zeroSlotBackward = 10000;
+    zeroSlotForward = 10000;
     
     for k=1:length(tofdIndexes)
         if k == length(tofdIndexes)

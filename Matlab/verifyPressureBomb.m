@@ -3,7 +3,7 @@ function verifyPressureBomb(files, channel, path, name, figHandle)
 plotRawData = zeros(length(files)*(2^24),length(channel));
 
 for k=1:length(files)
-rawData = readStreamingFile([name num2str(files(k),'%03d') '.tdms'], path(k,:));
+rawData = readStreamingFile([name num2str(files(k),'%03d') '.tdms'], path,path);
 plotRawData(1+2^24*(k-1):2^24*k,:) = rawData(:,channel);
 end
 

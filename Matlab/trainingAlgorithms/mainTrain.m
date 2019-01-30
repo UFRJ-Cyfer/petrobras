@@ -1,12 +1,21 @@
-function trainedModel = mainTrain(input, target, method, separationIndexes)
+function trainedModel = mainTrain(input, target, method, separationIndexes, nnStructure)
 
 if strcmp(method, 'MLP')
-    runs = 100;
+    runs = 20;
     kCrossVal = 1;
     useGPU = 'no';
     input = normalizeData(input,1);
 %     target = normalizeData(target,1);
-    trainedModel = trainMLP(input,target,runs,kCrossVal,useGPU,separationIndexes);    
+    trainedModel = trainMLP_fix(input,target,runs,kCrossVal,useGPU, nnStructure);    
+end
+
+if strcmp(method, 'MLPPROB')
+    runs = 50;
+    kCrossVal = 1;
+    useGPU = 'no';
+    input = normalizeData(input,1);
+%     target = normalizeData(target,1);
+    trainedModel = trainProbMLP(input,target,runs,kCrossVal,useGPU,separationIndexes);    
 end
 
 if strcmp(method, 'SKN')

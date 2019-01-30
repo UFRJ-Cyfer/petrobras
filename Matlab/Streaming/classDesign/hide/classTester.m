@@ -22,6 +22,24 @@
 % % streamingObj.pdt = 800e-6;
 % % 
 
+x = linspace(-2,2,1000);
+
+[X,Y] = meshgrid(x,x);
+
+Z = 2.*sinc(X).^2.*sinc(Y).^2;
+
+sinc(X).^2 - (sin(pi*X)/(pi*X)).^2
+
+surf(X,Y,Z)
+
+%Exercicio 2.4
+
+F = fft2(Z);
+
+F = fftshift(F);
+
+mesh(db(F))
+
 
 % % noiseLevel = zeros(1,12);
 % % noiseLevel(7) = 100;

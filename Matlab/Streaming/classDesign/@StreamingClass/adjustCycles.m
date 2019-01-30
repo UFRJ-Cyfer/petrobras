@@ -1,5 +1,7 @@
 function this = adjustCycles(this)
-
+%
+%   Adjusts the triggerTime for the waves from different cycles. After adjusting the cycles, the adjusted parameter is set to TRUE (1).
+%
 if ~isempty(this.cycleDividers) && ~this.adjusted
 
     for k=1:length(this.cycleDividers)

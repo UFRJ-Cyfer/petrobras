@@ -1,6 +1,10 @@
 
 function [ propertyArray ] = propertyVector( this, propertyString )
-%PROPERTYVECTOR Returns arrays for each property of Wave object
+%   Returns a array of a chosen property for ALL captured Waves.
+%
+%   :param propertyString: Which wave parameter to export.
+%   :type propertyString: string
+%   :returns: Array of an Wave property.
 
 switch propertyString
     case 'channel'

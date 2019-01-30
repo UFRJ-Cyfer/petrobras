@@ -41,6 +41,7 @@ function this = generateInput(this, streamingClass)
 % phase values. 
 %
 %
+strings = {'SP', 'PE', 'PI'};
 if isempty(this.figHandles)
    this.plotCorrAnalysis(); 
 end
@@ -125,18 +126,22 @@ end
 neuralNetInput = zeros(numDivisions*2, size(rawInput,2));
     for plotIndex = 1:3
 subplot(3,1,plotIndex);
-
+gValue = this.corrStruct.(var).(strings{plotIndex});
 for k=1:numDivisions
     hold on;
-%     plot(greenFrequencies(indexes(k*2-1):indexes(k*2)), greenValues(plotIndex,indexes(k*2-1):indexes(k*2)),'.')
-    neuralNetInput(k,:) = mean(rawInput(frequencyLimits(2*k-1):frequencyLimits(2*k) ,:),1);
-    neuralNetInput(numDivisions+k,:) = std(rawInput(frequencyLimits(2*k-1):frequencyLimits(2*k) ,:),0,1);
+    plot(f(indexes(k*2-1):indexes(k*2)), gValue(indexes(k*2-1):indexes(k*2)),'.')
 end
 
-this.input.(var) = neuralNetInput;
+    end
+    
+    for k=1:numDivisions
+        neuralNetInput(k,:) = mean(rawInput(frequencyLimits(2*k-1):frequencyLimits(2*k) ,:),1);
+        neuralNetInput(numDivisions+k,:) = std(rawInput(frequencyLimits(2*k-1):frequencyLimits(2*k) ,:),0,1);
+    end
+    
+    this.input.(var) = neuralNetInput;
 this.frequencyDivisions.(var) = chosenFrequencies;
 this.indexesChosenFrequencies.(var) = indexesChosenFrequencies;
-    end
 hold off;
 end
 

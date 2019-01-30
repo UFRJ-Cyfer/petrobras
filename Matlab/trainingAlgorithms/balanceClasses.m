@@ -30,10 +30,12 @@ for k=1:3
     if differences(k) > 0
         i = 1;
         for j=1:differences(k)
-            trainIndex = [trainIndex classesIndexes(k).index(i)];
-            i = i+1;
-            if i > length(classesIndexes(k).index)
-               i = 1; 
+            if ~isempty(classesIndexes(k).index)
+                trainIndex = [trainIndex classesIndexes(k).index(i)];
+                i = i+1;
+                if i > length(classesIndexes(k).index)
+                   i = 1; 
+                end
             end
         end
     end

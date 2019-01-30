@@ -1,13 +1,12 @@
-function this = corrAnalysis(this, inputVariable, variableString)
+function this = corrAnalysisChannel(this, inputVariable, variableString,channel,chArray)
 
 inputVariable = inputVariable';
-
-sp_class = repmat(this.target(1,:)',1,size(inputVariable,2));
-pe_class = repmat(this.target(2,:)',1,size(inputVariable,2));
-pi_class = repmat(this.target(3,:)',1,size(inputVariable,2));
+inputVariable = inputVariable(chArray==channel,:);
+sp_class = repmat(this.target(1,chArray==channel)',1,size(inputVariable,2));
+pe_class = repmat(this.target(2,chArray==channel)',1,size(inputVariable,2));
+pi_class = repmat(this.target(3,chArray==channel)',1,size(inputVariable,2));
 
 corr_limit = 2/sqrt(size(inputVariable,1));
-
 
 % Normalized Energy Correlation
 this.corrStruct.(variableString).SP = mean((sp_class-repmat(mean(sp_class),size(sp_class,1),1)).*...
@@ -28,13 +27,13 @@ R_pe = this.corrStruct.(variableString).PE;
 R_pi = this.corrStruct.(variableString).PI;
 
 % Normalized Energy Cross-Correlation
-this.corrStruct.(variableString).SPPE = R_sp.*R_pe.*(abs(R_sp)>corr_limit).*(abs(R_pe)>corr_limit);
-this.corrStruct.(variableString).PEPI = R_pe.*R_pi.*(abs(R_pe)>corr_limit).*(abs(R_pi)>corr_limit);
-this.corrStruct.(variableString).PISP = R_pi.*R_sp.*(abs(R_pi)>corr_limit).*(abs(R_sp)>corr_limit);
+% this.corrStruct.(variableString).SPPE = R_sp.*R_pe.*(abs(R_sp)>corr_limit).*(abs(R_pe)>corr_limit);
+% this.corrStruct.(variableString).PEPI = R_pe.*R_pi.*(abs(R_pe)>corr_limit).*(abs(R_pi)>corr_limit);
+% this.corrStruct.(variableString).PISP = R_pi.*R_sp.*(abs(R_pi)>corr_limit).*(abs(R_sp)>corr_limit);
 
-% this.corrStruct.(variableString).SPPE = R_sp.*R_pe;
-% this.corrStruct.(variableString).PEPI = R_pe.*R_pi;
-% this.corrStruct.(variableString).PISP = R_pi.*R_sp;
+this.corrStruct.(variableString).SPPE = R_sp.*R_pe;
+this.corrStruct.(variableString).PEPI = R_pe.*R_pi;
+this.corrStruct.(variableString).PISP = R_pi.*R_sp;
 
 R_sp_pe = this.corrStruct.(variableString).SPPE;
 R_pe_pi = this.corrStruct.(variableString).PEPI;
